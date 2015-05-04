@@ -84,7 +84,24 @@ $mobiles = array(
 					'nokia'				=> 'Nokia',
 					'ericsson'			=> 'Ericsson',
 					'blackberry'		=> 'BlackBerry',
-					'motorola'			=> 'Motorola'
+					'motorola'			=> 'Motorola',
+					// Kuniharu Tsujioka 2007-10-03 Add Japanese Mobile Agent
+					'j-phone'			=> 'SoftBank-J',
+					'vodafone'			=> 'SoftBank-V',
+					'mot'				=> 'SoftBank-MOT',
+					'vemulator'			=> 'Softbank-EMU',
+					'j-emulator'		=> 'Softbank-EMU',
+					'softbank'			=> 'SoftBank-S',
+					'docomo'			=> 'DoCoMo',
+					'm1000'				=> 'DoCoMo-M1000',
+					'kddi'				=> 'AU',
+					'up.browser'		=> 'AU',
+					'willcom'			=> 'WILLCOM',
+					'sharp/ws'			=> 'WILLCOM',
+					'ddipocket'			=> 'WILLCOM',
+					// Kuniharu Tsujioka 2008-04-14 Add Japanese Mobile Agent
+					'emobile'			=> 'EMOBILE',
+
 				);	
 
 // There are hundreds of bots but these are the most common.

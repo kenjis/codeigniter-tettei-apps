@@ -1,0 +1,249 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>CodeIgniter ユーザガイド 日本語版 : URLヘルパ</title>
+<style type='text/css' media='all'>@import url('../userguide.css');</style>
+<link rel='stylesheet' type='text/css' media='all' href='../userguide.css' />
+
+<script type="text/javascript" src="../nav/nav.js"></script>
+<script type="text/javascript" src="../nav/prototype.lite.js"></script>
+<script type="text/javascript" src="../nav/moo.fx.js"></script>
+<script type="text/javascript" src="../nav/user_guide_menu.js"></script>
+
+<meta http-equiv='expires' content='-1' />
+<meta http-equiv= 'pragma' content='no-cache' />
+<meta name='robots' content='all' />
+<meta name='author' content='ExpressionEngine Dev Team' />
+<meta name='description' content='CodeIgniter ユーザガイド' />
+
+</head>
+<body>
+
+<!-- START NAVIGATION -->
+<div id="nav"><div id="nav_inner"><script type="text/javascript">create_menu('../');</script></div></div>
+<div id="nav2"><a name="top"></a><a href="javascript:void(0);" onclick="myHeight.toggle();"><img src="../images/nav_toggle.jpg" width="153" height="44" border="0" title="Toggle 目次" alt="Toggle 目次" /></a></div>
+<div id="masthead">
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td><h1>CodeIgniter ユーザガイド 日本語版 Version 1.6.1</h1></td>
+<td id="breadcrumb_right"><a href="../toc.html">目次のページ</a></td>
+</tr>
+</table>
+</div>
+<!-- END NAVIGATION -->
+
+
+<!-- START BREADCRUMB -->
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td id="breadcrumb">
+<a href="http://codeigniter.com/">CodeIgniter Home</a> &nbsp;&#8250;&nbsp;
+<a href="../index.html">ユーザガイド Home</a> &nbsp;&#8250;&nbsp;
+URLヘルパ
+</td>
+<td id="searchbox"><form method="get" action="http://www.google.com/search"><input type="hidden" name="as_sitesearch" id="as_sitesearch" value="codeigniter.com/user_guide/" />ユーザガイドを検索&nbsp; <input type="text" class="input" style="width:200px;" name="q" id="q" size="31" maxlength="255" value="" />&nbsp;<input type="submit" class="submit" name="sa" value="Go" /></form></td>
+</tr>
+</table>
+<!-- END BREADCRUMB -->
+
+<br clear="all" />
+
+
+<!-- START CONTENT -->
+<div id="content">
+
+
+<h1>URLヘルパ</h1>
+
+<p>URLヘルパのファイルには、URLを処理するのを支援する関数が含まれます。</p>
+
+
+<h2>ヘルパのロード</h2>
+
+<p>このヘルパは次のコードでロードできます:</p>
+<code>$this->load->helper('url');</code>
+
+<p>次の関数が利用可能です:</p>
+
+<h2>site_url()</h2>
+
+<p>設定ファイルで指定されているサイトのURLを返します。index.php ファイル (または、設定ファイルで設定しているユーザサイトの <dfn>index_page</dfn> ) がURLに追加され、この関数に渡されたURIセグメントが追加されます。</p>
+
+<p>ローカルの（サイト内の）URLを生成する必要がある時は、いつもこの関数を使うようお勧めします、この関数を使うと、URLが変更になった時でも、移植性が高まります。</p>
+
+<p>オプションで、セグメントを文字列または配列としてこの関数に渡すことができます。下記は文字列での例です:</p>
+
+<code>echo site_url("news/local/123");</code>
+
+<p>上の例では、次のようなものが返されます: http://www.your-site.com/index.php/news/local/123</p>
+
+<p>次は、配列でセグメントを渡す例です:</p>
+
+<code>
+$segments = array('news', 'local', '123');<br />
+<br />
+echo site_url($segments);</code>
+
+
+<h2>base_url()</h2>
+<p>設定ファイルで指定されているサイトのベースURLを返します。例:</p>
+<code>echo base_url();</code>
+
+
+<h2>index_page()</h2>
+<p>設定ファイルで指定されているサイトの "index" ページを返します。例:</p>
+<code>echo index_page();</code>
+
+
+
+<h2>anchor()</h2>
+
+<p>サイトのURLにもとづいて、標準のHTMLアンカーリンクを生成します:</p>
+
+<code>&lt;a href="http://www.your-site.com">Click Here&lt;/a></code>
+
+<p>このコードには、3つのオプションの引数があります:</p>
+
+<code>anchor(<var>uri segments</var>, <var>text</var>, <var>attributes</var>)</code>
+
+<p>第1引数は、URLに追加したいセグメントを指定します。上の<dfn> site_url()</dfn> 関数のように、文字列または、配列でセグメントを指定します。</p>
+
+<p><strong>Note:</strong>&nbsp; アプリケーション内部のリンクを生成するときは、ベースURL (http://...) を含まないようにしてください。設定ファイルで指定されている情報から、ベースURLは自動的に追加されます。URLに追加したいURIセグメントだけを含めるようにしてください。</p>
+
+<p>第2引数は、リンクに指定したいテキストになります。空のままにしておくと、URLが使用されます。</p>
+
+<p>第3引数はリンクタグに追加したい属性のリストを指定できます。属性は、文字列または、連想配列で指定します。</p>
+
+<p>いくつか例を挙げます:</p>
+
+<code>echo anchor('news/local/123', 'ニュース');</code>
+
+<p>上のコードは次のHTMLを生成します: &lt;a href="http://www.your-site.com/index.php/news/local/123" title="ニュース">ニュース&lt;/a></p>
+
+<code>echo anchor('news/local/123', 'ニュース', array('title' => 'ベストニュース！'));</code>
+
+<p>上のコードは次のHTMLを生成します: &lt;a href="http://www.your-site.com/index.php/news/local/123" title="べストニュース！">ニュース&lt;/a></p>
+
+
+<h2>anchor_popup()</h2>
+
+<p>新しいウィンドでURLを開くこと以外は、<dfn>anchor()</dfn> 関数とほとんど同じです。ウィンドウの開き方をコントロールするために、JavaScriptのwindowオブジェクトの属性（プロパティ）を第3引数で指定できます。第3引数が設定されていない場合は、ユーザのブラウザの設定により新しいウィンドウを開きます。下記は、属性を指定する場合の例です:</p>
+
+<code>
+
+$atts = array(<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'width'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=> '800',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'height'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=> '600',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'scrollbars' => 'yes',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'status'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=> 'yes',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'resizable'&nbsp;&nbsp;=> 'yes',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'screenx'&nbsp;&nbsp;&nbsp;&nbsp;=> '0',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'screeny'&nbsp;&nbsp;&nbsp;&nbsp;=> '0'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);<br />
+<br />
+echo anchor_popup(news/local/123, 'Click Me!', $atts);</code>
+
+<p>Note: 上の属性は、この関数の初期値になりますので、これと異なる値にしたい箇所を設定するだけで構いません。すべての属性に初期値を使用する場合は、単に第3引数に空の配列を渡してください:</p>
+
+<code>echo anchor_popup('news/local/123', 'Click Me!', array());</code>
+
+
+<h2>mailto()</h2>
+
+<p>標準のHTMLメールリンクを作成します。使用例:</p>
+
+<code>echo mailto('me@my-site.com', 'コンタクトするにはここをクリック');</code>
+
+<p>上の <dfn>anchor()</dfn> 関数のように、第3引数で、属性を指定できます。</p>
+
+
+<h2>safe_mailto()</h2>
+
+<p> この関数は、スパムロボットにメールアドレスが収集されてしまうのを防ぐため、メールアドレスのリンクをJavaScriptで書き出すために、序数を使った難読化バージョンのmailtoタグを書き出します。この点を除いて、上の関数と同じです。</p>
+
+
+<h2>auto_link()</h2>
+
+<p>自動で、文字列に含まれるURLとメールアドレスをリンクに変換します。例:</p>
+<code>$string = auto_link($string);</code>
+
+<p>第2引数は、URLとメールアドレスのどちらを変換するか、あるいは両方を変換するかを指定します。指定しない場合、デフォルトでは、両方を変換するようになっています。</p>
+<p>URLのみを変換する場合は:</p>
+<code>$string = auto_link($string, 'url');</code>
+
+<p>メールアドレスのみを変換する場合は:</p>
+<code>$string = auto_link($string, 'email');</code>
+
+</p>
+第3引数は、リンクを新しいウィンドウで開くかどうかを指定します。値は、TRUE または FALSE (ブール値) になります:
+</p>
+<code>$string = auto_link($string, 'both', TRUE);</code>
+
+
+<h2>url_title()</h2>
+<p>入力として文字列をとり、人間にわかりやすいURL文字列を生成します。これは、たとえば、ブログを作成していたとして、その中で、記事のタイトルをURLに使いたいときなどに役立ちます。例:</p>
+
+<code>$title = "What's wrong with CSS?";<br />
+<br />
+$url_title = url_title($title);<br />
+<br />
+// 次のコードを生成します:  whats-wrong-with-css</code>
+
+
+<p>第2引数で、単語の区切りを決めます。初期状態では、ダッシュ ( &quot;-&quot; )  が使用されます。次のオプションが選べます:  <dfn>dash</dfn> または <dfn>underscore</dfn>:</p>
+
+<code>$title = "What's wrong with CSS?";<br />
+<br />
+$url_title = url_title($title, 'underscore');<br />
+<br />
+// 次のコードを生成します:  whats_wrong_with_css
+</code>
+
+
+<h3>prep_url()</h3>
+<p>この関数を使うと、URLに <kbd>http://</kbd> がない場合にそれが追加されます。次に用にURLの文字列をこの関数に渡します:</p>
+<code>
+$url = "www.example.com";<br /><br />
+$url = prep_url($url);</code>
+
+
+
+
+<h2>redirect()</h2>
+
+<p>指定したサイト内のURIに対して "ヘッダ リダイレクト" します。このヘルパの他の関数のように、この関数はサイト内のURLに対してリダイレクトするよう設計されています。完全なサイトのURLを<strong>指定する必要はなく</strong> 単純に、移動させたいコントローラへのURIセグメントを指定します。この関数は、設定ファイルの値にもとづいてURLを構築します。</p>
+
+<p>第2引数で "location" (デフォルト)
+を使う方法か "refresh" を使う方法かを選べます。  Location は高速ですが、Windowsサーバでは、時々問題を起こします。例です:</p>
+
+<code>if ($logged_in == FALSE)<br />
+{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;redirect('/login/form/', 'refresh');<br />
+}</code>
+
+<p class="important"><strong>Note:</strong> この関数はサーバのヘッダを利用するので、動作させるにはブラウザに何かを出力する前に、この関数を使う必要があります。</p>
+
+
+
+
+
+
+</div>
+<!-- END CONTENT -->
+
+
+<div id="footer">
+<p>
+前のトピック:&nbsp;&nbsp;<a href="typography_helper.html">タイポグラフィーヘルパ</a>
+&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+<a href="#top">ページの先頭</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+<a href="../index.html">ユーザガイド Home</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+次のトピック:&nbsp;&nbsp;<a href="xml_helper.html">XMLヘルパ</a>
+</p>
+<p><a href="http://codeigniter.com">CodeIgniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2006-2008 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">Ellislab, Inc.</a><br />Japanese Translation: <a href="http://codeigniter.jp/">CodeIgniter Users Group in Japan</a></p>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>CodeIgniter ユーザガイド 日本語版 : プラグイン</title>
+<style type='text/css' media='all'>@import url('../userguide.css');</style>
+<link rel='stylesheet' type='text/css' media='all' href='../userguide.css' />
+
+<script type="text/javascript" src="../nav/nav.js"></script>
+<script type="text/javascript" src="../nav/prototype.lite.js"></script>
+<script type="text/javascript" src="../nav/moo.fx.js"></script>
+<script type="text/javascript" src="../nav/user_guide_menu.js"></script>
+
+<meta http-equiv='expires' content='-1' />
+<meta http-equiv= 'pragma' content='no-cache' />
+<meta name='robots' content='all' />
+<meta name='author' content='ExpressionEngine Dev Team' />
+<meta name='description' content='CodeIgniter ユーザガイド' />
+
+</head>
+<body>
+
+<!-- START NAVIGATION -->
+<div id="nav"><div id="nav_inner"><script type="text/javascript">create_menu('../');</script></div></div>
+<div id="nav2"><a name="top"></a><a href="javascript:void(0);" onclick="myHeight.toggle();"><img src="../images/nav_toggle.jpg" width="153" height="44" border="0" title="Toggle 目次" alt="Toggle 目次" /></a></div>
+<div id="masthead">
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td><h1>CodeIgniter ユーザガイド 日本語版 Version 1.6.1</h1></td>
+<td id="breadcrumb_right"><a href="../toc.html">目次のページ</a></td>
+</tr>
+</table>
+</div>
+<!-- END NAVIGATION -->
+
+
+<!-- START BREADCRUMB -->
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td id="breadcrumb">
+<a href="http://codeigniter.com/">CodeIgniter Home</a> &nbsp;&#8250;&nbsp;
+<a href="../index.html">ユーザガイド Home</a> &nbsp;&#8250;&nbsp;
+プラグイン
+</td>
+<td id="searchbox"><form method="get" action="http://www.google.com/search"><input type="hidden" name="as_sitesearch" id="as_sitesearch" value="codeigniter.com/user_guide/" />ユーザガイドを検索&nbsp; <input type="text" class="input" style="width:200px;" name="q" id="q" size="31" maxlength="255" value="" />&nbsp;<input type="submit" class="submit" name="sa" value="Go" /></form></td>
+</tr>
+</table>
+<!-- END BREADCRUMB -->
+
+<br clear="all" />
+
+
+<!-- START CONTENT -->
+<div id="content">
+
+
+<h1>プラグイン</h1>
+
+<p>プラグインも<a href="helpers.html">ヘルパ</a>と同様に動作します。違いは、ヘルパは通常関数のコレクションであるのに対し、プラグインは常にひとつだけの関数を提供するということです。ヘルパはまた、コアシステムの一部として考えられたものですが、プラグインは、コミュニティで作成され、共有されることを意図しています。</p>
+
+<p>プラグインは、<dfn>system/plugins</dfn> ディレクトリに保存する必要があります。あるいは、<kbd>plugins</kbd> という名前のフォルダを <kbd>application</kbd> フォルダの中につくって、その中に入れてもかまいません。CodeIgniter は最初に <dfn>system/application/plugins</dfn>
+ディレクトを認識します。  このディレクトリが存在しない時や、読み込もうとするプラグインがこのディレクトリの中にない場合、CodeIgniterは代わりにグローバルな
+<dfn>system/plugins</dfn> フォルダを探します。</p>
+
+
+<h2>プラグインの読み込み</h2>
+
+<p>プラグインファイルを読み込むのは、次のようなメソッドを使う、非常に単純なものです:</p>
+
+<code>$this->load->plugin('<var>name</var>');</code>
+
+<p>ここでの <var>name</var>は、プラグインの名前になります。 .php ファイルの拡張子やファイル名の&quot;plugin&quot;をあらわす部分 [ 訳注:プラグインの物理ファイル名の末尾には「_pi」というサフィックスをつける必要があります ] は不要です。</p>
+
+<p>たとえば、<var>captcha_pi.php</var>というファイル名の <dfn>Captcha</dfn> プラグインを読み込むには次のようにします:</p>
+
+<code>$this->load->plugin('<var>captcha</var>');</code>
+
+
+
+<p>プラグインは、利用する前にロードしさえすれば、コントローラのメソッドの中の(良いやり方ではありませんが、あるいはビューファイルの）どこでロードしてもかまいません。コントローラのコンストラクタでロードすれば、どのメソッドでも利用できるようになりますし、特定のメソッド内で必要な時だけ読み込むこともできます。</p>
+
+<p class="important">Note: プラグインの読み込みメソッドは、値を返さないので、変数に返り値を代入しないでください。例示したような使用にとどめてください。 </p>
+
+
+<h2>複数のプラグインの読み込み</h2>
+
+<p>一つ以上のプラグインを読み込む必要がある場合は、次のように、配列の中で指定することができます:</p>
+
+<code>$this->load->plugin( <samp>array(</samp>'<var>plugin1</var>', '<var>plugin2</var>', '<var>plugin3</var>'<samp>)</samp> );</code>
+
+<h2>Pluginsプラグインの自動読み込み</h2>
+
+<p>あるプラグインがアプリケーションでグローバルに必要とされることがわかった時には、システムを初期化するときに自動読み込みするよう、CodeIgniter に対して通知しておくことができます。<var>application/config/autoload.php</var> ファイルを開き、そこにある配列のautoloadにプラグインを追加することで、そうすることが可能です。</p>
+
+
+<h2>プラグインの使用</h2>
+
+<p>まずプラグインを読み込んだ後、通常のPHPの関数を利用するように呼び出します。</p>
+
+
+
+
+</div>
+<!-- END CONTENT -->
+
+
+<div id="footer">
+<p>
+前のトピック:&nbsp;&nbsp;<a href="helpers.html">ヘルパ関数</a>
+&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+<a href="#top">ページの先頭</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+<a href="../index.html">ユーザガイド Home</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+次のトピック:&nbsp;&nbsp;<a href="libraries.html">ライブラリの使用</a>
+</p>
+<p><a href="http://codeigniter.com">CodeIgniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2006-2008 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">Ellislab, Inc.</a><br />Japanese Translation: <a href="http://codeigniter.jp/">CodeIgniter Users Group in Japan</a></p>
+</div>
+
+</body>
+</html>

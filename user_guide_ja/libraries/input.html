@@ -1,0 +1,200 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>CodeIgniter ユーザガイド 日本語版 : 入力クラス</title>
+<style type='text/css' media='all'>@import url('../userguide.css');</style>
+<link rel='stylesheet' type='text/css' media='all' href='../userguide.css' />
+
+<script type="text/javascript" src="../nav/nav.js"></script>
+<script type="text/javascript" src="../nav/prototype.lite.js"></script>
+<script type="text/javascript" src="../nav/moo.fx.js"></script>
+<script type="text/javascript" src="../nav/user_guide_menu.js"></script>
+
+<meta http-equiv='expires' content='-1' />
+<meta http-equiv= 'pragma' content='no-cache' />
+<meta name='robots' content='all' />
+<meta name='author' content='ExpressionEngine Dev Team' />
+<meta name='description' content='CodeIgniter ユーザガイド' /></head>
+<body>
+
+<!-- START NAVIGATION -->
+<div id="nav"><div id="nav_inner"><script type="text/javascript">create_menu('../');</script></div></div>
+<div id="nav2"><a name="top"></a><a href="javascript:void(0);" onclick="myHeight.toggle();"><img src="../images/nav_toggle.jpg" width="153" height="44" border="0" title="Toggle 目次" alt="Toggle 目次" /></a></div>
+<div id="masthead">
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td><h1>CodeIgniter ユーザガイド 日本語版 Version 1.6.1</h1></td>
+<td id="breadcrumb_right"><a href="../toc.html">目次のページ</a></td>
+</tr>
+</table>
+</div>
+<!-- END NAVIGATION -->
+
+
+<!-- START BREADCRUMB -->
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td id="breadcrumb">
+<a href="http://codeigniter.com/">CodeIgniter Home</a> &nbsp;&#8250;&nbsp;
+<a href="../index.html">ユーザガイド Home</a> &nbsp;&#8250;&nbsp;
+入力およびセキュリティクラス</td>
+<td id="searchbox"><form method="get" action="http://www.google.com/search"><input type="hidden" name="as_sitesearch" id="as_sitesearch" value="codeigniter.com/user_guide/" />ユーザガイドを検索&nbsp; <input type="text" class="input" style="width:200px;" name="q" id="q" size="31" maxlength="255" value="" />&nbsp;<input type="submit" class="submit" name="sa" value="Go" /></form></td>
+</tr>
+</table>
+<!-- END BREADCRUMB -->
+
+<br clear="all" />
+
+
+<!-- START CONTENT -->
+<div id="content">
+
+
+<h1>入力クラス</h1>
+
+<p>入力クラスには2つの目的があります:</p>
+
+<ol>
+<li>グローバルな入力データをセキュリティのために前処理します。</li>
+<li>入力データを取り出し、前処理するためのヘルパメソッドを提供します。</li>
+</ol>
+
+<p class="important"><strong>Note:</strong>このクラスは、システムで自動的に初期化されるので、手動で初期化する必要はありません。</p>
+
+
+<h2>セキュリティフィルタリング</h2>
+
+<p>セキュリティフィルタ機能は、新しい<a href="../general/controllers.html">コントローラ</a> が起動されると自動的に呼び出されます。フィルタ機能は、次のことを行います:</p>
+
+<ul>
+<li>グローバルな GET 配列($_GET) のデータを消去します。CodeIgniterではGET文字列（クエリ文字列）を使わないので、それを許可する理由はありません。</li>
+<li>register_globals がONに設定されているときにセットされるグローバル変数は消去されます。</li>
+<li>英数字 (と少数の他の文字) だけを許可するよう POST/COOKIE 配列のキーがフィルタリングされます。</li>
+<li>XSS (クロスサイトスクリプティング攻撃) フィルタリングを提供します。この機能は、グローバルまたは、リクエストごとに有効化できます。</li>
+<li>改行文字を \n に統一します。 </li>
+</ul>
+
+
+<h2>XSS フィルタリング</h2>
+
+<p>CodeIgniterには、クロスサイトスクリプティング攻撃防止フィルタが備わっています。XSSフィルタはPOSTおよびCOOKIEデータを扱うときに自動的に実行することも、項目ごとに実行することもできます。やや処理のオーバーヘッドがあるので、また、すべてのケースでは必要でないかもしれないので、初期状態では、グローバルには<strong>実行しません</strong>。</p>
+
+<p>XSSフィルタは、クッキーハイジャックなどの悪事を働くと思われるJavaScriptなどのコードを仕掛けるための一般的なテクニックを探し出します。もし許可されないものがあれば、データをHTMLエンティティの文字<strong></strong>に変換して、安全にレンダリングします。</p>
+
+<p>
+Note: このメソッドは、送信されたデータだけを扱うべきです。かなりの処理のオーバヘッドが必要になるので、実行時の一般的な処理に使用されるべきものではありません。</p>
+
+
+<p>XSS フィルタにデータを通すには、次のメソッドを使います:</p>
+
+<h2>$this->input->xss_clean()</h2>
+
+<p>以下は使用例です:</p>
+
+<code>$data = $this->input->xss_clean($data);</code>
+
+<p>POST または COOKIE データを扱うときにはいつも自動的にフィルタを実行したい場合は、<kbd>application/config/config.php</kbd> ファイルを開いて次のように設定することで、有効にできます:</p>
+
+<code>$config['global_xss_filtering'] = TRUE;</code>
+<p>Note: フォームバリデーションクラスを使用している場合も、XSS フィルタリングのオプションを指定できます。</p>
+
+
+
+
+<h2>POST、COOKIE、あるいはSERVERデータの使用</h2>
+
+<p>CodeIgniterには、POST、COOKIEあるいはSERVERのデータを取得するための3つのヘルパメソッドが備わっています。直接項目を取得する(例：$_POST['something'] ) のでなく、このクラスが提供するメソッドを使う主な利点は、メソッドにより値がセットされているかチェックされ、セットされていない場合は、false (ブール値) を返すということです。このメソッドを利用すれば、項目が存在するかどうかをまずテストすることなく、便利にデータを使えます。つまり、通常は、次のようなコードになりますが:</p>
+
+<code>
+if ( ! isset($_POST['something']))<br />
+{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;$something = FALSE;<br />
+}<br />
+else<br />
+{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;$something = $_POST['something'];<br />
+}</code>
+<p>CodeIgniter の組み込みメソッドを使うと、単純に次のようになります:</p>
+
+<code>$something = $this->input->post('something');</code>
+
+<p>3つのメソッドは次の通りです:</p>
+
+<ul>
+<li>$this->input->post()</li>
+<li>$this->input->cookie()</li>
+<li>$this->input->server()</li>
+</ul>
+
+<h2>$this->input->post()</h2>
+
+<p>第1引数は、コレクションの中から探し出すPOSTされた項目の名前になります:</p>
+
+<code>$this->input->post('some_data');</code>
+
+<p>このメソッドは、取り出そうとして見つからなかった場合、FALSE (ブール値) を返します。</p>
+
+<p>第2引数は、オプションで、データをXSSフィルタに通すかどうかを指定します。XSSフィルタは、第2引数をブール値のTRUEに設定することで有効になります:</p>
+
+<code>$this->input->post('some_data', TRUE);</code>
+
+<h2>$this->input->cookie()</h2>
+
+<p>このメソッドは、クッキーデータを取り出すということ以外は、post メソッドと同じです:</p>
+
+<code>$this->input->cookie('some_data', TRUE);</code>
+
+<h2>$this->input->server()</h2>
+
+<p>このメソッドは、SERVERデータを取り出すということ以外は、上のメソッドと同じです:</p>
+
+<code>$this->input->server('some_data');</code>
+
+
+
+
+<h2>$this->input->ip_address()</h2>
+<p>現在のユーザのIP アドレスを返します。IPアドレスが正しくない場合、このメソッドは、次のIPアドレスを返します: 0.0.0.0</p>
+<code>echo $this->input->ip_address();</code>
+
+
+<h2>$this->input->valid_ip(<var>$ip</var>)</h2>
+
+<p>IP アドレスを入力としてとり、IPアドレスとして妥当かどうかに応じて TRUE か FALSE (ブール値) を返します。Note:   上の$this->input->ip_address() メソッドは、IPの検証を自動的に行います。</p>
+
+<code>if ( ! valid_ip($ip))<br />
+{<br />
+&nbsp;&nbsp;&nbsp;&nbsp; echo 'Not Valid';<br />
+}<br />
+else<br />
+{<br />
+&nbsp;&nbsp;&nbsp;&nbsp; echo 'Valid';<br />
+}</code>
+
+
+<h2>$this->input->user_agent()</h2>
+<p>現在のユーザが使用しているユーザエージェント(webブラウザ)を返します。利用できないときはFALSEを返します。</p>
+<code>echo $this->input->user_agent();</code>
+
+
+
+
+</div>
+<!-- END CONTENT -->
+
+
+<div id="footer">
+<p>
+前のトピック:&nbsp;&nbsp;<a href="image_lib.html">画像操作クラス</a>
+&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+<a href="#top">ページの先頭</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+<a href="../index.html">ユーザガイド Home</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+次のトピック:&nbsp;&nbsp;<a href="loader.html">ローダ(読み込み処理)クラス</a>
+</p>
+<p><a href="http://codeigniter.com">CodeIgniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2006-2008 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">Ellislab, Inc.</a><br />Japanese Translation: <a href="http://codeigniter.jp/">CodeIgniter Users Group in Japan</a></p>
+</div>
+
+</body>
+</html>

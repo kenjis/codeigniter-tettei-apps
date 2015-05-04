@@ -1,0 +1,130 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>CodeIgniter ユーザガイド 日本語版 : スカッフォールディング(Scaffolding)</title>
+<style type='text/css' media='all'>@import url('../userguide.css');</style>
+<link rel='stylesheet' type='text/css' media='all' href='../userguide.css' />
+
+<script type="text/javascript" src="../nav/nav.js"></script>
+<script type="text/javascript" src="../nav/prototype.lite.js"></script>
+<script type="text/javascript" src="../nav/moo.fx.js"></script>
+<script type="text/javascript" src="../nav/user_guide_menu.js"></script>
+
+<meta http-equiv='expires' content='-1' />
+<meta http-equiv= 'pragma' content='no-cache' />
+<meta name='robots' content='all' />
+<meta name='author' content='ExpressionEngine Dev Team' />
+<meta name='description' content='CodeIgniter ユーザガイド' />
+
+</head>
+<body>
+
+<!-- START NAVIGATION -->
+<div id="nav"><div id="nav_inner"><script type="text/javascript">create_menu('../');</script></div></div>
+<div id="nav2"><a name="top"></a><a href="javascript:void(0);" onclick="myHeight.toggle();"><img src="../images/nav_toggle.jpg" width="153" height="44" border="0" title="Toggle 目次" alt="Toggle 目次" /></a></div>
+<div id="masthead">
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td><h1>CodeIgniter ユーザガイド 日本語版 Version 1.6.1</h1></td>
+<td id="breadcrumb_right"><a href="../toc.html">目次のページ</a></td>
+</tr>
+</table>
+</div>
+<!-- END NAVIGATION -->
+
+
+<!-- START BREADCRUMB -->
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td id="breadcrumb">
+<a href="http://codeigniter.com/">CodeIgniter Home</a> &nbsp;&#8250;&nbsp;
+<a href="../index.html">ユーザガイド Home</a> &nbsp;&#8250;&nbsp;
+スカッフォールディング(Scaffolding)
+</td>
+<td id="searchbox"><form method="get" action="http://www.google.com/search"><input type="hidden" name="as_sitesearch" id="as_sitesearch" value="codeigniter.com/user_guide/" />ユーザガイドを検索&nbsp; <input type="text" class="input" style="width:200px;" name="q" id="q" size="31" maxlength="255" value="" />&nbsp;<input type="submit" class="submit" name="sa" value="Go" /></form></td>
+</tr>
+</table>
+<!-- END BREADCRUMB -->
+
+<br clear="all" />
+
+
+<!-- START CONTENT -->
+<div id="content">
+
+<h1>スカッフォールディング(Scaffolding) </h1>
+
+<p>CodeIgniter のスカッフォールディング(Scaffolding)機能を使うと、開発中にすばやく便利に、データベースに情報を追加・編集・削除できるようになります。</p>
+
+<p class="important"><strong>Very Important:</strong>  スカッフォールディングは、開発用途で利用することのみを想定しています。アクセスした人は誰でも潜在的に情報を編集できてしまうので、この機能には、「シークレットワード」以外には、非常にわずかなセキュリティしか備わっていません。スカッフォールディングを使った場合、使用後は必ず、すみやかにこの機能を無効にするようにしてください。ずっと有効なままにしておいてはいけません。使用前には、シークレットワードを設定してください。</p>
+
+
+<h2>なぜスカッフォールディング機能を使うのでしょうか?</h2>
+
+<p>よくあるシナリオ:  開発中に新しいデータベーステーブルを作成し、そのテーブルに何らかのデータを素早く追加したいというような場合があります。スカッフォールディングを使わないとすると、コマンドラインを使ってデータを追加するか、phpMyAdminのようなデータベース管理ツールを使ってデータを追加するかのどちらかになります。CodeIgniterのスカッフォールディング機能を使えば、ブラウザの画面を使って、素早くデータを追加できます。また、データを使っているときにいつでも、簡単にデータを削除することもできます。</p>
+
+<h2>シークレットワードを設定する</h2>
+
+<p>スカッフォールディング機能を有効にする前に、シークレットワードを設定するようにしてください。シークレットワードは、URLの中で使った時に、スカッフォールディングの画面を立ち上げるものになります。ですので、誰もが簡単に予測できないようなものにしてください。</p>
+
+<p>シークレットワードをセットするには、<kbd>application/config/routes.php</kbd> ファイルを開いて下のような項目を探してください:</p>
+
+<code>$route['scaffolding_trigger'] = '';</code>
+
+<p>見つけたら、固有の文字を追加します。</p>
+
+<p class="important"><strong>Note:</strong> スカッフォールディングに使用するシークレットワードの先頭の文字にアンダースコア &quot;_&quot; を<strong>使ってはいけません</strong>。</p>
+<h2>スカッフォールディングを有効にする</h2>
+
+<p>Note: このページの情報は、<a href="controllers.html">コントローラ</a> がどのように動作するかをすでに知っていて、動作するものを作成済みであると仮定しています。また、<a href="../database/index.html">データベース</a>に自動接続するよう設定しているのが前提になっています。もしこれらの前提に当てはまらなければ、ここに書いてある情報は、おそらくあまり役に立ちません。ですので、まず関連するセクションを通読するのをお勧めします。最後に、クラスのコンストラクタが何かについて理解していることを前提としています。もし理解できていない場合は、<a href="controllers.html">コントローラ</a>の解説ページの最後の部分を読んでください。</p>
+
+<p>スカッフォールディングを有効にするには、次のようにコンストラクタで初期化してください:</p>
+
+<code>
+&lt;?php<br />
+class Blog extends Controller {<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;function Blog()<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parent::Controller();<br /><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<samp>$this->load->scaffolding(</samp><kbd>'table_name'</kbd>);</samp><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+}<br />
+?&gt;</code>
+
+<p>ここでの <kbd>table_name</kbd> は、操作したいテーブル名 (テーブル名で、データベース名ではありません) になります。</p>
+
+<p>スカッフォールディングを初期化したら、次のような例のURLでアクセスすることができます:</p>
+
+<code>www.your-site.com/index.php/<var>class</var>/<dfn>secret_word</dfn>/</code>
+<p>たとえば、次の例では、<var>Blog </var>という名前のコントローラを使い、<dfn>abracadabra</dfn> をシークレットワードとして送信することで、スカッフォールディングにアクセスできます:</p>
+
+<code>www.your-site.com/index.php/<var>blog</var>/<dfn>abracadabra</dfn>/</code>
+
+<p>スカッフォールディングの画面には、スカッフォールディングそのものの説明が書いてあります。画面で、レコードを追加・編集・削除することができます。</p>
+
+
+<h2>最後に:</h2>
+
+<p>スカッフォールディング機能は、操作するテーブルに主キーが設定されているときだけ動作します。主キーは様々なデータベース処理で必要になる情報です。</p>
+
+
+</div>
+<!-- END CONTENT -->
+
+
+<div id="footer">
+<p>
+前のトピック:&nbsp;&nbsp;<a href="autoloader.html">リソースの自動読み込み</a>
+&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+<a href="#top">ページの先頭</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+<a href="../index.html">ユーザガイド Home</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+次のトピック:&nbsp;&nbsp;<a href="routing.html">URI ルーティング</a>
+</p>
+<p><a href="http://codeigniter.com">CodeIgniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2006-2008 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">Ellislab, Inc.</a><br />Japanese Translation: <a href="http://codeigniter.jp/">CodeIgniter Users Group in Japan</a></p>
+</div>
+
+</body>
+</html>

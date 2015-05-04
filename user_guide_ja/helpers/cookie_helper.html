@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>CodeIgniter ユーザガイド 日本語版 : クッキーヘルパ</title>
+<style type='text/css' media='all'>@import url('../userguide.css');</style>
+<link rel='stylesheet' type='text/css' media='all' href='../userguide.css' />
+
+<script type="text/javascript" src="../nav/nav.js"></script>
+<script type="text/javascript" src="../nav/prototype.lite.js"></script>
+<script type="text/javascript" src="../nav/moo.fx.js"></script>
+<script type="text/javascript" src="../nav/user_guide_menu.js"></script>
+
+<meta http-equiv='expires' content='-1' />
+<meta http-equiv= 'pragma' content='no-cache' />
+<meta name='robots' content='all' />
+<meta name='author' content='ExpressionEngine Dev Team' />
+<meta name='description' content='CodeIgniter ユーザガイド' />
+
+</head>
+<body>
+
+<!-- START NAVIGATION -->
+<div id="nav"><div id="nav_inner"><script type="text/javascript">create_menu('../');</script></div></div>
+<div id="nav2"><a name="top"></a><a href="javascript:void(0);" onclick="myHeight.toggle();"><img src="../images/nav_toggle.jpg" width="153" height="44" border="0" title="Toggle 目次" alt="Toggle 目次" /></a></div>
+<div id="masthead">
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td><h1>CodeIgniter ユーザガイド 日本語版 Version 1.6.1</h1></td>
+<td id="breadcrumb_right"><a href="../toc.html">目次のページ</a></td>
+</tr>
+</table>
+</div>
+<!-- END NAVIGATION -->
+
+
+<!-- START BREADCRUMB -->
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td id="breadcrumb">
+<a href="http://codeigniter.com/">CodeIgniter Home</a> &nbsp;&#8250;&nbsp;
+<a href="../index.html">ユーザガイド Home</a> &nbsp;&#8250;&nbsp;
+クッキーヘルパ</td>
+<td id="searchbox"><form method="get" action="http://www.google.com/search"><input type="hidden" name="as_sitesearch" id="as_sitesearch" value="codeigniter.com/user_guide/" />ユーザガイドを検索&nbsp; <input type="text" class="input" style="width:200px;" name="q" id="q" size="31" maxlength="255" value="" />&nbsp;<input type="submit" class="submit" name="sa" value="Go" /></form></td>
+</tr>
+</table>
+<!-- END BREADCRUMB -->
+
+<br clear="all" />
+
+
+<!-- START CONTENT -->
+<div id="content">
+
+
+<h1>クッキーヘルパ</h1>
+
+<p>クッキーヘルパのファイルは、クッキーを処理するのに役立つ関数で構成されています。</p>
+
+
+<h2>ヘルパのロード</h2>
+
+<p>このヘルパは次のコードを使ってロードします:</p>
+<code>$this->load->helper('cookie');</code>
+
+<p>次の関数が利用できます:</p>
+
+<h2>set_cookie()</h2>
+
+<p>指定した値をクッキーにセットします。クッキーをセットするのにメソッドに情報を渡すやり方には、次のように、配列を指定する方法と個別のパラメータで指定する方法の二通りの方法があります:</p>
+
+<h4>配列で指定する方法</h4>
+
+<p>この方法を使うには、第1引数で連想配列を渡します:</p>
+
+<code>$cookie = array(<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'name'&nbsp;&nbsp;&nbsp;=> 'The Cookie Name',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'value'&nbsp;&nbsp;=> 'The Value',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'expire' => '86500',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'domain' => '.some-domain.com',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'path'&nbsp;&nbsp;&nbsp;=> '/',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'prefix' => 'myprefix_',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);<br />
+<br />
+set_cookie($cookie);
+</code>
+
+<p><strong>Notes:</strong></p>
+
+<p>nameとvalue だけは必須です。</p>
+
+<p>有効期限（expire）は時刻を現在時刻から数えた<strong>秒数</strong>で指定します。時刻を指定するのではなく、クッキーが現在時刻から何秒間有効かを秒数だけで指定します。有効期限を 0 にセットすると、ブラウザが開いている間だけ、クッキーが有効になります。</p>
+<p>クッキーを削除するには、有効期限を空にセットしてください。</p>
+<p>どのようにリクエストを受け付けたかにかかわらず、サイト全体で使うクッキーには、次のように<strong> domain</strong> にピリオドから始まるURLを追加してください:  .your-domain.com</p>
+<p>この関数では、指定されていない場合、ルートパスをセットするので、たいていは、パス(path) は必要ありません。</p>
+<p>サーバで同じ名前の他のクッキーと衝突してしまう場合だけ、プリフィックスが必要になります。</p>
+
+<h4>個別パラメータで指定する方法</h4>
+
+<p>希望であれば、個別のパラメータを使ってデータを渡してクッキーをセットすることができます:</p>
+
+<code>set_cookie($name, $value, $expire, $domain, $path, $prefix);</code>
+
+<h2>get_cookie()</h2>
+
+<p>クッキーを読み取ることができます。第1引数は、読み取るクッキーの名前になります:</p>
+
+<code>get_cookie('some_cookie');</code>
+
+<p>この関数は、読み取ろうとするクッキーが存在しない場合にFALSE (ブール値) を返します。</p>
+
+<p>オプションの第2引数で、データをXSSフィルタに通すことができます。この機能は、第2引数にブール値のTUREをセットすることで有効になります;</p>
+
+<code>get_cookie('some_cookie', TRUE);</code>
+
+
+
+<h2>delete_cookie()</h2>
+
+<p>クッキーを削除できます。カスタムパスやその他の値は必要なく、次のように、クッキー名のみ指定してください:</p>
+
+<code>delete_cookie("name");</code>
+
+<p>この関数は、値や有効期限のパラメータがない以外は、<dfn>set_cookie()</dfn> と同じものです。第1引数に配列で渡すか、個別パラメータで値を渡すことができます。</p>
+
+<code>delete_cookie($name, $domain, $path, $prefix)</code>
+
+
+</div>
+<!-- END CONTENT -->
+
+
+<div id="footer">
+<p>
+前のトピック:&nbsp;&nbsp;<a href="array_helper.html">配列ヘルパ</a>
+&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+<a href="#top">ページの先頭</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+<a href="../index.html">ユーザガイド Home</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+次のトピック:&nbsp;&nbsp;<a href="date_helper.html">日付ヘルパ</a>
+</p>
+<p><a href="http://codeigniter.com">CodeIgniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2006-2008 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">Ellislab, Inc.</a><br />Japanese Translation: <a href="http://codeigniter.jp/">CodeIgniter Users Group in Japan</a></p>
+</div>
+
+</body>
+</html>

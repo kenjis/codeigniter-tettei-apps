@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>CodeIgniter ユーザガイド 日本語版 : ファイルヘルパ</title>
+<style type='text/css' media='all'>@import url('../userguide.css');</style>
+<link rel='stylesheet' type='text/css' media='all' href='../userguide.css' />
+
+<script type="text/javascript" src="../nav/nav.js"></script>
+<script type="text/javascript" src="../nav/prototype.lite.js"></script>
+<script type="text/javascript" src="../nav/moo.fx.js"></script>
+<script type="text/javascript" src="../nav/user_guide_menu.js"></script>
+
+<meta http-equiv='expires' content='-1' />
+<meta http-equiv= 'pragma' content='no-cache' />
+<meta name='robots' content='all' />
+<meta name='author' content='ExpressionEngine Dev Team' />
+<meta name='description' content='CodeIgniter ユーザガイド' />
+
+</head>
+<body>
+
+<!-- START NAVIGATION -->
+<div id="nav"><div id="nav_inner"><script type="text/javascript">create_menu('../');</script></div></div>
+<div id="nav2"><a name="top"></a><a href="javascript:void(0);" onclick="myHeight.toggle();"><img src="../images/nav_toggle.jpg" width="153" height="44" border="0" title="Toggle 目次" alt="Toggle 目次" /></a></div>
+<div id="masthead">
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td><h1>CodeIgniter ユーザガイド 日本語版 Version 1.6.1</h1></td>
+<td id="breadcrumb_right"><a href="../toc.html">目次のページ</a></td>
+</tr>
+</table>
+</div>
+<!-- END NAVIGATION -->
+
+
+<!-- START BREADCRUMB -->
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td id="breadcrumb">
+<a href="http://codeigniter.com/">CodeIgniter Home</a> &nbsp;&#8250;&nbsp;
+<a href="../index.html">ユーザガイド Home</a> &nbsp;&#8250;&nbsp;
+ファイルヘルパ
+</td>
+<td id="searchbox"><form method="get" action="http://www.google.com/search"><input type="hidden" name="as_sitesearch" id="as_sitesearch" value="codeigniter.com/user_guide/" />ユーザガイドを検索&nbsp; <input type="text" class="input" style="width:200px;" name="q" id="q" size="31" maxlength="255" value="" />&nbsp;<input type="submit" class="submit" name="sa" value="Go" /></form></td>
+</tr>
+</table>
+<!-- END BREADCRUMB -->
+
+<br clear="all" />
+
+
+<!-- START CONTENT -->
+<div id="content">
+
+
+<h1>ファイルヘルパ</h1>
+
+<p>ファイルヘルパのファイルは、ファイルを処理するのに役立つ関数で構成されます。</p>
+
+
+<h2>ヘルパのロード</h2>
+
+<p>このヘルパは次のコードを使ってロードします:</p>
+<code>$this->load->helper('file');</code>
+
+<p>次の関数が利用できます:</p>
+
+<h2>read_file('<var>path</var>')</h2>
+
+<p>パスで特定されたファイルのデータを返します。例:</p>
+
+<code>$string = read_file('./path/to/file.php');</code>
+
+<p>パスは、サーバの相対パスかフルパスで指定します。読み込みに失敗した場合はFALSE (ブール値)を返します。</p>
+
+<p class="important"><strong>Note:</strong> パスは、メインの index.php ファイルからの相対パスで、コントローラファイルやビューファイルからの相対パスではありません。
+CodeIgniter はフロントコントローラを使用するので、常にサイトのインデックスからの相対パスになります。</p>
+
+<p>サーバで open_basedir の制限が有効になっている場合、呼び出したスクリプトより上の階層にあるファイルにアクセスしようとするとき、このメソッドは動作しないかもしれません。</p>
+
+<h2>write_file('<var>path</var>', <kbd>$data</kbd>)</h2>
+
+<p>パスで指定されたファイルにデータを書き込みます。ファイルが存在しない場合には、このメソッドによってファイルが作成されます。例:</p>
+
+<code>
+$data = 'Some file data';<br />
+<br />
+if ( ! write_file('./path/to/file.php', $data))<br />
+{<br />
+&nbsp;&nbsp;&nbsp;&nbsp; echo 'ファイルに書き込めません';<br />
+}<br />
+else<br />
+{<br />
+&nbsp;&nbsp;&nbsp;&nbsp; echo 'ファイルが書き込まれました!';<br />
+}</code>
+
+<p>第3引数に書き込みモードをオプションで指定できます:</p>
+
+<code>write_file('./path/to/file.php', $data, <var>'r+'</var>);</code>
+<p>デフォルトのモードは、<kbd>wb</kbd>.です。指定できるモードについては、<a href="http://www.php.net/manual/ja/function.fopen.php">PHP ユーザガイド</a>をご覧ください。</p>
+
+<p>Note: この関数でファイルにデータを書き込めるようにするには、ファイルのパーミッションを書き込み可能なように (666、777、など)に設定しなければなりません。ファイルがまだ存在しない場合は、保存先のディレクトリが書き込み可能でなければなりません。</p>
+
+<p class="important"><strong>Note:</strong>パスは、メインの index.php ファイルからの相対パスで、コントローラファイルやビューファイルからの相対パスではありません。
+CodeIgniter はフロントコントローラを使用するので、常にサイトのインデックスからの相対パスになります。</p>
+
+
+
+<h2>delete_files('<var>path</var>')</h2>
+
+<p>パスに含まれるすべてのファイルを削除します。例:</p>
+<code>delete_files('./path/to/directory/');</code>
+
+<p>第2引数を<kbd> true</kbd> にセットすると、指定したパスに含まれるいずれのディレクトリも削除されます。例:</p>
+
+<code>delete_files('./path/to/directory/', TRUE);</code>
+
+<p class="important"><strong>Note:</strong> 削除するには、ファイルを書き込み可能にするか、所有者をシステムにしてください。</p>
+
+
+<h2>get_filenames('<var>path/to/directory/</var>')</h2>
+
+<p>サーバパスを入力として、そのパスに含まれる全ファイル名の配列を返します。オプションで、第2引数をTRUEに設定すると、ファイルのパスがファイル名に付加されます。</p>
+
+
+</div>
+<!-- END CONTENT -->
+
+
+<div id="footer">
+<p>
+前のトピック:&nbsp;&nbsp;<a href="email_helper.html">Emailヘルパ</a>
+&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+<a href="#top">ページの先頭</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+<a href="../index.html">ユーザガイド Home</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+次のトピック:&nbsp;&nbsp;<a href="form_helper.html">Formヘルパ</a></p>
+<p><a href="http://codeigniter.com">CodeIgniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2006-2008 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">Ellislab, Inc.</a><br />Japanese Translation: <a href="http://codeigniter.jp/">CodeIgniter Users Group in Japan</a></p>
+</div>
+
+</body>
+</html>

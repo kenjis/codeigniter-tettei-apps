@@ -11,6 +11,9 @@
  * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
+ *
+ * Modified by Kenji Suzuki, 2008/02/04
+ * - using mb_strlen
  */
 
 // ------------------------------------------------------------------------
@@ -430,7 +433,14 @@ class CI_Validation {
 			return FALSE;
 		}
 	
-		return (strlen($str) < $val) ? FALSE : TRUE;
+		if (function_exists('mb_strlen'))
+		{
+			return (mb_strlen($str) < $val) ? FALSE : TRUE;
+		}
+		else
+		{
+			return (strlen($str) < $val) ? FALSE : TRUE;
+		}
 	}
 	
 	// --------------------------------------------------------------------
@@ -449,7 +459,14 @@ class CI_Validation {
 			return FALSE;
 		}
 	
-		return (strlen($str) > $val) ? FALSE : TRUE;
+		if (function_exists('mb_strlen'))
+		{
+			return (mb_strlen($str) > $val) ? FALSE : TRUE;
+                }
+                else
+                {
+			return (strlen($str) > $val) ? FALSE : TRUE;
+		}
 	}
 	
 	// --------------------------------------------------------------------
@@ -468,7 +485,14 @@ class CI_Validation {
 			return FALSE;
 		}
 	
-		return (strlen($str) != $val) ? FALSE : TRUE;
+		if (function_exists('mb_strlen'))
+		{	
+			return (mb_strlen($str) != $val) ? FALSE : TRUE;
+		}
+		else
+		{
+			return (strlen($str) != $val) ? FALSE : TRUE;
+		}
 	}
 	
 	// --------------------------------------------------------------------

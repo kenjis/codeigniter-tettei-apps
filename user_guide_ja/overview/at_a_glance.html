@@ -1,0 +1,151 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>CodeIgniter ユーザガイド 日本語版 : CodeIgniterの簡単な紹介</title>
+<style type='text/css' media='all'>@import url('../userguide.css');</style>
+<link rel='stylesheet' type='text/css' media='all' href='../userguide.css' />
+
+<script type="text/javascript" src="../nav/nav.js"></script>
+<script type="text/javascript" src="../nav/prototype.lite.js"></script>
+<script type="text/javascript" src="../nav/moo.fx.js"></script>
+<script type="text/javascript" src="../nav/user_guide_menu.js"></script>
+
+<meta http-equiv='expires' content='-1' />
+<meta http-equiv= 'pragma' content='no-cache' />
+<meta name='robots' content='all' />
+<meta name='author' content='ExpressionEngine Dev Team' />
+<meta name='description' content='CodeIgniter ユーザガイド' />
+
+</head>
+<body>
+
+<!-- START NAVIGATION -->
+<div id="nav"><div id="nav_inner"><script type="text/javascript">create_menu('../');</script></div></div>
+<div id="nav2"><a name="top"></a><a href="javascript:void(0);" onclick="myHeight.toggle();"><img src="../images/nav_toggle.jpg" width="153" height="44" border="0" title="Toggle 目次" alt="Toggle 目次" /></a></div>
+<div id="masthead">
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td><h1>CodeIgniter ユーザガイド 日本語版 Version 1.6.1</h1></td>
+<td id="breadcrumb_right"><a href="../toc.html">目次のページ</a></td>
+</tr>
+</table>
+</div>
+<!-- END NAVIGATION -->
+
+
+<!-- START BREADCRUMB -->
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td id="breadcrumb">
+<a href="http://codeigniter.com/">CodeIgniter Home</a> &nbsp;&#8250;&nbsp;
+<a href="../index.html">ユーザガイド Home</a> &nbsp;&#8250;&nbsp;
+CodeIgniterとは?</td>
+<td id="searchbox"><form method="get" action="http://www.google.com/search"><input type="hidden" name="as_sitesearch" id="as_sitesearch" value="codeigniter.com/user_guide/" />ユーザガイドを検索&nbsp; <input type="text" class="input" style="width:200px;" name="q" id="q" size="31" maxlength="255" value="" />&nbsp;<input type="submit" class="submit" name="sa" value="Go" /></form></td>
+</tr>
+</table>
+<!-- END BREADCRUMB -->
+
+<br clear="all" />
+
+
+<!-- START CONTENT -->
+<div id="content">
+
+<h1>CodeIgniterの簡単な紹介</h1>
+
+
+<h2>CodeIgniterはアプリケーションフレームワークのひとつです</h2>
+
+<p>CodeIgniterはPHPを使用してwebアプリケーションを構築する人向けのツールキットです。一般に必要とされるタスクのための豊富なクラスライブラリだけでなく、ライブラリにアクセスするためのシンプルなインターフェースと論理的構造を提供することにより、コードをスクラッチで書くのに比べ、開発プロジェクトをより加速させるのがゴールです。CodeIgniterは与えられタスクに必要とされるコード量を最小化することで、創造的にプロジェクトに集中することができます。</p>
+
+<h2>CodeIgniter は無料です</h2>
+<p>CodeIgniter は Apache/BSD スタイルのオープンソースライセンスですので、どんなものにでも利用できます。
+詳しくは、<a href="../license.html">ライセンス契約書</a>をお読みください。</p>
+
+
+<h2>CodeIgniter は  PHP 4 で動作します </h2>
+<p>CodeIgniter は PHP 4 に対応しています。  PHP5を利用すれば、これまで創造的な解決策を見つける必要があったもの（みなさんがやってきた事や多重継承など）が簡単になります。ですので、私たちは、PHP5の優れたオブジェクトの利用方法を使いたいところですが、これを書いている現時点では、PHP5はまだ広くは利用されていません。これでは、PHP5を使っても、多くの優秀な利用者の皆さんを失望させることになってしまいます。RedHatのような主要なOSベンダは、PHP5のサポートをゆっくりと始めようとしているところであり、すぐにはサポートしそうにありません。ですので、私たちは、CodeIgniterをPHP5で書くことが、PHPコミュニティにとっての最大の関心事とはならないだろうと感じました。</p>
+
+<p>Note:  CodeIgniter はPHP 5でも動作します。  PHP5に固有の機能を単に一切利用していないだけです。</p>
+
+<h2>CodeIgniter はライトウェイトです</h2>
+<p>本当に軽量です。コアのシステムは、非常に小さなライブラリを少数だけしか使いません。大変多くのリソースが必要な多くのフレームワークと比べてシンプルです。基本機能以外に追加で利用可能なライブラリは、必要に応じて、リクエスト時に動的に読み込まれます。したがって、基本システムは非常にスリムで大変高速です。</p>
+
+<h2>CodeIgniter は高速です</h2>
+<p>実際に高速です。CodeIgniterよりもすぐれたパフォーマンスのフレームワークを探せるというならぜひ探してみてください。</p>
+
+
+<h2>CodeIgniter は M-V-C を採用しています </h2>
+<p>CodeIgniter は Model-View-Controller アプローチを採用しています。Model-View-Controllerは、ロジックとプレゼンテーションのすぐれた分離を可能にします。これは、最低限のコードだけでできたテンプレートファイルをデザイナーが利用して作業するようなプロジェクトで、特に優れたアプローチです。MVC については、MVCの解説ページで詳しく述べます。</p>
+
+<h2>CodeIgniter は簡潔なURLを生成します</h2>
+<p>CodeIgniterは簡潔で検索エンジンに親和性が高いURLを生成します。CodeIgniterは、URLに対しては、動的システムの代名詞ともいえる一般的な「クエリ文字列」アプローチを使用せず、セグメントベースのアプローチを採用しています:</p>
+
+<code>www.your-site.com/<var>news</var>/<dfn>article</dfn>/<samp>345</samp></code>
+
+<p>Note: 標準では、URLにindex.php ファイルが入りますが、簡単な .htaccess ファイルを使用すればこれを除去できます。</p>
+
+<h2>CodeIgniter は強力です </h2>
+<p>CodeIgniter は、幅広い分野のライブラリから構成されています。このライブラリを使えば、データベースアクセスやEmail送信、データの検証、セッションの維持、イメージの操作、XML-RPCデータの取り扱いなどといった、web開発において、もっともよく必要とされるタスクを実行できます。</p>
+
+<h2>CodeIgniter は拡張可能です </h2>
+<p>システムは、プラグインやヘルパ関数ライブラリ、クラスの継承やシステムフックにより簡単に拡張することができます。</p>
+
+
+<h2>CodeIgniter はテンプレートエンジンを必要としません</h2>
+<p>CodeIgniterには、オプションで利用可能なシンプルなテンプレートパーサが備わっていますが、これを利用するのを強要したりはしません。テンプレートエンジンは、ネイティブなPHPには単純にパフォーマンスではかないませんし、テンプレートエンジンを使うためには、構文も覚えなくてはなりません。構文は、大抵の場合、基本的なPHPより少ししか簡単ではありません。たとえば、こんなPHPのコードを思い浮かべてみてください:</p>
+
+<code>&lt;ul><br />
+<br />
+&lt;?php foreach ($addressbook as $name):?><br />
+<br />
+&lt;li>&lt;?=$name?>&lt;/li><br />
+<br />
+&lt;?php endforeach; ?><br />
+<br />
+&lt;/ul></code>
+
+<p>これに対して、テンプレートエンジンで使われる擬似コードはこんな感じです:</p>
+
+<code>&lt;ul><br />
+<br />
+{foreach from=$addressbook item="name"}<br />
+<br />
+&lt;li>{$name}&lt;/li><br />
+<br />
+{/foreach}<br />
+<br />
+&lt;/ul></code>
+
+<p>そうです、テンプレートエンジンの例はほんのわずかしか単純になっていないのです。にもかかわらず、実行するためには、疑似コードをPHPのコードに書き戻さなくてはならないので、パフォーマンスの代償を払うことになります。パフォーマンスの最大化というゴールのため、テンプレートエンジンの利用を必要としないようにしました。</p>
+
+
+<h2>CodeIgniter は完全にドキュメント化されています</h2>
+<p>プログラマはコードを愛し、ドキュメントを書くのを嫌います。もちろん、私たちも同じですが、ドキュメントはコードそのものと同じくらい重要です。ですから、私たちはドキュメントを書くことをコミットしました。極めて明快なソースコードにも、豊富なコメントが書かれています。</p>
+
+
+<h2>CodeIgniter には、フレンドリーなユーザコミュニティがあります</h2>
+
+<p>私たちの <a href="http://codeigniter.com/forums/">コミュニティフォーラム</a> には、たくさんのユーザが活発に参加しており、私たちのコミュニティは拡大しています。</p>
+
+
+</div>
+<!-- END CONTENT -->
+
+
+<div id="footer">
+<p>
+前のトピック:&nbsp;&nbsp;<a href="../installation/upgrading.html">旧バージョンからのアップデート</a>
+&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+<a href="#top">ページの先頭</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+<a href="../index.html">ユーザガイド Home</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+次のトピック:&nbsp;&nbsp;<a href="features.html">CodeIgniterの機能</a>
+</p>
+
+<p><a href="http://codeigniter.com">CodeIgniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2006-2008 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">Ellislab, Inc.</a><br />Japanese Translation: <a href="http://codeigniter.jp/">CodeIgniter Users Group in Japan</a></p>
+</div>
+
+</body>
+</html>
