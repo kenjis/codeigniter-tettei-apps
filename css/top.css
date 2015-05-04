@@ -1,0 +1,140 @@
+@charset "utf-8";
+
+body {
+	margin: 0px;
+	padding: 0px;
+}
+
+ul {
+	list-style: none;
+}
+
+img { vertical-align: middle; }
+
+#header {
+	background-image: url(../images/icons/header_back.jpg);
+	background-repeat: repeat-x;
+	height: 145px;
+	width: 800px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.top_title {
+	height: 79px;
+	width: 800px;
+	background-image: url(../images/icons/header_bar-1.jpg);
+
+}
+
+.navi {
+	background-image: url(../images/icons/header_bar-2.jpg);
+	background-repeat: no-repeat;
+	height: 39px;
+	width: 800px;
+	margin: 0px;
+	padding: 0px;
+}
+.sitenavi {
+	width: 570px;
+	margin: 0px;
+	margin-right: 10px;
+	margin-left: auto;
+	padding: 0px;
+}
+.navi ul {
+	margin-left: auto;
+}
+.navi ul li {
+	float: left;
+	margin: 0;
+	padding: 0;
+
+}
+.navi .sitenavi {
+	margin-right: 10px;
+	height: 39px;
+	background-image: url(../images/icons/header_bar-2.jpg);
+}
+.navi .sitenavi a:link {
+	line-height: normal;
+	color: #FFFFFF;
+	text-decoration: none;
+	font-size: 14px;
+}
+.navi .sitenavi a:visited {
+	line-height: normal;
+	color: #FFFFFF;
+	text-decoration: none;
+	font-size: 14px;
+}
+.navi .sitenavi a:hover {
+	line-height: normal;
+	color: #FFCC00;
+	text-decoration: underline;
+	font-size: 14px;
+}
+.navi .sitenavi .menu_1 {
+}
+.navi .sitenavi .menu_2 {
+	margin-right: 20px;
+	margin-top: 12px;
+}
+
+.top_kage {
+	background-image: url(../images/icons/header_bar-3.jpg);
+	background-repeat: no-repeat;
+	height: 27px;
+	width: 800px;
+}
+
+#main {
+	background-color: #FFFFFF;
+	background-image: url(../images/icons/main_back.jpg);
+	background-repeat: repeat-y;
+	width: 800px;
+	margin-left: auto;
+	margin-right: auto;
+	padding-bottom: 20px;
+}
+
+.top_navi {
+	width: 800px;
+	height: 380px;
+	padding-top:80px;
+}
+
+.top_sitenavi {
+	float: left;
+	width: 220px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	margin-left: 35px;
+	margin-top: auto;
+	display:inline; /* for winIE6*/
+}
+
+#footer {
+	background-image: url(../images/icons/footer_back.jpg);
+	background-repeat: repeat-x;
+	height: 150px;
+	width: 800px;
+	margin-left: auto;
+	margin-right: auto;
+	background-color: #FFFFFF;
+	clear: both;
+}
+#footer .copylight {
+	font-size: 10px;
+	line-height: 15px;
+	color: #666666;
+	background-image: url(../images/icons/footer_back_main.jpg);
+	background-repeat: no-repeat;
+	height: 150px;
+	width: 800px;
+	letter-spacing: 1px;
+	text-align: center;
+	padding-top: 15px;
+	font-size: 10px;
+	clear: both;
+}

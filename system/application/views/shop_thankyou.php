@@ -1,0 +1,7 @@
+<div class="shop_title">ご注文ありがとうございます</div>
+
+<div class="outer_frame">
+<p>お客様のご注文をお受けいたしました。</p>
+<p>注文確認メールを送信しました。</p>
+<?=anchor('shop', 'トップページへ');?>
+</div>

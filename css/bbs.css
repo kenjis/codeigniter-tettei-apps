@@ -1,0 +1,255 @@
+@charset "utf-8";
+
+
+/* Tag
+======================================*/
+body {
+	margin: 0px;
+	padding: 0px;
+}
+
+form {
+	display: inline;
+}
+input:hover { background: #FFCC77; }
+textarea:hover { background: #FFCC77; }
+
+ul {
+	list-style: none;
+}
+
+label {
+	display: block;
+	padding-top: 20px;
+	padding-bottom: 5px;
+	padding-left: 0px;
+	font-size: 15px;
+	color: #660000;
+	font-weight: bold;
+	text-align: left;
+}
+
+img { vertical-align: middle; }
+
+
+/* Header
+======================================*/
+#header {
+	background-image: url(../images/icons/header_back.jpg);
+	background-repeat: repeat-x;
+	height: 145px;
+	width: 800px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.top_title {
+	height: 79px;
+	width: 800px;
+	background-image: url(../images/icons/header_bar-1.jpg);
+}
+
+.navi {
+	background-image: url(../images/icons/header_bar-2.jpg);
+	background-repeat: no-repeat;
+	height: 39px;
+	width: 800px;
+	margin: 0px;
+	padding: 0px;
+}
+.sitenavi {
+	width: 230px;
+	margin: 0px;
+	margin-right: 10px;
+	margin-left: auto;
+	padding: 0px;
+}
+.navi ul {
+	margin-left: auto;
+}
+.navi ul li {
+	float: left;
+	margin: 0;
+	padding: 0;
+
+}
+.navi .sitenavi {
+	margin-right: 10px;
+	height: 39px;
+	background-image: url(../images/icons/header_bar-2.jpg);
+}
+.navi .sitenavi a:link {
+	line-height: normal;
+	color: #FFFFFF;
+	text-decoration: none;
+	font-size: 14px;
+}
+.navi .sitenavi a:visited {
+	line-height: normal;
+	color: #FFFFFF;
+	text-decoration: none;
+	font-size: 14px;
+}
+.navi .sitenavi a:hover {
+	line-height: normal;
+	color: #FFCC00;
+	text-decoration: underline;
+	font-size: 14px;
+}
+.navi .sitenavi .menu_1 {
+}
+.navi .sitenavi .menu_2 {
+	margin-right: 20px;
+	margin-top: 12px;
+}
+
+.top_kage {
+	background-image: url(../images/icons/header_bar-3.jpg);
+	background-repeat: no-repeat;
+	height: 27px;
+	width: 800px;
+}
+
+
+/* Footer
+======================================*/
+#footer {
+	background-image: url(../images/icons/footer_back.jpg);
+	background-repeat: repeat-x;
+	height: 150px;
+	width: 800px;
+	margin-left: auto;
+	margin-right: auto;
+	background-color: #FFFFFF;
+	clear: both;
+}
+#footer .copylight {
+	font-size: 10px;
+	line-height: 15px;
+	color: #666666;
+	background-image: url(../images/icons/footer_back_main.jpg);
+	background-repeat: no-repeat;
+	height: 150px;
+	width: 800px;
+	letter-spacing: 1px;
+	text-align: center;
+	padding-top: 15px;
+	font-size: 10px;
+	clear: both;
+}
+
+
+/* Main
+======================================*/
+#main {
+	background-color: #FFFFFF;
+	background-image: url(../images/icons/main_back.jpg);
+	background-repeat: repeat-y;
+	width: 800px;
+	margin-left: auto;
+	margin-right: auto;
+	padding-bottom: 20px;
+}
+
+.title_banner {
+	height: 70px;
+	text-align: center;	
+}
+
+.bbs_new_post_button {
+	margin-left: 10px;
+	margin-bottom: 10px;
+	width: 700px
+}
+.bbs_new_post_icon {
+	margin-left: 100px;
+	margin-bottom: 10px;
+	width:700px
+}
+
+.article {
+	background-color: #F3E9C0;
+	width: 760px;
+	margin-left: 20px;
+	margin-right: 20px;
+}
+.f_bbs_titile {
+	font-size: 16px;
+	color: #333333;
+	font-weight: bold;
+	padding-top: 10px;
+	padding-left: 10px;
+	background-color: #E7D078;
+	padding-bottom: 10px;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #996600;
+	border-top-width: 1px;
+	border-top-style: solid;
+	border-top-color: #996600;
+}
+.f_bbs_coment {
+	font-size: 14px;
+	color: #333333;
+	padding-top: 10px;
+	padding-left: 10px;
+	background-color: #F3E9C0;
+	padding-bottom: 10px;
+	line-height: 18px;
+	letter-spacing: 1px;
+}
+.f_bbs_delete {
+	font-size: 12px;
+	color: #CC0000;
+	padding-top: 10px;
+	background-color: #F3E9C0;
+	width: 40%;
+	padding-bottom: 10px;
+	letter-spacing: 1px;
+	padding-right: 10px;
+	margin-bottom: 2px;
+	margin-left: auto;
+}
+
+.pagination {
+	margin-right: 20px;
+	text-align: right;
+}
+
+.outer_frame {
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	width: 70%;
+	font-size: 14px;
+	color: #333333;
+	border: 1px solid #CC9933;
+	padding: 10px;
+	text-align: left;
+	background-color: #F4F2DB;
+}
+
+.error {
+	color:#990000;
+	font-size:12px;
+}
+
+.field {
+	background: #DDAA55;
+	margin: 0px;
+}
+
+.center {
+	text-align: center;
+}
+
+.confirm {
+	padding: 3px;
+	margin: 10px;
+}
+
+.confirm_delete {
+	background: #E7D078;
+	padding: 3px;
+}
