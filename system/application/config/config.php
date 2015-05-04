@@ -11,7 +11,7 @@
 |	http://www.your-site.com/
 |
 */
-$config['base_url']	= "http://127.0.0.1/CodeIgniter/";
+$config['base_url']	= "http://localhost/CodeIgniter/";
 
 /*
 |--------------------------------------------------------------------------
@@ -23,7 +23,7 @@ $config['base_url']	= "http://127.0.0.1/CodeIgniter/";
 | variable so that it is blank.
 |
 */
-$config['index_page'] = "index.php";
+$config['index_page'] = "";
 
 /*
 |--------------------------------------------------------------------------
@@ -41,7 +41,7 @@ $config['index_page'] = "index.php";
 | 'ORIG_PATH_INFO'	Uses the ORIG_PATH_INFO
 |
 */
-$config['uri_protocol']	= "AUTO";
+$config['uri_protocol']	= "PATH_INFO";
 
 /*
 |--------------------------------------------------------------------------
@@ -66,7 +66,7 @@ $config['url_suffix'] = "";
 | than english.
 |
 */
-$config['language']	= "english";
+$config['language']	= "japanese";
 
 /*
 |--------------------------------------------------------------------------
@@ -173,7 +173,7 @@ $config['function_trigger'] = 'm';
 | your log files will fill up very fast.
 |
 */
-$config['log_threshold'] = 0;
+$config['log_threshold'] = 4;
 
 /*
 |--------------------------------------------------------------------------
