@@ -1,83 +1,190 @@
-<?php  if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 4.3.2 or newer
+ * An open source application development framework for PHP
  *
- * @package		CodeIgniter
- * @author		ExpressionEngine Dev Team
- * @copyright	Copyright (c) 2006, EllisLab, Inc.
- * @license		http://codeigniter.com/user_guide/license.html
- * @link		http://codeigniter.com
- * @since		Version 1.0
+ * This content is released under the MIT License (MIT)
+ *
+ * Copyright (c) 2014 - 2015, British Columbia Institute of Technology
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ *
+ * @package	CodeIgniter
+ * @author	EllisLab Dev Team
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright	Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
+ * @license	http://opensource.org/licenses/MIT	MIT License
+ * @link	http://codeigniter.com
+ * @since	Version 1.3.0
  * @filesource
  */
-
-// ------------------------------------------------------------------------
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * Postgre Database Adapter Class
  *
  * Note: _DB is an extender class that the app controller
- * creates dynamically based on whether the active record
+ * creates dynamically based on whether the query builder
  * class is being used or not.
  *
  * @package		CodeIgniter
  * @subpackage	Drivers
  * @category	Database
- * @author		ExpressionEngine Dev Team
+ * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/database/
  */
 class CI_DB_postgre_driver extends CI_DB {
 
 	/**
-	 * The syntax to count rows is slightly different across different
-	 * database engines, so this string appears in each driver and is
-	 * used for the count_all() and count_all_results() functions.
+	 * Database driver
+	 *
+	 * @var	string
 	 */
-	var $_count_string = "SELECT COUNT(*) AS ";
-	var $_random_keyword = ' RANDOM()'; // database specific random keyword
+	public $dbdriver = 'postgre';
 
 	/**
-	 * Non-persistent database connection
+	 * Database schema
 	 *
-	 * @access	private called by the base class
-	 * @return	resource
-	 */	
-	function db_connect()
+	 * @var	string
+	 */
+	public $schema = 'public';
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * ORDER BY random keyword
+	 *
+	 * @var	array
+	 */
+	protected $_random_keyword = array('RANDOM()', 'RANDOM()');
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Class constructor
+	 *
+	 * Creates a DSN string to be used for db_connect() and db_pconnect()
+	 *
+	 * @param	array	$params
+	 * @return	void
+	 */
+	public function __construct($params)
 	{
-		$port = ($this->port == '') ? '' : " port=".$this->port;
-		
-		return @pg_connect("host=".$this->hostname.$port." dbname=".$this->database." user=".$this->username." password=".$this->password);
+		parent::__construct($params);
+
+		if ( ! empty($this->dsn))
+		{
+			return;
+		}
+
+		$this->dsn === '' OR $this->dsn = '';
+
+		if (strpos($this->hostname, '/') !== FALSE)
+		{
+			// If UNIX sockets are used, we shouldn't set a port
+			$this->port = '';
+		}
+
+		$this->hostname === '' OR $this->dsn = 'host='.$this->hostname.' ';
+
+		if ( ! empty($this->port) && ctype_digit($this->port))
+		{
+			$this->dsn .= 'port='.$this->port.' ';
+		}
+
+		if ($this->username !== '')
+		{
+			$this->dsn .= 'user='.$this->username.' ';
+
+			/* An empty password is valid!
+			 *
+			 * $db['password'] = NULL must be done in order to ignore it.
+			 */
+			$this->password === NULL OR $this->dsn .= "password='".$this->password."' ";
+		}
+
+		$this->database === '' OR $this->dsn .= 'dbname='.$this->database.' ';
+
+		/* We don't have these options as elements in our standard configuration
+		 * array, but they might be set by parse_url() if the configuration was
+		 * provided via string. Example:
+		 *
+		 * postgre://username:password@localhost:5432/database?connect_timeout=5&sslmode=1
+		 */
+		foreach (array('connect_timeout', 'options', 'sslmode', 'service') as $key)
+		{
+			if (isset($this->$key) && is_string($this->key) && $this->key !== '')
+			{
+				$this->dsn .= $key."='".$this->key."' ";
+			}
+		}
+
+		$this->dsn = rtrim($this->dsn);
 	}
 
 	// --------------------------------------------------------------------
 
 	/**
-	 * Persistent database connection
+	 * Database connection
 	 *
-	 * @access	private called by the base class
+	 * @param	bool	$persistent
 	 * @return	resource
-	 */	
-	function db_pconnect()
+	 */
+	public function db_connect($persistent = FALSE)
 	{
-		$port = ($this->port == '') ? '' : " port=".$this->port;
+		$this->conn_id = ($persistent === TRUE)
+			? pg_pconnect($this->dsn)
+			: pg_connect($this->dsn);
 
-		return @pg_pconnect("host=".$this->hostname.$port." dbname=".$this->database." user=".$this->username." password=".$this->password);
+		if ($this->conn_id !== FALSE)
+		{
+			if ($persistent === TRUE
+				&& pg_connection_status($this->conn_id) === PGSQL_CONNECTION_BAD
+				&& pg_ping($this->conn_id) === FALSE
+			)
+			{
+				return FALSE;
+			}
+
+			empty($this->schema) OR $this->simple_query('SET search_path TO '.$this->schema.',public');
+		}
+
+		return $this->conn_id;
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	/**
-	 * Select the database
+	 * Reconnect
 	 *
-	 * @access	private called by the base class
-	 * @return	resource
-	 */	
-	function db_select()
+	 * Keep / reestablish the db connection if no queries have been
+	 * sent for a length of time exceeding the server's idle timeout
+	 *
+	 * @return	void
+	 */
+	public function reconnect()
 	{
-		// Not needed for Postgre so we'll return TRUE
-		return TRUE;
+		if (pg_ping($this->conn_id) === FALSE)
+		{
+			$this->conn_id = FALSE;
+		}
 	}
 
 	// --------------------------------------------------------------------
@@ -85,28 +192,41 @@ class CI_DB_postgre_driver extends CI_DB {
 	/**
 	 * Set client character set
 	 *
-	 * @access	public
-	 * @param	string
-	 * @param	string
-	 * @return	resource
+	 * @param	string	$charset
+	 * @return	bool
 	 */
-	function db_set_charset($charset, $collation)
+	protected function _db_set_charset($charset)
 	{
-		// TODO - add support if needed
-		return TRUE;
+		return (pg_set_client_encoding($this->conn_id, $charset) === 0);
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	/**
-	 * Version number query string
+	 * Database version number
 	 *
-	 * @access	public
 	 * @return	string
 	 */
-	function _version()
+	public function version()
 	{
-		return "SELECT version() AS ver";
+		if (isset($this->data_cache['version']))
+		{
+			return $this->data_cache['version'];
+		}
+
+		if ( ! $this->conn_id OR ($pg_version = pg_version($this->conn_id)) === FALSE)
+		{
+			return FALSE;
+		}
+
+		/* If PHP was compiled with PostgreSQL lib versions earlier
+		 * than 7.4, pg_version() won't return the server version
+		 * and so we'll have to fall back to running a query in
+		 * order to get it.
+		 */
+		return isset($pg_version['server'])
+			? $this->data_cache['version'] = $pg_version['server']
+			: parent::version();
 	}
 
 	// --------------------------------------------------------------------
@@ -114,30 +234,12 @@ class CI_DB_postgre_driver extends CI_DB {
 	/**
 	 * Execute the query
 	 *
-	 * @access	private called by the base class
-	 * @param	string	an SQL query
+	 * @param	string	$sql	an SQL query
 	 * @return	resource
-	 */	
-	function _execute($sql)
+	 */
+	protected function _execute($sql)
 	{
-		$sql = $this->_prep_query($sql);
-		return @pg_query($this->conn_id, $sql);
-	}
-	
-	// --------------------------------------------------------------------
-
-	/**
-	 * Prep the query
-	 *
-	 * If needed, each database adapter can prep the query string
-	 *
-	 * @access	private called by execute()
-	 * @param	string	an SQL query
-	 * @return	string
-	 */	
-	function _prep_query($sql)
-	{
-		return $sql;
+		return pg_query($this->conn_id, $sql);
 	}
 
 	// --------------------------------------------------------------------
@@ -145,18 +247,13 @@ class CI_DB_postgre_driver extends CI_DB {
 	/**
 	 * Begin Transaction
 	 *
-	 * @access	public
-	 * @return	bool		
-	 */	
-	function trans_begin($test_mode = FALSE)
+	 * @param	bool	$test_mode
+	 * @return	bool
+	 */
+	public function trans_begin($test_mode = FALSE)
 	{
-		if ( ! $this->trans_enabled)
-		{
-			return TRUE;
-		}
-		
 		// When transactions are nested we only begin/commit/rollback the outermost ones
-		if ($this->_trans_depth > 0)
+		if ( ! $this->trans_enabled OR $this->_trans_depth > 0)
 		{
 			return TRUE;
 		}
@@ -164,9 +261,9 @@ class CI_DB_postgre_driver extends CI_DB {
 		// Reset the transaction failure flag.
 		// If the $test_mode flag is set to TRUE transactions will be rolled back
 		// even if the queries produce a successful result.
-		$this->_trans_failure = ($test_mode === TRUE) ? TRUE : FALSE;
+		$this->_trans_failure = ($test_mode === TRUE);
 
-		return @pg_exec($this->conn_id, "begin");
+		return (bool) pg_query($this->conn_id, 'BEGIN');
 	}
 
 	// --------------------------------------------------------------------
@@ -174,23 +271,17 @@ class CI_DB_postgre_driver extends CI_DB {
 	/**
 	 * Commit Transaction
 	 *
-	 * @access	public
-	 * @return	bool		
-	 */	
-	function trans_commit()
+	 * @return	bool
+	 */
+	public function trans_commit()
 	{
-		if ( ! $this->trans_enabled)
-		{
-			return TRUE;
-		}
-
 		// When transactions are nested we only begin/commit/rollback the outermost ones
-		if ($this->_trans_depth > 0)
+		if ( ! $this->trans_enabled OR $this->_trans_depth > 0)
 		{
 			return TRUE;
 		}
 
-		return @pg_exec($this->conn_id, "commit");
+		return (bool) pg_query($this->conn_id, 'COMMIT');
 	}
 
 	// --------------------------------------------------------------------
@@ -198,117 +289,125 @@ class CI_DB_postgre_driver extends CI_DB {
 	/**
 	 * Rollback Transaction
 	 *
-	 * @access	public
-	 * @return	bool		
-	 */	
-	function trans_rollback()
+	 * @return	bool
+	 */
+	public function trans_rollback()
 	{
-		if ( ! $this->trans_enabled)
-		{
-			return TRUE;
-		}
-
 		// When transactions are nested we only begin/commit/rollback the outermost ones
-		if ($this->_trans_depth > 0)
+		if ( ! $this->trans_enabled OR $this->_trans_depth > 0)
 		{
 			return TRUE;
 		}
 
-		return @pg_exec($this->conn_id, "rollback");
+		return (bool) pg_query($this->conn_id, 'ROLLBACK');
 	}
 
 	// --------------------------------------------------------------------
 
 	/**
-	 * Escape String
+	 * Determines if a query is a "write" type.
 	 *
-	 * @access	public
+	 * @param	string	An SQL query string
+	 * @return	bool
+	 */
+	public function is_write_type($sql)
+	{
+		return (bool) preg_match('/^\s*"?(SET|INSERT(?![^\)]+\)\s+RETURNING)|UPDATE(?!.*\sRETURNING)|DELETE|CREATE|DROP|TRUNCATE|LOAD|COPY|ALTER|RENAME|GRANT|REVOKE|LOCK|UNLOCK|REINDEX)\s/i', str_replace(array("\r\n", "\r", "\n"), ' ', $sql));
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Platform-dependant string escape
+	 *
 	 * @param	string
 	 * @return	string
 	 */
-	function escape_str($str)	
-	{	
-		return pg_escape_string($str);
+	protected function _escape_str($str)
+	{
+		return pg_escape_string($this->conn_id, $str);
 	}
-		
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * "Smart" Escape String
+	 *
+	 * Escapes data based on type
+	 *
+	 * @param	string	$str
+	 * @return	mixed
+	 */
+	public function escape($str)
+	{
+		if (is_php('5.4.4') && (is_string($str) OR (is_object($str) && method_exists($str, '__toString'))))
+		{
+			return pg_escape_literal($this->conn_id, $str);
+		}
+		elseif (is_bool($str))
+		{
+			return ($str) ? 'TRUE' : 'FALSE';
+		}
+
+		return parent::escape($str);
+	}
+
 	// --------------------------------------------------------------------
 
 	/**
 	 * Affected Rows
 	 *
-	 * @access	public
-	 * @return	integer
+	 * @return	int
 	 */
-	function affected_rows()
+	public function affected_rows()
 	{
-		return @pg_affected_rows($this->result_id);
+		return pg_affected_rows($this->result_id);
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	/**
 	 * Insert ID
 	 *
-	 * @access	public
-	 * @return	integer
+	 * @return	string
 	 */
-	function insert_id()
+	public function insert_id()
 	{
-		$v = $this->_version();
-		$v = $v['server'];
-		
-		$table	= func_num_args() > 0 ? func_get_arg(0) : null;
-		$column	= func_num_args() > 1 ? func_get_arg(1) : null;
-		
-		if ($table == null && $v >= '8.1')
+		$v = pg_version($this->conn_id);
+		$v = isset($v['server']) ? $v['server'] : 0; // 'server' key is only available since PosgreSQL 7.4
+
+		$table	= (func_num_args() > 0) ? func_get_arg(0) : NULL;
+		$column	= (func_num_args() > 1) ? func_get_arg(1) : NULL;
+
+		if ($table === NULL && $v >= '8.1')
 		{
-			$sql='SELECT LASTVAL() as ins_id';
+			$sql = 'SELECT LASTVAL() AS ins_id';
 		}
-		elseif ($table != null && $column != null && $v >= '8.0')
+		elseif ($table !== NULL)
 		{
-			$sql = sprintf("SELECT pg_get_serial_sequence('%s','%s') as seq", $table, $column);
-			$query = $this->query($sql);
-			$row = $query->row();
-			$sql = sprintf("SELECT CURRVAL('%s') as ins_id", $row->seq);
-		}
-		elseif ($table != null)
-		{
-			// seq_name passed in table parameter
-			$sql = sprintf("SELECT CURRVAL('%s') as ins_id", $table);
+			if ($column !== NULL && $v >= '8.0')
+			{
+				$sql = 'SELECT pg_get_serial_sequence(\''.$table."', '".$column."') AS seq";
+				$query = $this->query($sql);
+				$query = $query->row();
+				$seq = $query->seq;
+			}
+			else
+			{
+				// seq_name passed in table parameter
+				$seq = $table;
+			}
+
+			$sql = 'SELECT CURRVAL(\''.$seq."') AS ins_id";
 		}
 		else
 		{
 			return pg_last_oid($this->result_id);
 		}
+
 		$query = $this->query($sql);
-		$row = $query->row();
-		return $row->ins_id;
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * "Count All" query
-	 *
-	 * Generates a platform-specific query string that counts all records in
-	 * the specified database
-	 *
-	 * @access	public
-	 * @param	string
-	 * @return	string
-	 */
-	function count_all($table = '')
-	{
-		if ($table == '')
-			return '0';
-
-		$query = $this->query($this->_count_string . $this->_protect_identifiers('numrows'). " FROM " . $this->_protect_identifiers($this->dbprefix.$table));
-				
-		if ($query->num_rows() == 0)
-			return '0';
-
-		$row = $query->row();
-		return $row->numrows;
+		$query = $query->row();
+		return (int) $query->ins_id;
 	}
 
 	// --------------------------------------------------------------------
@@ -318,202 +417,123 @@ class CI_DB_postgre_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific query string so that the table names can be fetched
 	 *
-	 * @access	private
-	 * @param	boolean
+	 * @param	bool	$prefix_limit
 	 * @return	string
 	 */
-	function _list_tables($prefix_limit = FALSE)
-	{	
-		$sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'";	
-		
-		if ($prefix_limit !== FALSE AND $this->dbprefix != '')
+	protected function _list_tables($prefix_limit = FALSE)
+	{
+		$sql = 'SELECT "table_name" FROM "information_schema"."tables" WHERE "table_schema" = \''.$this->schema."'";
+
+		if ($prefix_limit !== FALSE && $this->dbprefix !== '')
 		{
-			$sql .= " AND table_name LIKE '".$this->dbprefix."%'";
+			return $sql.' AND "table_name" LIKE \''
+				.$this->escape_like_str($this->dbprefix)."%' "
+				.sprintf($this->_like_escape_str, $this->_like_escape_chr);
 		}
-		
+
 		return $sql;
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	/**
-	 * Show column query
+	 * List column query
 	 *
 	 * Generates a platform-specific query string so that the column names can be fetched
 	 *
-	 * @access	public
-	 * @param	string	the table name
+	 * @param	string	$table
 	 * @return	string
 	 */
-	function _list_columns($table = '')
+	protected function _list_columns($table = '')
 	{
-		return "SELECT column_name FROM information_schema.columns WHERE table_name ='".$this->_escape_table($table)."'";
+		return 'SELECT "column_name"
+			FROM "information_schema"."columns"
+			WHERE LOWER("table_name") = '.$this->escape(strtolower($table));
 	}
 
 	// --------------------------------------------------------------------
 
 	/**
-	 * Field data query
+	 * Returns an object with field data
 	 *
-	 * Generates a platform-specific query so that the column data can be retrieved
+	 * @param	string	$table
+	 * @return	array
+	 */
+	public function field_data($table)
+	{
+		$sql = 'SELECT "column_name", "data_type", "character_maximum_length", "numeric_precision", "column_default"
+			FROM "information_schema"."columns"
+			WHERE LOWER("table_name") = '.$this->escape(strtolower($table));
+
+		if (($query = $this->query($sql)) === FALSE)
+		{
+			return FALSE;
+		}
+		$query = $query->result_object();
+
+		$retval = array();
+		for ($i = 0, $c = count($query); $i < $c; $i++)
+		{
+			$retval[$i]			= new stdClass();
+			$retval[$i]->name		= $query[$i]->column_name;
+			$retval[$i]->type		= $query[$i]->data_type;
+			$retval[$i]->max_length		= ($query[$i]->character_maximum_length > 0) ? $query[$i]->character_maximum_length : $query[$i]->numeric_precision;
+			$retval[$i]->default		= $query[$i]->column_default;
+		}
+
+		return $retval;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Error
 	 *
-	 * @access	public
-	 * @param	string	the table name
+	 * Returns an array containing code and message of the last
+	 * database error that has occured.
+	 *
+	 * @return	array
+	 */
+	public function error()
+	{
+		return array('code' => '', 'message' => pg_last_error($this->conn_id));
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * ORDER BY
+	 *
+	 * @param	string	$orderby
+	 * @param	string	$direction	ASC, DESC or RANDOM
+	 * @param	bool	$escape
 	 * @return	object
 	 */
-	function _field_data($table)
+	public function order_by($orderby, $direction = '', $escape = NULL)
 	{
-		return "SELECT * FROM ".$this->_escape_table($table)." LIMIT 1";
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * The error message string
-	 *
-	 * @access	private
-	 * @return	string
-	 */
-	function _error_message()
-	{
-		return pg_last_error($this->conn_id);
-	}
-	
-	// --------------------------------------------------------------------
-
-	/**
-	 * The error message number
-	 *
-	 * @access	private
-	 * @return	integer
-	 */
-	function _error_number()
-	{
-		return '';
-	}
-	
-	// --------------------------------------------------------------------
-
-	/**
-	 * Escape Table Name
-	 *
-	 * This function adds backticks if the table name has a period
-	 * in it. Some DBs will get cranky unless periods are escaped.
-	 *
-	 * @access	private
-	 * @param	string	the table name
-	 * @return	string
-	 */
-	function _escape_table($table)
-	{
-		if (strpos($table, '.') !== FALSE)
+		$direction = strtoupper(trim($direction));
+		if ($direction === 'RANDOM')
 		{
-			$table = '"' . str_replace('.', '"."', $table) . '"';
-		}
-		
-		return $table;
-	}
-	
-	// --------------------------------------------------------------------
-
-	/**
-	 * Protect Identifiers
-	 *
-	 * This function adds backticks if appropriate based on db type
-	 *
-	 * @access	private
-	 * @param	mixed	the item to escape
-	 * @param	boolean	only affect the first word
-	 * @return	mixed	the item with backticks
-	 */
-	function _protect_identifiers($item, $first_word_only = FALSE)
-	{
-		if (is_array($item))
-		{
-			$escaped_array = array();
-
-			foreach($item as $k=>$v)
+			if ( ! is_float($orderby) && ctype_digit((string) $orderby))
 			{
-				$escaped_array[$this->_protect_identifiers($k)] = $this->_protect_identifiers($v, $first_word_only);
+				$orderby = ($orderby > 1)
+					? (float) '0.'.$orderby
+					: (float) $orderby;
 			}
 
-			return $escaped_array;
-		}	
-
-		// This function may get "item1 item2" as a string, and so
-		// we may need ""item1" "item2"" and not ""item1 item2""
-		if (ctype_alnum($item) === FALSE)
-		{
-			if (strpos($item, '.') !== FALSE)
+			if (is_float($orderby))
 			{
-				$aliased_tables = implode(".",$this->ar_aliased_tables).'.';
-				$table_name =  substr($item, 0, strpos($item, '.')+1);
-				$item = (strpos($aliased_tables, $table_name) !== FALSE) ? $item = $item : $this->dbprefix.$item;
+				$this->simple_query('SET SEED '.$orderby);
 			}
 
-			// This function may get "field >= 1", and need it to return ""field" >= 1"
-			$lbound = ($first_word_only === TRUE) ? '' : '|\s|\(';
-
-			$item = preg_replace('/(^'.$lbound.')([\w\d\-\_]+?)(\s|\)|$)/iS', '$1"$2"$3', $item);
-		}
-		else
-		{
-			return "\"{$item}\"";
+			$orderby = $this->_random_keyword[0];
+			$direction = '';
+			$escape = FALSE;
 		}
 
-		$exceptions = array('AS', '/', '-', '%', '+', '*');
-		
-		foreach ($exceptions as $exception)
-		{
-		
-			if (stristr($item, " \"{$exception}\" ") !== FALSE)
-			{
-				$item = preg_replace('/ "('.preg_quote($exception).')" /i', ' $1 ', $item);
-			}
-		}
-		return $item;
-	}
-			
-	// --------------------------------------------------------------------
-
-	/**
-	 * From Tables
-	 *
-	 * This function implicitly groups FROM tables so there is no confusion
-	 * about operator precedence in harmony with SQL standards
-	 *
-	 * @access	public
-	 * @param	type
-	 * @return	type
-	 */
-	function _from_tables($tables)
-	{
-		if (! is_array($tables))
-		{
-			$tables = array($tables);
-		}
-		
-		return implode(', ', $tables);
+		return parent::order_by($orderby, $direction, $escape);
 	}
 
-	// --------------------------------------------------------------------
-	
-	/**
-	 * Insert statement
-	 *
-	 * Generates a platform-specific insert string from the supplied data
-	 *
-	 * @access	public
-	 * @param	string	the table name
-	 * @param	array	the insert keys
-	 * @param	array	the insert values
-	 * @return	string
-	 */
-	function _insert($table, $keys, $values)
-	{	
-		return "INSERT INTO ".$this->_escape_table($table)." (".implode(', ', $keys).") VALUES (".implode(', ', $values).")";
-	}
-	
 	// --------------------------------------------------------------------
 
 	/**
@@ -521,51 +541,58 @@ class CI_DB_postgre_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific update string from the supplied data
 	 *
-	 * @access	public
-	 * @param	string	the table name
-	 * @param	array	the update data
-	 * @param	array	the where clause
-	 * @param	array	the orderby clause
-	 * @param	array	the limit clause
+	 * @param	string	$table
+	 * @param	array	$values
 	 * @return	string
 	 */
-	function _update($table, $values, $where, $orderby = array(), $limit = FALSE)
+	protected function _update($table, $values)
 	{
-		foreach($values as $key => $val)
-		{
-			$valstr[] = $key." = ".$val;
-		}
-		
-		$limit = (!$limit) ? '' : ' LIMIT '.$limit;
-		
-		$orderby = (count($orderby) >= 1)?' ORDER BY '.implode(", ", $orderby):'';
-	
-		$sql = "UPDATE ".$this->_escape_table($table)." SET ".implode(', ', $valstr);
-		$sql .= ($where != '' AND count($where) >=1) ? " WHERE ".implode(" ", $where) : '';
-		$sql .= $orderby.$limit;
-		
-		return $sql;
+		$this->qb_limit = FALSE;
+		$this->qb_orderby = array();
+		return parent::_update($table, $values);
 	}
 
-	
 	// --------------------------------------------------------------------
 
 	/**
-	 * Truncate statement
+	 * Update_Batch statement
 	 *
-	 * Generates a platform-specific truncate string from the supplied data
-	 * If the database does not support the truncate() command
-	 * This function maps to "DELETE FROM table"
+	 * Generates a platform-specific batch update string from the supplied data
 	 *
-	 * @access	public
-	 * @param	string	the table name
+	 * @param	string	$table	Table name
+	 * @param	array	$values	Update data
+	 * @param	string	$index	WHERE key
 	 * @return	string
-	 */	
-	function _truncate($table)
+	 */
+	protected function _update_batch($table, $values, $index)
 	{
-		return "TRUNCATE ".$this->_escape_table($table);
+		$ids = array();
+		foreach ($values as $key => $val)
+		{
+			$ids[] = $val[$index];
+
+			foreach (array_keys($val) as $field)
+			{
+				if ($field !== $index)
+				{
+					$final[$field][] = 'WHEN '.$val[$index].' THEN '.$val[$field];
+				}
+			}
+		}
+
+		$cases = '';
+		foreach ($final as $k => $v)
+		{
+			$cases .= $k.' = (CASE '.$index."\n"
+				.implode("\n", $v)."\n"
+				.'ELSE '.$k.' END), ';
+		}
+
+		$this->where($index.' IN('.implode(',', $ids).')', NULL, FALSE);
+
+		return 'UPDATE '.$table.' SET '.substr($cases, 0, -2).$this->_compile_wh('qb_where');
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -573,55 +600,28 @@ class CI_DB_postgre_driver extends CI_DB {
 	 *
 	 * Generates a platform-specific delete string from the supplied data
 	 *
-	 * @access	public
-	 * @param	string	the table name
-	 * @param	array	the where clause
-	 * @param	string	the limit clause
+	 * @param	string	$table
 	 * @return	string
-	 */	
-	function _delete($table, $where = array(), $like = array(), $limit = FALSE)
+	 */
+	protected function _delete($table)
 	{
-		$conditions = '';
-
-		if (count($where) > 0 || count($like) > 0)
-		{
-			$conditions = "\nWHERE ";
-			$conditions .= implode("\n", $this->ar_where);
-
-			if (count($where) > 0 && count($like) > 0)
-			{
-				$conditions .= " AND ";
-			}
-			$conditions .= implode("\n", $like);
-		}
-
-		$limit = (!$limit) ? '' : ' LIMIT '.$limit;
-	
-		return "DELETE FROM ".$table.$conditions.$limit;
+		$this->qb_limit = FALSE;
+		return parent::_delete($table);
 	}
 
 	// --------------------------------------------------------------------
+
 	/**
-	 * Limit string
+	 * LIMIT
 	 *
 	 * Generates a platform-specific LIMIT clause
 	 *
-	 * @access	public
-	 * @param	string	the sql query string
-	 * @param	integer	the number of rows to limit the query to
-	 * @param	integer	the offset value
+	 * @param	string	$sql	SQL Query
 	 * @return	string
 	 */
-	function _limit($sql, $limit, $offset)
-	{	
-		$sql .= "LIMIT ".$limit;
-	
-		if ($offset > 0)
-		{
-			$sql .= " OFFSET ".$offset;
-		}
-		
-		return $sql;
+	protected function _limit($sql)
+	{
+		return $sql.' LIMIT '.$this->qb_limit.($this->qb_offset ? ' OFFSET '.$this->qb_offset : '');
 	}
 
 	// --------------------------------------------------------------------
@@ -629,16 +629,11 @@ class CI_DB_postgre_driver extends CI_DB {
 	/**
 	 * Close DB Connection
 	 *
-	 * @access	public
-	 * @param	resource
 	 * @return	void
 	 */
-	function _close($conn_id)
+	protected function _close()
 	{
-		@pg_close($conn_id);
+		pg_close($this->conn_id);
 	}
 
-
 }
-
-?>
