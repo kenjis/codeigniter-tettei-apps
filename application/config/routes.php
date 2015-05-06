@@ -1,6 +1,4 @@
-<?php
-defined('BASEPATH') OR exit('No direct script access allowed');
-
+<?php  if (!defined('BASEPATH')) exit('No direct script access allowed');
 /*
 | -------------------------------------------------------------------------
 | URI ROUTING
@@ -11,7 +9,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | and its corresponding controller class/method. The segments in a
 | URL normally follow this pattern:
 |
-|	example.com/class/method/id/
+| 	www.your-site.com/class/method/id/
 |
 | In some instances, however, you may want to remap this relationship
 | so that a different class/function is called than the one
@@ -25,7 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | RESERVED ROUTES
 | -------------------------------------------------------------------------
 |
-| There are three reserved routes:
+| There are two reserved routes:
 |
 |	$route['default_controller'] = 'welcome';
 |
@@ -33,22 +31,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | URI contains no data. In the above example, the "welcome" class
 | would be loaded.
 |
-|	$route['404_override'] = 'errors/page_missing';
+|	$route['scaffolding_trigger'] = 'scaffolding';
 |
-| This route will tell the Router which controller/method to use if those
-| provided in the URL cannot be matched to a valid route.
+| This route lets you set a "secret" word that will trigger the
+| scaffolding feature for added security. Note: Scaffolding must be
+| enabled in the controller in which you intend to use it.   The reserved 
+| routes must come before any wildcard or regular expression routes.
 |
-|	$route['translate_uri_dashes'] = FALSE;
-|
-| This is not exactly a route, but allows you to automatically route
-| controller and method names that contain dashes. '-' isn't a valid
-| class or method name character, so it requires translation.
-| When you set this option to TRUE, it will replace ALL dashes in the
-| controller and method URI segments.
-|
-| Examples:	my-controller/index	-> my_controller/index
-|		my-controller/my-method	-> my_controller/my_method
 */
-$route['default_controller'] = 'welcome';
-$route['404_override'] = '';
-$route['translate_uri_dashes'] = FALSE;
+
+$route['default_controller'] = "welcome";
+$route['scaffolding_trigger'] = "";
+
+?>
