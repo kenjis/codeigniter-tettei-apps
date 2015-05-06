@@ -9,7 +9,7 @@
 
 <body onload="MM_preloadImages('<?=base_url();?>images/icons/bbs_new_on.jpg')">
 <!-- header -->
-<?=$this->load->view('bbs_header');?>
+<?php $this->load->view('bbs_header');?>
 
 <!-- main -->
 <div id="main">
@@ -30,10 +30,10 @@
 <?php foreach($query->result() as $row): ?>
 <div class="article">
 <h1 class="f_bbs_titile"><a id="id<?=$row->id?>" name="id<?=$row->id?>">[<?=$row->id?>]</a> 
-<?=form_prep($row->subject);?></h1>
-<div class="f_bbs_coment"><?=form_prep($row->name);?>&nbsp;
-<?=form_prep($row->datetime);?>&nbsp;</div>
-<div class="f_bbs_coment"><?=nl2br(form_prep($row->body));?></div>
+<?=html_escape($row->subject);?></h1>
+<div class="f_bbs_coment"><?=html_escape($row->name);?>&nbsp;
+<?=html_escape($row->datetime);?>&nbsp;</div>
+<div class="f_bbs_coment"><?=nl2br(html_escape($row->body));?></div>
 <!-- 記事を削除するためのフォームを表示します。 -->
 <div class="f_bbs_delete">
 <?=form_open('bbs/delete/'. $row->id);?>
@@ -49,6 +49,6 @@
 </div>
 
 <!-- footer -->
-<?=$this->load->view('ci_footer');?>
+<?php $this->load->view('ci_footer');?>
 </body>
 </html>

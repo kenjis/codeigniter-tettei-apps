@@ -22,13 +22,13 @@
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
-<td bgcolor="#EEEEEE"><a name="<?=$id?>">[<?=$id?>]</a> <?=form_prep($subject);?></td>
+<td bgcolor="#EEEEEE"><a name="<?=$id?>">[<?=$id?>]</a> <?=html_escape($subject);?></td>
 </tr>
 <tr>
-<td><?=form_prep($name);?>&nbsp;<?=form_prep($datetime);?>&nbsp;</td>
+<td><?=html_escape($name);?>&nbsp;<?=html_escape($datetime);?>&nbsp;</td>
 </tr>
 <tr>
-<td bgcolor="#EEEEEE"><?=nl2br(form_prep($body));?></td>
+<td bgcolor="#EEEEEE"><?=nl2br(html_escape($body));?></td>
 </tr>
 <tr>
 <td>

@@ -3,16 +3,16 @@
  * 
  */
 
-class Shop extends Controller {
+class Shop extends CI_Controller {
 
-	var $limit;	// 1ページに表示する商品の数
-	var $admin;	// 管理者のメールアドレス
+	public $limit;	// 1ページに表示する商品の数
+	public $admin;	// 管理者のメールアドレス
 
-	function Shop()
+	public function __construct()
 	{
-		parent::Controller();
+		parent::__construct();
 		$this->load->library('session');
-		$this->load->helper(array('form', 'url'));
+		$this->load->helper(['form', 'url']);
 
 # モデルをロードします。ロード後のモデルオブジェクトは、$this->Shop_model
 # として利用できます。
@@ -29,14 +29,11 @@ class Shop extends Controller {
 
 		$this->output->set_header('Content-Type: text/html; charset=UTF-8');
 
-# Scaffoldingを読み込みます。productテーブルを編集可能にします。
-		$this->load->scaffolding('product');
-
 		//$this->output->enable_profiler(TRUE);
 	}
 
 	// トップページ = カテゴリ別商品一覧
-	function index()
+	public function index()
 	{
 # モデルからカテゴリの一覧を取得し、shop_menuビューに渡します。このとき、
 # view()メソッドの第2引数にTRUEを指定することで、処理されたページデータを
@@ -82,7 +79,7 @@ class Shop extends Controller {
 	}
 
 	// 商品詳細ページ
-	function product()
+	public function product()
 	{
 		$data['list'] = $this->Shop_model->get_category_list();
 		$data['menu'] = $this->load->view('shop_menu', $data, TRUE);
@@ -100,7 +97,7 @@ class Shop extends Controller {
 	}
 
 	// カゴに入れる
-	function add()
+	public function add()
 	{
 # 3番目のURIセグメントより、商品IDを取得します。セグメントデータがない
 # 場合は、0を設定します。
@@ -131,7 +128,7 @@ class Shop extends Controller {
 	}
 
 	// 検索ページ
-	function search()
+	public function search()
 	{
 		$q       = '';	// 検索キーワード(検索用)
 		$q_disp  = '';	// 検索キーワード(表示用)
@@ -209,18 +206,11 @@ class Shop extends Controller {
 	}
 
 	// お客様情報入力ページ
-	function customer_info()
+	public function customer_info()
 	{
 # 検証ルールを設定します。
 		$this->_set_validation();
-
-# 入力済みの情報があれば、モデルから取得します。
-		$data = $this->Shop_model->get_customer_info();
-		$this->validation->name  = $data['name'];
-		$this->validation->zip   = $data['zip'];
-		$this->validation->addr  = $data['addr'];
-		$this->validation->tel   = $data['tel'];
-		$this->validation->email = $data['email'];
+		$this->form_validation->run();
 
 		$data['action'] = 'お客様情報の入力';
 		$data['main']  = $this->load->view('shop_customer_info', '', TRUE);
@@ -228,27 +218,23 @@ class Shop extends Controller {
 	}
 
 	// 注文内容確認
-	function confirm()
+	public function confirm()
 	{
 		$this->_set_validation();
 
-		if ($this->validation->run() == TRUE)
+		if ($this->form_validation->run() == TRUE)
 		{
 # 検証をパスした入力データは、モデルを使って保存します。
-			$data['name']  = $this->validation->name;
-			$data['zip']   = $this->validation->zip;
-			$data['addr']  = $this->validation->addr;
-			$data['tel']   = $this->validation->tel;
-			$data['email'] = $this->validation->email;
+			$data['name']  = $this->input->post('name');
+			$data['zip']   = $this->input->post('zip');
+			$data['addr']  = $this->input->post('addr');
+			$data['tel']   = $this->input->post('tel');
+			$data['email'] = $this->input->post('email');
 			$this->Shop_model->set_customer_info($data);
 
 			$cart = $this->Shop_model->get_cart();
 			$data['total'] = $cart['total'];
 			$data['cart']  = $cart['items'];
-
-# CSRF対策のワンタイムチケットを発行します。
-			$this->ticket = md5(uniqid(mt_rand(), TRUE));
-			$this->session->set_userdata('ticket', $this->ticket);
 
 			$data['action'] = '注文内容の確認';
 			$data['main']  = $this->load->view('shop_confirm', $data, TRUE);
@@ -263,17 +249,8 @@ class Shop extends Controller {
 	}
 
 	// 注文処理
-	function order()
+	public function order()
 	{
-# CSRF対策を行います。
-		$this->ticket = $this->session->userdata('ticket');
-		if (! $this->input->post('ticket') 
-			|| $this->input->post('ticket') !== $this->ticket )
-		{
-			echo '不正な操作が行われました。';
-			exit;
-		}
-
 		if ($this->Shop_model->get_cart_item_count() == 0)
 		{
 			echo '買い物カゴには何も入っていません。';
@@ -294,28 +271,30 @@ class Shop extends Controller {
 	}
 
 	// バリデーションの設定
-	function _set_validation()
+	private function _set_validation()
 	{
-		$this->load->library('validation');
-		$this->validation->set_error_delimiters('<div class="error">', '</div>');
+		$this->load->library('form_validation');
+		$this->form_validation->set_error_delimiters('<div class="error">', '</div>');
 
-		$fields['name']  = '名前';
-		$fields['zip']   = '郵便番号';
-		$fields['addr']  = '住所';
-		$fields['tel']   = '電話番号';
-		$fields['email'] = 'メールアドレス';
-		$this->validation->set_fields($fields);
-
-		$rules['name']  = 'trim|required|max_length[64]';
-		$rules['zip']   = 'trim|valid_emailmax_lenght[8]';
-		$rules['addr']  = 'trim|required|max_length[128]';
-		$rules['tel']   = 'trim|required|max_length[20]';
-		$rules['email'] = 'trim|required|valid_email|max_lenght[64]';
-		$this->validation->set_rules($rules);
+		$this->form_validation->set_rules(
+			'name', '名前', 'trim|required|max_length[64]'
+		);
+		$this->form_validation->set_rules(
+			'zip', '郵便番号', 'trim|max_length[8]'
+		);
+		$this->form_validation->set_rules(
+			'addr', '住所', 'trim|required|max_length[128]'
+		);
+		$this->form_validation->set_rules(
+			'tel', '電話番号', 'trim|required|max_length[20]'
+		);
+		$this->form_validation->set_rules(
+			'email', 'メールアドレス', 'trim|required|valid_email|max_length[64]'
+		);
 	}
 
 	// ページネーションの生成
-	function _generate_pagination($path, $total, $uri_segment)
+	private function _generate_pagination($path, $total, $uri_segment)
 	{
 # ページネーションクラスをロードします。
 		$this->load->library('pagination');
@@ -328,14 +307,19 @@ class Shop extends Controller {
 # ページ番号情報がどのURIセグメントに含まれるか指定します。
 		$config['uri_segment']    = $uri_segment;
 # 生成するリンクのテンプレートを指定します。
-		$config['first_link']     = '&laquo;最初';
-		$config['last_link']      = '最後&raquo;';
-		$config['full_tag_open']  = '<p>';
-		$config['full_tag_close'] = '</p>';
+		$config['first_link']      = '&laquo;最初';
+		$config['last_link']       = '最後&raquo;';
+		$config['full_tag_open']   = '<p>';
+		$config['full_tag_close']  = '</p>';
+		$config['num_tag_open']    = ' ';
+		$config['num_tag_close']   = ' ';
+		$config['last_tag_open']   = ' ';
+		$config['last_tag_close']  = ' ';
+		$config['first_tag_open']  = ' ';
+		$config['first_tag_close'] = ' ';
 # $configでページネーションを初期化します。
 		$this->pagination->initialize($config);
 # 生成したリンクの文字列を返します。
 		return $this->pagination->create_links();
 	}
 }
-?>

@@ -19,7 +19,7 @@
 <td>&nbsp;</td>
 </tr>
 <tr>
-<td bgcolor="#FFCCFF"><?=$this->validation->error_string?></td>
+<td bgcolor="#FFCCFF"><?=validation_errors()?></td>
 </tr>
 <tr>
 <td>&nbsp;</td>
@@ -28,19 +28,19 @@
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
-<td bgcolor="#EEEEEE">名前<br><?=form_prep($name);?></td>
+<td bgcolor="#EEEEEE">名前<br><?=html_escape($name);?></td>
 </tr>
 <tr>
-<td>ﾒｰﾙｱﾄﾞﾚｽ<br><?php if ($email == '') { echo '(なし)'; } else { echo form_prep($email); } ?></td>
+<td>ﾒｰﾙｱﾄﾞﾚｽ<br><?php if ($email == '') { echo '(なし)'; } else { echo html_escape($email); } ?></td>
 </tr>
 <tr>
-<td bgcolor="#EEEEEE">件名<br><?=form_prep($subject);?></td>
+<td bgcolor="#EEEEEE">件名<br><?=html_escape($subject);?></td>
 </tr>
 <tr>
-<td>内容<br><?=nl2br(form_prep($body));?></td>
+<td>内容<br><?=nl2br(html_escape($body));?></td>
 </tr>
 <tr>
-<td bgcolor="#EEEEEE">削除ﾊﾟｽﾜｰﾄﾞ<br><?php if ($password == '') { echo '(なし)'; } else { echo form_prep($password); } ?></td>
+<td bgcolor="#EEEEEE">削除ﾊﾟｽﾜｰﾄﾞ<br><?php if ($password == '') { echo '(なし)'; } else { echo html_escape($password); } ?></td>
 </tr>
 <tr>
 <td>

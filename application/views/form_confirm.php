@@ -8,7 +8,7 @@
 
 <body>
 <!-- header -->
-<?=$this->load->view('form_header');?>
+<?php $this->load->view('form_header');?>
 
 <!-- main -->
 <div id="main">
@@ -20,37 +20,32 @@
 <p class="center">お問い合わせ内容の確認</p>
 <table>
 <tr><th>名前</th>
-<!-- 検証をパスした後の「$this->validation->フィールド名」の値は、文字参照
-に置換されませんので、表示する場合は、Formヘルパーのform_prep()メソッドなどを
-通し、必ず、特殊文字を文字参照に置換します。 -->
-	<td><?=form_prep($this->validation->name);?></td>
+	<td><?=set_value('name');?></td>
 </tr>
 <tr><th>メールアドレス</th>
-	<td><?=form_prep($this->validation->email);?></td>
+	<td><?=set_value('email');?></td>
 </tr>
 <tr><th>コメント</th>
-	<td><pre><?=form_prep($this->validation->comment);?></pre></td>
+	<td><pre><?=set_value('comment');?></pre></td>
 </tr>
 <tr><td></td>
 	<td class="center">
 <!-- 入力を修正するための、隠しフィールドに入力値を仕込んだ
-フォームを表示します。Formヘルパーで$this->validation->nameなどの
-値を表示する場合は、自動的に文字参照に置換されるため、form_prep()メソッドなど
-を通す必要はありません。 -->
+フォームを表示します。Formヘルパーで値を表示する場合、自動的に文字参照に
+置換されます。 -->
 	<?=form_open('form');?>
-	<?=form_hidden('name',    $this->validation->name);?>
-	<?=form_hidden('email',   $this->validation->email);?>
-	<?=form_hidden('comment', $this->validation->comment);?>
+	<?=form_hidden('name',    $this->input->post('name'));?>
+	<?=form_hidden('email',   $this->input->post('email'));?>
+	<?=form_hidden('comment', $this->input->post('comment'));?>
 	<input class="button" type="submit" value="修正" />
 	<?=form_close();?>
 <!-- 入力がOKの場合に、次の完了ページへ進むためのフォームを表示します。
 ここでも、同様に、隠しフィールドに入力値を仕込み、次のページに渡します。
 ワンタイムチケットを忘れないようにしましょう。 -->
 	<?=form_open('form/send');?>
-	<?=form_hidden('ticket',  $this->ticket);?>
-	<?=form_hidden('name',    $this->validation->name);?>
-	<?=form_hidden('email',   $this->validation->email);?>
-	<?=form_hidden('comment', $this->validation->comment);?>
+	<?=form_hidden('name',    $this->input->post('name'));?>
+	<?=form_hidden('email',   $this->input->post('email'));?>
+	<?=form_hidden('comment', $this->input->post('comment'));?>
 	<input class="button" type="submit" value="送信" />
 	<?=form_close();?>
 	</td>
@@ -60,6 +55,6 @@
 </div>
 
 <!-- footer -->
-<?=$this->load->view('ci_footer');?>
+<?php $this->load->view('ci_footer');?>
 </body>
 </html>

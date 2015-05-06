@@ -8,7 +8,7 @@
 
 <body>
 <!-- ヘッダ -->
-<?=$this->load->view('shop_ci_header');?>
+<?php $this->load->view('shop_ci_header');?>
 
 <div id="main">
 <!-- ショップヘッダ -->
@@ -20,6 +20,6 @@
 </div>
 
 <!-- フッタ -->
-<?=$this->load->view('ci_footer');?>
+<?php $this->load->view('ci_footer');?>
 </body>
 </html>

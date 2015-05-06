@@ -8,7 +8,7 @@
 
 <body>
 <!-- header -->
-<?=$this->load->view('bbs_header');?>
+<?php $this->load->view('bbs_header');?>
 
 <!-- main -->
 <div id="main">
@@ -32,6 +32,6 @@
 </div>
 
 <!-- footer -->
-<?=$this->load->view('ci_footer');?>
+<?php $this->load->view('ci_footer');?>
 </body>
 </html>

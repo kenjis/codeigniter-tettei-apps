@@ -7,32 +7,32 @@
 <tbody>
 <tr><td>お名前</td>
 <td>
-<input type="text" name="name" value="<?=$this->validation->name;?>" size="50" />
-<?=$this->validation->name_error;?>
+<input type="text" name="name" value="<?=set_value('name');?>" size="50" />
+<?=form_error('name');?>
 </td>
 </tr>
 <tr><td>郵便番号</td>
 <td>
-<input type="text" name="zip" value="<?=$this->validation->zip;?>" size="8" />
-<?=$this->validation->zip_error;?>
+<input type="text" name="zip" value="<?=set_value('zip');?>" size="8" />
+<?=form_error('zip');?>
 </td>
 </tr>
 <tr><td>住所</td>
 <td>
-<input type="text" name="addr" value="<?=$this->validation->addr;?>" size="50" />
-<?=$this->validation->addr_error;?>
+<input type="text" name="addr" value="<?=set_value('addr');?>" size="50" />
+<?=form_error('addr');?>
 </td>
 </tr>
 <tr><td>電話番号</td>
 <td>
-<input type="text" name="tel" value="<?=$this->validation->tel;?>" size="20" />
-<?=$this->validation->tel_error;?>
+<input type="text" name="tel" value="<?=set_value('tel');?>" size="20" />
+<?=form_error('tel');?>
 </td>
 </tr>
 <tr><td>メールアドレス</td>
 <td>
-<input type="text" name="email" value="<?=$this->validation->email;?>" size="50" />
-<?=$this->validation->email_error;?>
+<input type="text" name="email" value="<?=set_value('email');?>" size="50" />
+<?=form_error('email');?>
 </td>
 </tr>
 <tr><td></td>

@@ -1,4 +1,6 @@
-<?php  if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
 /*
 | -------------------------------------------------------------------------
 | Hooks
@@ -9,6 +11,16 @@
 |	http://codeigniter.com/user_guide/general/hooks.html
 |
 */
+$hook['pre_system'] = array(
+	'class'    => 'Convert_encoding',
+	'function' => 'run',
+	'filename' => 'Convert_encoding.php',
+	'filepath' => 'hooks'
+);
 
-
-?>
+$hook['post_controller_constructor'] = array(
+	'class'    => 'Convert_encoding',
+	'function' => 'add_agent',
+	'filename' => 'Convert_encoding.php',
+	'filepath' => 'hooks'
+);

@@ -26,6 +26,6 @@
 </div>
 
 <!-- フッタ -->
-<?=$this->load->view('ci_footer');?>
+<?php $this->load->view('ci_footer');?>
 </body>
 </html>

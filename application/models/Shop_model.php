@@ -1,20 +1,21 @@
 <?php
-class Shop_model extends Model {
 
-	function Shop_model()
+class Shop_model extends CI_Model {
+
+	public function __construct()
 	{
-		parent::Model();
+		parent::__construct();
 		$this->load->database();
 	}
 
-	function get_category_list()
+	public function get_category_list()
 	{
 		$this->db->order_by('id');
 		$query = $this->db->get('category');
 		return $query->result();
 	}
 
-	function get_category_name($id)
+	public function get_category_name($id)
 	{
 		$this->db->select('name');
 		$this->db->where('id', $id);
@@ -23,7 +24,7 @@ class Shop_model extends Model {
 		return $row->name;
 	}
 
-	function get_product_list($cat_id, $limit, $offset)
+	public function get_product_list($cat_id, $limit, $offset)
 	{
 		$this->db->where('category_id', $cat_id);
 		$this->db->order_by('id');
@@ -31,21 +32,21 @@ class Shop_model extends Model {
 		return $query->result();
 	}
 
-	function get_product_count($cat_id)
+	public function get_product_count($cat_id)
 	{
 		$this->db->where('category_id', $cat_id);
 		$query = $this->db->get('product');
 		return $query->num_rows();
 	}
 
-	function get_product_item($id)
+	public function get_product_item($id)
 	{
 		$this->db->where('id', $id);
 		$query = $this->db->get('product');
 		return $query->row();
 	}
 
-	function is_available_product_item($id)
+	public function is_available_product_item($id)
 	{
 		$this->db->where('id', $id);
 		$query = $this->db->get('product');
@@ -59,7 +60,7 @@ class Shop_model extends Model {
 		}
 	}
 
-	function get_product_by_search($q, $limit, $offset)
+	public function get_product_by_search($q, $limit, $offset)
 	{
 # 検索キーワードをスペースで分割し、like()メソッドでLIKE句を指定します。
 # 複数回like()メソッドを呼んだ場合は、AND条件になります。
@@ -74,7 +75,7 @@ class Shop_model extends Model {
 		return $query->result();
 	}
 
-	function get_count_by_search($q)
+	public function get_count_by_search($q)
 	{
 		$this->db->select('name');
 		$keywords = explode(" ", $q);
@@ -88,7 +89,7 @@ class Shop_model extends Model {
 	}
 
 	// カゴに追加/削除
-	function add_to_cart($id, $qty)
+	public function add_to_cart($id, $qty)
 	{
 # 商品IDと数量を引数として渡され、数量が0以下の場合は、セッションクラスの
 # unset_userdata()メソッドで、セッションデータからその商品を削除します。
@@ -104,9 +105,9 @@ class Shop_model extends Model {
 	}
 
 	// 買い物カゴの情報を取得
-	function get_cart()
+	public function get_cart()
 	{
-		$items = array();	// 商品情報の配列
+		$items = [];	// 商品情報の配列
 		$total = 0;			// 合計金額
 		$line  = 0;			// 行数
 
@@ -125,12 +126,12 @@ class Shop_model extends Model {
 # 単価に数量を掛けて金額を計算します。
 				$amount = $item->price * $val;
 # 以上の情報を連想配列に代入します。
-				$items[$line] = array( 	'id'     => $id,
+				$items[$line] = [ 	'id'     => $id,
 										'qty'    => $val,
 										'name'   => $item->name,
 										'price'  => $item->price,
 										'amount' => $amount
-									);
+									];
 # 合計金額を計算します。
 				$total = $total + $amount;
 			}
@@ -143,13 +144,13 @@ class Shop_model extends Model {
 		return $cart;
 	}
 
-	function get_cart_item_count()
+	public function get_cart_item_count()
 	{
 		$cart = $this->get_cart();
 		return $cart['line'];
 	}
 
-	function set_customer_info($data)
+	public function set_customer_info($data)
 	{
 		foreach ($data as $key => $val)
 		{
@@ -157,7 +158,7 @@ class Shop_model extends Model {
 		}
 	}
 
-	function get_customer_info()
+	public function get_customer_info()
 	{
 		$data['name']  = $this->session->userdata('name');
 		$data['zip']   = $this->session->userdata('zip');
@@ -169,7 +170,7 @@ class Shop_model extends Model {
 	}
 
 	// 注文の処理
-	function order()
+	public function order()
 	{
 # 注文日時をPHPのdate()関数から取得します。
 		$date = date("Y/m/d H:i:s");
@@ -253,12 +254,11 @@ END;
 	}
 
 	// メール送信処理
-	function sendmail($mail)
+	public function sendmail($mail)
 	{
 # Emailクラスをロードし、初期化します。
 		$this->load->library('email');
 		$config['protocol'] = 'mail';
-		$config['charset'] = 'ISO-2022-JP';
 		$config['wordwrap'] = FALSE;
 		$this->email->initialize($config);
 
@@ -270,13 +270,6 @@ END;
 		$subject   = $mail['subject'];
 		$body      = $mail['body'];
 
-# メールヘッダのMIMEエンコードおよび文字エンコードの変換をします。
-		$from_name = mb_encode_mimeheader($from_name, $config['charset']);
-		$subject   = mb_encode_mimeheader($subject,   $config['charset']);
-
-# 本文の文字エンコードを変換します。
-		$body = mb_convert_encoding($body, $config['charset'], $this->config->item('charset'));
-
 # 差出人、あて先、Bcc、件名、本文を設定します。
 		$this->email->from($from, $from_name);
 		$this->email->to($to);
@@ -287,13 +280,12 @@ END;
 # send()メソッドで実際にメールを送信します。
 		if ($this->email->send())
 		{
-			return TRUE;	
+			return TRUE;
 		}
 		else
 		{
-			return FALSE;	
+			return FALSE;
 		}
 	}
 
 }
-?>

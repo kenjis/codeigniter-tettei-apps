@@ -8,7 +8,7 @@
 
 <body>
 <!-- header -->
-<?=$this->load->view('bbs_header');?>
+<?php $this->load->view('bbs_header');?>
 
 <!-- main -->
 <div id="main">
@@ -21,11 +21,11 @@
 以下の記事を削除しますか？
 </p>
 <div class="confirm_delete">
-<h2><a name="<?=$id?>">[<?=$id?>]</a> <?=form_prep($subject);?></h2>
-<div><?=form_prep($name);?>&nbsp;
-<?=form_prep($datetime);?>&nbsp;
+<h2><a name="<?=$id?>">[<?=$id?>]</a> <?=html_escape($subject);?></h2>
+<div><?=html_escape($name);?>&nbsp;
+<?=html_escape($datetime);?>&nbsp;
 </div>
-<div><?=nl2br(form_prep($body));?></div>
+<div><?=nl2br(html_escape($body));?></div>
 </div>
 
 <?=form_open('bbs');?>
@@ -47,6 +47,6 @@
 </div>
 
 <!-- footer -->
-<?=$this->load->view('ci_footer');?>
+<?php $this->load->view('ci_footer');?>
 </body>
 </html>

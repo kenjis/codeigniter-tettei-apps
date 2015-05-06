@@ -10,7 +10,7 @@ base_urlを返します。 -->
 
 <body>
 <!-- ビューファイルform_header.phpを読み込んで、ヘッダ部分を表示します。 -->
-<?=$this->load->view('form_header');?>
+<?php $this->load->view('form_header');?>
 
 <!-- メイン部分です。 -->
 <div id="main">
@@ -21,33 +21,29 @@ base_urlを返します。 -->
 <div class="outer_frame">
 <!-- Formヘルパーのform_open()メソッドで<form>タグを生成します。 -->
 <?=form_open('form/confirm');?>
-<!-- Formヘルパーのform_hidden()メソッドで、ワンタイムチケットを記載した
-隠しフィールドを生成します。 -->
-<?=form_hidden('ticket', $this->ticket);?>
 <table>
 <tr><th>名前</th>
 <td>
-<!-- $this->validation->nameは、バリデーション(検証)クラスの
-プロパティで、検証を実行した後のnameフィールドの入力値が代入されます。
-この値は、検証をパスしていない場合、文字参照に変換されます。
+<!-- set_value('name')はバリデーション(検証)クラスの
+ヘルパー関数で、検証を実行した後のnameフィールドの入力値を返します。
 入力フォームを最初に表示するのに、なぜこの値が必要なのかと疑問に思うかも
 知れませんが、これは、検証でエラーの場合、この同じビューファイルを使って
 フォームを表示するためです。このようにビューを使えば、最初のフォームの表示
 とエラー時のフォームの再表示を、ひとつのビューで済ますことができます。 -->
-	<input type="text" name="name" value="<?=$this->validation->name;?>" size="30" />
-<!-- $this->validation->name_errorには、nameフィールドの検証で
-エラーがあった場合に、表示するエラーメッセージが代入されます。 -->
-	<?=$this->validation->name_error;?>
+	<input type="text" name="name" value="<?=set_value('name');?>" size="30" />
+<!-- form_error('name')は、nameフィールドの検証で
+エラーがあった場合に、表示するエラーメッセージを返します。 -->
+	<?=form_error('name');?>
 </td></tr>
 <tr><th>メールアドレス</th>
 <td>
-	<input type="text" name="email" value="<?=$this->validation->email;?>" size="30" />
-	<?=$this->validation->email_error;?>
+	<input type="text" name="email" value="<?=set_value('email');?>" size="30" />
+	<?=form_error('email');?>
 </td></tr>
 <tr><th>コメント</th>
 <td>
-	<textarea name="comment" rows="4" cols="30"><?=$this->validation->comment;?></textarea>
-	<?=$this->validation->comment_error;?>
+	<textarea name="comment" rows="4" cols="30"><?=set_value('comment');?></textarea>
+	<?=form_error('comment');?>
 </td></tr>
 <tr><td></td>
 <td class="center">
@@ -62,6 +58,6 @@ form_open()メソッドを使った場合は、このメソッドを使うこと
 </div>
 
 <!-- ビューファイルci_footer.phpを読み込んで、フッタ部分を表示します。 -->
-<?=$this->load->view('ci_footer');?>
+<?php $this->load->view('ci_footer');?>
 </body>
 </html>

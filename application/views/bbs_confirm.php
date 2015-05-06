@@ -8,7 +8,7 @@
 
 <body>
 <!-- header -->
-<?=$this->load->view('bbs_header');?>
+<?php $this->load->view('bbs_header');?>
 
 <!-- main -->
 <div id="main">
@@ -23,24 +23,24 @@
 <p class="center">投稿確認</p>
 
 <div class="outer_frame">
-<?=$this->validation->error_string?>
+<?=validation_errors()?>
 
 <div class="confirm">
 
 <div class="field">名前: </div>
-<?=form_prep($name);?>
+<?=html_escape($name);?>
 
 <div class="field">メールアドレス: </div>
-<?php if ($email == '') { echo '(なし)'; } else { echo form_prep($email); } ?>
+<?php if ($email == '') { echo '(なし)'; } else { echo html_escape($email); } ?>
 
 <div class="field">件名: </div>
-<?=form_prep($subject);?>
+<?=html_escape($subject);?>
 
 <div class="field">内容: </div>
-<?=nl2br(form_prep($body));?>
+<?=nl2br(html_escape($body));?>
 
 <div class="field">削除パスワード: </div>
-<?php if ($password == '') { echo '(なし)'; } else { echo form_prep($password); } ?>
+<?php if ($password == '') { echo '(なし)'; } else { echo html_escape($password); } ?>
 </div>
 
 <?=form_open('bbs/post');?>
@@ -66,6 +66,6 @@
 </div>
 </div>
 
-<?=$this->load->view('ci_footer');?>
+<?php $this->load->view('ci_footer');?>
 </body>
 </html>

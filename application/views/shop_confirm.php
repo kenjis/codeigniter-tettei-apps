@@ -5,27 +5,27 @@
 <tbody>
 <tr><th>お名前</th>
 <td>
-<?=form_prep($this->validation->name);?>
+<?=set_value('name');?>
 </td>
 </tr>
 <tr><th>郵便番号</th>
 <td>
-<?=form_prep($this->validation->zip);?>
+<?=set_value('zip');?>
 </td>
 </tr>
 <tr><th>住所</th>
 <td>
-<?=form_prep($this->validation->addr);?>
+<?=set_value('addr');?>
 </td>
 </tr>
 <tr><th>電話番号</th>
 <td>
-<?=form_prep($this->validation->tel);?>
+<?=set_value('tel');?>
 </td>
 </tr>
 <tr><th>メールアドレス</th>
 <td>
-<?=form_prep($this->validation->email);?>
+<?=set_value('email');?>
 </td>
 </tr>
 </tbody>
@@ -60,6 +60,11 @@
 <td align="center" bgcolor="#333333" class="line_2">
 <?=form_open('shop/customer_info');?>
 <input type="submit" value="お客様情報の入力へ戻る" />
+<?=form_hidden('name', $this->input->post('name'));?>
+<?=form_hidden('zip', $this->input->post('zip'));?>
+<?=form_hidden('addr', $this->input->post('addr'));?>
+<?=form_hidden('tel', $this->input->post('tel'));?>
+<?=form_hidden('email', $this->input->post('email'));?>
 <?=form_close();?>
 </td>
 <td></td>
@@ -67,8 +72,6 @@
 <td align="right" bgcolor="#FFFFFF" class="line_2"><?=number_format($total);?>円</td>
 <td align="center" bgcolor="#333333" class="line_2">
 <?=form_open('shop/order');?>
-<!-- CSRF対策のワンタイムチケットです。 -->
-<?=form_hidden('ticket', $this->ticket);?>
 <input type="submit" value="注文を確定する" />
 <?=form_close();?>
 </td>

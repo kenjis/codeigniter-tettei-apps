@@ -19,11 +19,11 @@ charsetにShift_JISを指定します。 -->
 <?php foreach($query->result() as $row): ?>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr><td bgcolor="#BBBBFF"><a name="id<?=$row->id?>">[<?=$row->id?>]</a> 
-<?=form_prep($row->subject);?></td></tr>
+<?=html_escape($row->subject);?></td></tr>
 <tr>
-<td><?=form_prep($row->name);?>&nbsp;<?=form_prep($row->datetime);?></td>
+<td><?=html_escape($row->name);?>&nbsp;<?=html_escape($row->datetime);?></td>
 </tr>
-<tr><td bgcolor="#EEEEEE"><?=nl2br(form_prep($row->body));?></td></tr>
+<tr><td bgcolor="#EEEEEE"><?=nl2br(html_escape($row->body));?></td></tr>
 <!-- 記事を削除するためのフォームを表示します。 -->
 <tr><td><?=form_open('bbs/delete/'. $row->id);?>
 削除ﾊﾟｽﾜｰﾄﾞ:<br>
