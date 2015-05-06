@@ -123,7 +123,7 @@ $config['subclass_prefix'] = 'MY_';
 | DO NOT CHANGE THIS UNLESS YOU FULLY UNDERSTAND THE REPERCUSSIONS!!
 |
 */
-$config['permitted_uri_chars'] = 'a-z 0-9~%.:_-';
+$config['permitted_uri_chars'] = '一-龠ぁ-んァ-ヴーａ-ｚＡ-Ｚ０-９a-z 0-9~%.:_-';
 
 
 /*
@@ -217,7 +217,7 @@ $config['cache_path'] = '';
 | enabled you MUST set an encryption key.  See the user guide for info.
 |
 */
-$config['encryption_key'] = "";
+$config['encryption_key'] = "dmocwwmjxrlnmmE9ccvpmlvvl?4qdgdO";
 
 /*
 |--------------------------------------------------------------------------
@@ -233,7 +233,7 @@ $config['encryption_key'] = "";
 */
 $config['sess_cookie_name']		= 'ci_session';
 $config['sess_expiration']		= 7200;
-$config['sess_encrypt_cookie']	= FALSE;
+$config['sess_encrypt_cookie']	= TRUE;
 $config['sess_use_database']	= FALSE;
 $config['sess_table_name']		= 'ci_sessions';
 $config['sess_match_ip']		= FALSE;
