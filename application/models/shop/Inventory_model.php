@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @property CI_DB $db
+ */
 class Inventory_model extends CI_Model {
 
 	public function __construct()

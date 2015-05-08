@@ -3,6 +3,13 @@
  * 
  */
 
+/**
+ * @property CI_Session      $session
+ * @property Shop_model      $Shop_model
+ * @property Inventory_model $Inventory_model
+ * @property Cart_model      $Cart_model
+ * @property Customer_model  $Customer_model
+ */
 class Shop extends CI_Controller {
 
 	public $limit;	// 1ページに表示する商品の数
@@ -74,7 +81,7 @@ class Shop extends CI_Controller {
 		$data['main']   = $this->load->view('shop_list', $data, TRUE);
 
 # モデルよりカートの中の商品アイテム数を取得します。
-		$data['item_count'] = $this->Cart_model->get_cart_item_count();
+		$data['item_count'] = $this->Cart_model->count();
 # ショップヘッダのページデータを文字列として取得し、変数に代入します。
 		$data['header'] = $this->load->view('shop_header', $data, TRUE);
 # ビューを表示します。
@@ -94,7 +101,7 @@ class Shop extends CI_Controller {
 		$data['item'] = $this->Inventory_model->get_product_item($prod_id);
 		$data['main']   = $this->load->view('shop_product', $data, TRUE);
 
-		$data['item_count'] = $this->Cart_model->get_cart_item_count();
+		$data['item_count'] = $this->Cart_model->count();
 		$data['header'] = $this->load->view('shop_header', $data, TRUE);
 		$this->load->view('shop_tmpl_shop', $data);
 	}
@@ -107,7 +114,7 @@ class Shop extends CI_Controller {
 		$prod_id = (int) $this->uri->segment(3, 0);
 # POSTされたqtyフィールドより、数量を取得します。
 		$qty     = (int) $this->input->post('qty');
-		$this->Cart_model->add_to_cart($prod_id, $qty);
+		$this->Cart_model->add($prod_id, $qty);
 
 # コントローラのcart()メソッドを呼び出し、カートを表示します。
 		$this->cart();
@@ -120,7 +127,7 @@ class Shop extends CI_Controller {
 		$data['menu'] = $this->load->view('shop_menu', $data, TRUE);
 
 # モデルより、カートの情報を取得します。
-		$cart = $this->Cart_model->get_cart();
+		$cart = $this->Cart_model->get_all();
 		$data['total']      = $cart['total'];
 		$data['cart']       = $cart['items'];
 		$data['item_count'] = $cart['line'];
@@ -203,7 +210,7 @@ class Shop extends CI_Controller {
 		}
 
 		$data['main']   = $this->load->view('shop_search', $data, TRUE);
-		$data['item_count'] = $this->Cart_model->get_cart_item_count();
+		$data['item_count'] = $this->Cart_model->count();
 		$data['header'] = $this->load->view('shop_header', $data, TRUE);
 		$this->load->view('shop_tmpl_shop', $data);
 	}
@@ -233,9 +240,9 @@ class Shop extends CI_Controller {
 			$data['addr']  = $this->input->post('addr');
 			$data['tel']   = $this->input->post('tel');
 			$data['email'] = $this->input->post('email');
-			$this->Customer_model->set_customer_info($data);
+			$this->Customer_model->set($data);
 
-			$cart = $this->Cart_model->get_cart();
+			$cart = $this->Cart_model->get_all();
 			$data['total'] = $cart['total'];
 			$data['cart']  = $cart['items'];
 
@@ -254,7 +261,7 @@ class Shop extends CI_Controller {
 	// 注文処理
 	public function order()
 	{
-		if ($this->Cart_model->get_cart_item_count() == 0)
+		if ($this->Cart_model->count() == 0)
 		{
 			echo '買い物カゴには何も入っていません。';
 		}

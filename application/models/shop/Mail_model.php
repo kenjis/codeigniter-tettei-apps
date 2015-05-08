@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @property CI_Email $email
+ */
 class Mail_model extends CI_Model {
 
 	public function __construct()
@@ -8,7 +11,12 @@ class Mail_model extends CI_Model {
 		$this->load->library('email');
 	}
 
-	// メール送信処理
+	/**
+	 * メール送信処理
+	 * 
+	 * @param array $mail
+	 * @return boolean
+	 */
 	public function sendmail($mail)
 	{
 # Emailクラスを初期化します。
@@ -16,20 +24,12 @@ class Mail_model extends CI_Model {
 		$config['wordwrap'] = FALSE;
 		$this->email->initialize($config);
 
-# メールの内容を変数に代入します。
-		$from_name = $mail['from_name'];
-		$from      = $mail['from'];
-		$to        = $mail['to'];
-		$bcc       = $mail['bcc'];
-		$subject   = $mail['subject'];
-		$body      = $mail['body'];
-
 # 差出人、あて先、Bcc、件名、本文を設定します。
-		$this->email->from($from, $from_name);
-		$this->email->to($to);
-		$this->email->bcc($bcc);
-		$this->email->subject($subject);
-		$this->email->message($body);
+		$this->email->from($mail['from'], $mail['from_name']);
+		$this->email->to($mail['to']);
+		$this->email->bcc($mail['bcc']);
+		$this->email->subject($mail['subject']);
+		$this->email->message($mail['body']);
 
 # send()メソッドで実際にメールを送信します。
 		if ($this->email->send())

@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @property CI_Session $session
+ */
 class Customer_model extends CI_Model {
 
 	public function __construct()
@@ -8,15 +11,21 @@ class Customer_model extends CI_Model {
 		$this->load->library('session');
 	}
 
-	public function set_customer_info($data)
+	/**
+	 * @param array $data
+	 */
+	public function set($data)
 	{
 		foreach ($data as $key => $val)
 		{
-			$this->session->set_userdata($key,  $val);
+			$this->session->set_userdata($key, $val);
 		}
 	}
 
-	public function get_customer_info()
+	/**
+	 * @return array
+	 */
+	public function get()
 	{
 		$data['name']  = $this->session->userdata('name');
 		$data['zip']   = $this->session->userdata('zip');

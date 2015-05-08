@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @property CI_Session      $session
+ * @property Inventory_model $Inventory_model
+ */
 class Cart_model extends CI_Model {
 
 	public function __construct()
@@ -9,8 +13,13 @@ class Cart_model extends CI_Model {
 		$this->load->model('shop/Inventory_model');
 	}
 
-	// カゴに追加/削除
-	public function add_to_cart($id, $qty)
+	/**
+	 * カゴに追加/削除
+	 * 
+	 * @param int $id 商品ID
+	 * @param int $qty 数量
+	 */
+	public function add($id, $qty)
 	{
 # 商品IDと数量を引数として渡され、数量が0以下の場合は、セッションクラスの
 # unset_userdata()メソッドで、セッションデータからその商品を削除します。
@@ -25,8 +34,12 @@ class Cart_model extends CI_Model {
 		}
 	}
 
-	// 買い物カゴの情報を取得
-	public function get_cart()
+	/**
+	 * 買い物カゴの情報を取得
+	 * 
+	 * @return array
+	 */
+	public function get_all()
 	{
 		$items = [];	// 商品情報の配列
 		$total = 0;			// 合計金額
@@ -47,12 +60,13 @@ class Cart_model extends CI_Model {
 # 単価に数量を掛けて金額を計算します。
 				$amount = $item->price * $val;
 # 以上の情報を連想配列に代入します。
-				$items[$line] = [ 	'id'     => $id,
-									'qty'    => $val,
-									'name'   => $item->name,
-									'price'  => $item->price,
-									'amount' => $amount
-								];
+				$items[$line] = [
+					'id'     => $id,
+					'qty'    => $val,
+					'name'   => $item->name,
+					'price'  => $item->price,
+					'amount' => $amount
+				];
 # 合計金額を計算します。
 				$total = $total + $amount;
 			}
@@ -65,9 +79,14 @@ class Cart_model extends CI_Model {
 		return $cart;
 	}
 
-	public function get_cart_item_count()
+	/**
+	 * カゴに入っている商品アイテム数を返す
+	 * 
+	 * @return int
+	 */
+	public function count()
 	{
-		$cart = $this->get_cart();
+		$cart = $this->get_all();
 		return $cart['line'];
 	}
 

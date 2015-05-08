@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @property Cart_model     $Cart_model
+ * @property Customer_model $Customer_model
+ * @property Mail_model     $Mail_model
+ */
 class Shop_model extends CI_Model {
 
 	public function __construct()
@@ -16,11 +21,11 @@ class Shop_model extends CI_Model {
 # 注文日時をPHPのdate()関数から取得します。
 		$date = date("Y/m/d H:i:s");
 # カートの情報を取得します。
-		$cart = $this->Cart_model->get_cart();
+		$cart = $this->Cart_model->get_all();
 		$total = number_format($cart['total']);
 
 # お客様情報を取得します。
-		$data = $this->Customer_model->get_customer_info();
+		$data = $this->Customer_model->get();
 		$name  = $data['name'];
 		$zip   = $data['zip'];
 		$addr  = $data['addr'];
