@@ -4,3 +4,4 @@
 /vendor/
 /config/
 /tmp/
+tests/_output/*
