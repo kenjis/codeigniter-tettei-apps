@@ -16,7 +16,10 @@ class Shop extends CI_Controller {
 
 # モデルをロードします。ロード後のモデルオブジェクトは、$this->Shop_model
 # として利用できます。
-		$this->load->model('Shop_model');
+		$this->load->model('shop/Shop_model');
+		$this->load->model('shop/Inventory_model');
+		$this->load->model('shop/Cart_model');
+		$this->load->model('shop/Customer_model');
 
 # このアプリケーション専用の設定ファイルconfig_shop.phpを読み込みます。
 # load()メソッドの第2引数にTRUEを指定すると、他の設定ファイルで使われている
@@ -38,7 +41,7 @@ class Shop extends CI_Controller {
 # モデルからカテゴリの一覧を取得し、shop_menuビューに渡します。このとき、
 # view()メソッドの第2引数にTRUEを指定することで、処理されたページデータを
 # ブラウザに送信させずに、文字列として取得し、変数に代入します。
-		$data['list'] = $this->Shop_model->get_category_list();
+		$data['list'] = $this->Inventory_model->get_category_list();
 		$data['menu'] = $this->load->view('shop_menu', $data, TRUE);
 
 # 3番目のURIセグメントより、カテゴリIDを取得します。セグメントデータがない
@@ -50,13 +53,13 @@ class Shop extends CI_Controller {
 
 # カテゴリIDとoffset値と、1ページに表示する商品の数を渡し、モデルより
 # 商品一覧を取得します。
-		$data['list'] = $this->Shop_model->get_product_list($cat_id, $this->limit, $offset);
+		$data['list'] = $this->Inventory_model->get_product_list($cat_id, $this->limit, $offset);
 # カテゴリIDより、カテゴリ名を取得します。
-		$data['category'] = $this->Shop_model->get_category_name($cat_id);
+		$data['category'] = $this->Inventory_model->get_category_name($cat_id);
 
 # モデルよりそのカテゴリの商品数を取得し、ページネーションを生成します。
 		$path  = '/shop/index/' . $cat_id;
-		$total = $this->Shop_model->get_product_count($cat_id);
+		$total = $this->Inventory_model->get_product_count($cat_id);
 		$data['pagination'] = $this->_generate_pagination($path, $total, 4);
 
 		if ($total)
@@ -71,7 +74,7 @@ class Shop extends CI_Controller {
 		$data['main']   = $this->load->view('shop_list', $data, TRUE);
 
 # モデルよりカートの中の商品アイテム数を取得します。
-		$data['item_count'] = $this->Shop_model->get_cart_item_count();
+		$data['item_count'] = $this->Cart_model->get_cart_item_count();
 # ショップヘッダのページデータを文字列として取得し、変数に代入します。
 		$data['header'] = $this->load->view('shop_header', $data, TRUE);
 # ビューを表示します。
@@ -81,17 +84,17 @@ class Shop extends CI_Controller {
 	// 商品詳細ページ
 	public function product()
 	{
-		$data['list'] = $this->Shop_model->get_category_list();
+		$data['list'] = $this->Inventory_model->get_category_list();
 		$data['menu'] = $this->load->view('shop_menu', $data, TRUE);
 
 # 3番目のURIセグメントより、商品IDを取得します。セグメントデータがない
 # 場合は、1を設定します。
 		$prod_id = (int) $this->uri->segment(3, 1);
 # モデルより商品データを取得します。
-		$data['item'] = $this->Shop_model->get_product_item($prod_id);
+		$data['item'] = $this->Inventory_model->get_product_item($prod_id);
 		$data['main']   = $this->load->view('shop_product', $data, TRUE);
 
-		$data['item_count'] = $this->Shop_model->get_cart_item_count();
+		$data['item_count'] = $this->Cart_model->get_cart_item_count();
 		$data['header'] = $this->load->view('shop_header', $data, TRUE);
 		$this->load->view('shop_tmpl_shop', $data);
 	}
@@ -104,7 +107,7 @@ class Shop extends CI_Controller {
 		$prod_id = (int) $this->uri->segment(3, 0);
 # POSTされたqtyフィールドより、数量を取得します。
 		$qty     = (int) $this->input->post('qty');
-		$this->Shop_model->add_to_cart($prod_id, $qty);
+		$this->Cart_model->add_to_cart($prod_id, $qty);
 
 # コントローラのcart()メソッドを呼び出し、カートを表示します。
 		$this->cart();
@@ -113,16 +116,16 @@ class Shop extends CI_Controller {
 	// 買い物カゴページ
 	function cart()
 	{
-		$data['list'] = $this->Shop_model->get_category_list();
+		$data['list'] = $this->Inventory_model->get_category_list();
 		$data['menu'] = $this->load->view('shop_menu', $data, TRUE);
 
 # モデルより、カートの情報を取得します。
-		$cart = $this->Shop_model->get_cart();
+		$cart = $this->Cart_model->get_cart();
 		$data['total']      = $cart['total'];
 		$data['cart']       = $cart['items'];
 		$data['item_count'] = $cart['line'];
 
-		$data['main']  = $this->load->view('shop_cart', $data, TRUE);
+		$data['main']   = $this->load->view('shop_cart', $data, TRUE);
 		$data['header'] = $this->load->view('shop_header', $data, TRUE);
 		$this->load->view('shop_tmpl_shop', $data);
 	}
@@ -134,7 +137,7 @@ class Shop extends CI_Controller {
 		$q_disp  = '';	// 検索キーワード(表示用)
 		$q_uri   = '';	// 検索キーワード(URIセグメント用)
 
-		$data['list'] = $this->Shop_model->get_category_list();
+		$data['list'] = $this->Inventory_model->get_category_list();
 		$data['menu'] = $this->load->view('shop_menu', $data, TRUE);
 
 # 検索キーワードがPOSTされた場合は、qフィールドより取得します。
@@ -180,8 +183,8 @@ class Shop extends CI_Controller {
 		}
 
 # モデルから、キーワードで検索した商品データと総件数を取得します。
-		$data['list'] = $this->Shop_model->get_product_by_search($q, $this->limit, $offset);
-		$total = $this->Shop_model->get_count_by_search($q);
+		$data['list'] = $this->Inventory_model->get_product_by_search($q, $this->limit, $offset);
+		$total = $this->Inventory_model->get_count_by_search($q);
 
 # ページネーションを生成します。検索キーワードには日本語が含まれます
 # ので、URLエンコードします。
@@ -200,7 +203,7 @@ class Shop extends CI_Controller {
 		}
 
 		$data['main']   = $this->load->view('shop_search', $data, TRUE);
-		$data['item_count'] = $this->Shop_model->get_cart_item_count();
+		$data['item_count'] = $this->Cart_model->get_cart_item_count();
 		$data['header'] = $this->load->view('shop_header', $data, TRUE);
 		$this->load->view('shop_tmpl_shop', $data);
 	}
@@ -230,9 +233,9 @@ class Shop extends CI_Controller {
 			$data['addr']  = $this->input->post('addr');
 			$data['tel']   = $this->input->post('tel');
 			$data['email'] = $this->input->post('email');
-			$this->Shop_model->set_customer_info($data);
+			$this->Customer_model->set_customer_info($data);
 
-			$cart = $this->Shop_model->get_cart();
+			$cart = $this->Cart_model->get_cart();
 			$data['total'] = $cart['total'];
 			$data['cart']  = $cart['items'];
 
@@ -251,7 +254,7 @@ class Shop extends CI_Controller {
 	// 注文処理
 	public function order()
 	{
-		if ($this->Shop_model->get_cart_item_count() == 0)
+		if ($this->Cart_model->get_cart_item_count() == 0)
 		{
 			echo '買い物カゴには何も入っていません。';
 		}
