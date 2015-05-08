@@ -264,6 +264,12 @@ class Bbs extends CI_Controller {
 # キャプチャの検証をするメソッドです。バリデーション(認証)クラスより呼ばれます。
 	public function captcha_check($str)
 	{
+# 環境がtestingの場合は、キャプチャの検証をスキップします。
+	if (ENVIRONMENT === 'testing')
+	{
+		return TRUE;
+	}
+
 # 有効期限を2時間に設定し、それ以前に生成されたキャプチャをデータベースから
 # 削除します。delete()メソッドの第2引数では、「captcha_time <」を配列のキーに
 # していますが、このように記述することで、WHERE句の条件の演算子を指定できます。

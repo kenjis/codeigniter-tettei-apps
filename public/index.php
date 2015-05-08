@@ -53,6 +53,12 @@
  *
  * NOTE: If you change these, also change the error_reporting() code below
  */
+# 環境変数の設定がなく、ファイルtestingが存在する場合はtesting環境に変更します。
+	if ( ! isset($_SERVER['CI_ENV']) && file_exists('./testing'))
+	{
+		$_SERVER['CI_ENV'] = 'testing';
+	}
+
 	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
 
 /*
