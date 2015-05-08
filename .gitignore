@@ -2,3 +2,5 @@
 /application/logs/
 /public/captcha/
 /vendor/
+/config/
+/tmp/
