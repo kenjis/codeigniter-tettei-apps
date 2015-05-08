@@ -18,6 +18,14 @@
 
 * [application/以下のCodeIgniter 3.0へのアップデート](https://github.com/kenjis/codeigniter-tettei-apps/commit/3dcdeefc8e42b2c8f6636fba5e86c7de28f961a3?w=1)
 
+## ライセンス
+
+サンプルアプリケーションのライセンスは「修正BSDライセンス」です。詳細は、[docs/license-codeigniter-tettei-1.4.txt](docs/license-codeigniter-tettei-1.4.txt)をご覧ください。
+
+## 謝辞
+
+サンプルアプリケーションのデザインは、神野みちるさん（株式会社ステップワイズ）にしていただきました。
+
 ## 『CodeIgniter徹底入門』について
 
 * [『CodeIgniter徹底入門』情報ページ](http://codeigniter.jp/tettei/)
