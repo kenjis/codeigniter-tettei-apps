@@ -6,7 +6,7 @@ class CategorySeeder extends Seeder {
 	
 	public function run()
 	{
-		$this->db->truncate('category');
+		$this->db->truncate($this->table);
 
 		$data = [
 			'id' => 1,

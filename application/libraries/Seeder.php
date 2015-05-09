@@ -10,17 +10,17 @@
 
 class Seeder
 {
-	private $ci;
+	private $CI;
 	protected $db;
 	protected $dbforge;
 
 	public function __construct()
 	{
-		$this->ci =& get_instance();
-		$this->ci->load->database();
-		$this->ci->load->dbforge();
-		$this->db = $this->ci->db;
-		$this->dbforge = $this->ci->dbforge;
+		$this->CI =& get_instance();
+		$this->CI->load->database();
+		$this->CI->load->dbforge();
+		$this->db = $this->CI->db;
+		$this->dbforge = $this->CI->dbforge;
 	}
 
 	public function exec($seeder)
@@ -33,6 +33,6 @@ class Seeder
 
 	public function __get($property)
 	{
-		return $this->ci->$property;
+		return $this->CI->$property;
 	}
 }
