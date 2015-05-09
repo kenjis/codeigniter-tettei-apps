@@ -9,7 +9,7 @@ class TestCase extends PHPUnit_Framework_TestCase
 	 * @param array $argv    controller, method [, arg1, ...]
 	 * @param array $params  POST parameters/Query string
 	 */
-	public function request($method, $argv, $params = [])
+	public function request($method, $argv, $params = [], $callable = null)
 	{
 		$_SERVER['REQUEST_METHOD'] = $method;
 		
@@ -27,10 +27,16 @@ class TestCase extends PHPUnit_Framework_TestCase
 		
 		$this->CI = get_new_instance();
 		
+		if (is_callable($callable))
+		{
+			$callable($this->CI);
+		}
+		
 		$controller = ucfirst($_SERVER['argv'][1]);
+		$method = $_SERVER['argv'][2];
 		$this->obj = new $controller;
 		ob_start();
-		call_user_func([$this->obj, $_SERVER['argv'][2]]);
+		call_user_func([$this->obj, $method]);
 		$output = ob_get_clean();
 		
 		return $output;

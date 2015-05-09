@@ -225,7 +225,7 @@ switch (ENVIRONMENT)
 	define('BASEPATH', str_replace('\\', '/', $system_path));
 
 	// Path to the front controller (this file)
-	define('FCPATH', dirname(__FILE__).'/');
+	define('FCPATH', realpath(dirname(__FILE__).'/../../public').'/');
 
 	// Name of the "system folder"
 	define('SYSDIR', trim(strrchr(trim(BASEPATH, '/'), '/'), '/'));
@@ -297,6 +297,9 @@ require __DIR__ . '/replace/core/Loader.php';
 $loader = new CITEST_Loader();
 load_class_instance('Loader', $loader);
 
+// Change current directroy
+chdir(FCPATH);
+
 /*
  * --------------------------------------------------------------------
  * LOAD THE BOOTSTRAP FILE
@@ -330,7 +333,8 @@ function get_new_instance()
 
 	// Load core classes
 	load_class('Benchmark', 'core');
-	load_class('Hooks', 'core');
+	$EXT =& load_class('Hooks', 'core');
+	$EXT->call_hook('pre_system');
 	load_class('Config', 'core');
 //	load_class('Utf8', 'core');
 	load_class('URI', 'core');
@@ -339,9 +343,11 @@ function get_new_instance()
 	load_class('Security', 'core');
 	load_class('Input', 'core');
 	load_class('Lang', 'core');
+	$EXT->call_hook('pre_controller');
 	
 	$loader = new CITEST_Loader();
 	load_class_instance('Loader', $loader);
+	$EXT->call_hook('post_controller_constructor');
 
 	return new CI_Controller();
 }
