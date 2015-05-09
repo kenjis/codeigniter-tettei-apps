@@ -295,7 +295,7 @@ require BASEPATH . 'core/Common.php';
 require BASEPATH . 'core/Loader.php';
 require __DIR__ . '/replace/core/Loader.php';
 $loader = new CITEST_Loader();
-load_class('Loader', '', '', '', $loader);
+load_class_instance('Loader', $loader);
 
 /*
  * --------------------------------------------------------------------
@@ -341,7 +341,9 @@ function get_new_instance()
 	load_class('Lang', 'core');
 	
 	$loader = new CITEST_Loader();
-	load_class('Loader', '', '', '', $loader);
+	load_class_instance('Loader', $loader);
 
 	return new CI_Controller();
 }
+
+require __DIR__ . '/TestCase.php';

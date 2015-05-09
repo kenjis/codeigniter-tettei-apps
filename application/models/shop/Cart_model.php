@@ -42,8 +42,8 @@ class Cart_model extends CI_Model {
 	public function get_all()
 	{
 		$items = [];	// 商品情報の配列
-		$total = 0;			// 合計金額
-		$line  = 0;			// 行数
+		$total = 0;		// 合計金額
+		$line  = 0;		// 行数
 
 # セッションクラスのall_userdata()メソッドですべてのセッションデータを取得し、 
 # ループで回して必要な情報を取り出します。
