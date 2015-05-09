@@ -6,7 +6,7 @@ class Inventory_model_test extends PHPUnit_Framework_TestCase
 	{
 		$CI =& get_instance();
 		$CI->load->library('Seeder');
-		$CI->seeder->exec('CategorySeeder');
+		$CI->seeder->call('CategorySeeder');
 	}
 
 	public function setUp()

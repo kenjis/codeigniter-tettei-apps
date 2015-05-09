@@ -23,7 +23,12 @@ class Seeder
 		$this->dbforge = $this->CI->dbforge;
 	}
 
-	public function exec($seeder)
+	/**
+	 * Run another seeder
+	 * 
+	 * @param string $seeder Seeder classname
+	 */
+	public function call($seeder)
 	{
 		$file = APPPATH . 'database/seeds/' . $seeder . '.php';
 		require_once $file;

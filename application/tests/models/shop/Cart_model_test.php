@@ -6,7 +6,7 @@ class Cart_model_test extends PHPUnit_Framework_TestCase
 	{
 		$CI =& get_instance();
 		$CI->load->library('Seeder');
-		$CI->seeder->exec('ProductSeeder');
+		$CI->seeder->call('ProductSeeder');
 	}
 
 	public function setUp()
