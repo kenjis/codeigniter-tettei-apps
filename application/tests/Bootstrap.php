@@ -53,13 +53,7 @@
  *
  * NOTE: If you change these, also change the error_reporting() code below
  */
-# 環境変数の設定がなく、ファイルtestingが存在する場合はtesting環境に変更します。
-	if ( ! isset($_SERVER['CI_ENV']) && file_exists('./testing'))
-	{
-		$_SERVER['CI_ENV'] = 'testing';
-	}
-
-	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
+	define('ENVIRONMENT', 'testing');
 
 /*
  *---------------------------------------------------------------
@@ -71,12 +65,12 @@
  */
 switch (ENVIRONMENT)
 {
+	case 'testing':
 	case 'development':
 		error_reporting(-1);
 		ini_set('display_errors', 1);
 	break;
 
-	case 'testing':
 	case 'production':
 		ini_set('display_errors', 0);
 		if (version_compare(PHP_VERSION, '5.3', '>='))
@@ -104,7 +98,7 @@ switch (ENVIRONMENT)
  * Include the path if the folder is not in the same directory
  * as this file.
  */
-	$system_path = '../system';
+	$system_path = '../../system';
 
 /*
  *---------------------------------------------------------------
@@ -288,6 +282,21 @@ switch (ENVIRONMENT)
 
 	define('VIEWPATH', $view_folder);
 
+// Fix CLI args
+$_SERVER['argv'] = [
+    FCPATH . 'index.php',
+];
+$_SERVER['argc'] = 1;
+
+require __DIR__ . '/replace/core/Common.php';
+require BASEPATH . 'core/Common.php';
+
+// Replace Loader
+require BASEPATH . 'core/Loader.php';
+require __DIR__ . '/replace/core/Loader.php';
+$loader = new CITEST_Loader();
+load_class('Loader', '', '', '', $loader);
+
 /*
  * --------------------------------------------------------------------
  * LOAD THE BOOTSTRAP FILE
@@ -295,4 +304,44 @@ switch (ENVIRONMENT)
  *
  * And away we go...
  */
+ob_start();
 require_once BASEPATH.'core/CodeIgniter.php';
+ob_end_clean();
+
+// Autoload controllers
+spl_autoload_register(function ($class)
+{
+	foreach (glob(APPPATH.'controllers/'.$class.'.php') as $controller)
+	{
+		require_once $controller;
+	}
+});
+
+/**
+ * Get new CodeIgniter instance
+ * 
+ * @return CI_Controller
+ */
+function get_new_instance()
+{
+	// Reset loaded classes
+	load_class('', '', '', TRUE);
+	is_loaded('', TRUE);
+
+	// Load core classes
+	load_class('Benchmark', 'core');
+	load_class('Hooks', 'core');
+	load_class('Config', 'core');
+//	load_class('Utf8', 'core');
+	load_class('URI', 'core');
+	load_class('Router', 'core', isset($routing) ? $routing : NULL);
+	load_class('Output', 'core');
+	load_class('Security', 'core');
+	load_class('Input', 'core');
+	load_class('Lang', 'core');
+	
+	$loader = new CITEST_Loader();
+	load_class('Loader', '', '', '', $loader);
+
+	return new CI_Controller();
+}
