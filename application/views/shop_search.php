@@ -4,7 +4,7 @@
 
 <p class="coment">
 <?php if ($total): ?>
-<?=html_escape($total);?> . '点の商品がヒットしました。
+<?=html_escape($total);?>点の商品がヒットしました。
 <?php else: ?>
 "<?=html_escape($q);?>"の検索に一致する商品はありませんでした。
 <?php endif; ?>
