@@ -4,7 +4,13 @@
 <?=$pagination?>
 
 <!-- 商品点数を表示します。 -->
-<p class="coment"><?=html_escape($total_item);?></p>
+<p class="coment">
+<?php if ($total): ?>
+<?=html_escape($total);?>点の商品が登録されています。
+<?php else: ?>
+このカテゴリにはまだ商品が登録されていません。
+<?php endif; ?>
+</p>
 
 <?php foreach($list as $row): ?>
 <a href="<?=base_url('shop/product/'.$row->id);?>">

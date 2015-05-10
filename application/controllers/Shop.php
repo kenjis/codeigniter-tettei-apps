@@ -69,14 +69,7 @@ class Shop extends CI_Controller {
 		$total = $this->Inventory_model->get_product_count($cat_id);
 		$data['pagination'] = $this->_generate_pagination($path, $total, 4);
 
-		if ($total)
-		{
-			$data['total_item'] = $total . '点の商品が登録されています。';
-		}
-		else
-		{
-			$data['total_item'] = 'このカテゴリにはまだ商品が登録されていません。';
-		}
+		$data['total'] = $total;
 
 		$data['main']   = $this->load->view('shop_list', $data, TRUE);
 
@@ -140,19 +133,18 @@ class Shop extends CI_Controller {
 	// 検索ページ
 	public function search()
 	{
-		$q       = '';	// 検索キーワード
+		$q = '';	// 検索キーワード
 
 		$data['list'] = $this->Inventory_model->get_category_list();
 		$data['menu'] = $this->load->view('shop_menu', $data, TRUE);
 
 # 検索キーワードをクエリ文字列から取得します。
 		$q = (string) $this->input->get('q');
+# 全角スペースを半角スペースに変換します。
+		$q = trim(mb_convert_kana($q, 's'));
 
 # offset値を、3番目のURIセグメントより取得します。
 		$offset = (int) $this->uri->segment(3, 0);
-
-# 全角スペースを半角スペースに変換します。
-		$q = trim(mb_convert_kana($q, 's'));
 
 # モデルから、キーワードで検索した商品データと総件数を取得します。
 		$data['list'] = $this->Inventory_model->get_product_by_search($q, $this->limit, $offset);
