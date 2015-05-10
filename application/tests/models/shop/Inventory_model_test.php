@@ -42,4 +42,20 @@ class Inventory_model_test extends PHPUnit_Framework_TestCase
 		$expected = 36;
 		$this->assertEquals($expected, $actual);
 	}
+
+	public function test_get_product_by_search()
+	{
+		$results = $this->obj->get_product_by_search('CodeIgniter', 10, 0);
+		foreach ($results as $record)
+		{
+			$this->assertContains('CodeIgniter', $record->name);
+		}
+	}
+
+	public function test_get_count_by_search()
+	{
+		$actual = $this->obj->get_count_by_search('CodeIgniter');
+		$expected = 3;
+		$this->assertEquals($expected, $actual);
+	}
 }
