@@ -2,7 +2,13 @@
 
 <?=$pagination?>
 
-<p class="coment"><?=$total_item?></p>
+<p class="coment">
+<?php if ($total): ?>
+<?=html_escape($total);?> . '点の商品がヒットしました。
+<?php else: ?>
+"<?=html_escape($q);?>"の検索に一致する商品はありませんでした。
+<?php endif; ?>
+</p>
 
 <?php foreach($list as $row): ?>
 <a href="<?=base_url();?>shop/product/<?=$row->id?>">

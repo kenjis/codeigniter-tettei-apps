@@ -140,54 +140,19 @@ class Shop extends CI_Controller {
 	// 検索ページ
 	public function search()
 	{
-		$q       = '';	// 検索キーワード(検索用)
-		$q_disp  = '';	// 検索キーワード(表示用)
-		$q_uri   = '';	// 検索キーワード(URIセグメント用)
+		$q       = '';	// 検索キーワード
 
 		$data['list'] = $this->Inventory_model->get_category_list();
 		$data['menu'] = $this->load->view('shop_menu', $data, TRUE);
 
-# 検索キーワードがPOSTされた場合は、qフィールドより取得します。
-		if ($this->input->post('q'))
-		{
-			$q = $this->input->post('q');
-		}
-# ページネーションのリンクをクリックした場合は、3番目のURIセグメントに
-# 検索キーワードが含まれますので、その値を取得します。
-		else
-		{
-			$q = $this->uri->segment(3, '');
-		}
+# 検索キーワードをクエリ文字列から取得します。
+		$q = (string) $this->input->get('q');
 
-# offset値を、4番目のURIセグメントより取得します。
-		$offset = (int) $this->uri->segment(4, 0);
+# offset値を、3番目のURIセグメントより取得します。
+		$offset = (int) $this->uri->segment(3, 0);
 
 # 全角スペースを半角スペースに変換します。
-		$q = trim(mb_convert_kana($q, "s"));
-
-# 検索キーワードに「/」が含まれる場合は、3番目のURIセグメントに「/」が
-# 含まれ、URIを適切に表示できなくなりますので、その例外処理をします。
-# URIでの半角「/」を全角「／」に置換することにします。
-		if (strpos($q, '/') !== FALSE)
-		{
-			$q_disp = $q;
-			$q_uri  = str_replace('/', '／', $q);
-		}
-# 検索キーワードが空の場合は、3番目のURIセグメントも空になってしまい
-# URIを適切に表示できなくなりますので、その例外処理をします。
-# キーワードが「-」または空の場合は、検索キーワードのURIセグメントを
-# 「-」とします。
-		else if ($q == '-' || $q == '')
-		{
-			$q      = '';
-			$q_disp = '全商品';
-			$q_uri  = '-';
-		}
-		else
-		{
-			$q_disp = $q;
-			$q_uri  = $q;
-		}
+		$q = trim(mb_convert_kana($q, 's'));
 
 # モデルから、キーワードで検索した商品データと総件数を取得します。
 		$data['list'] = $this->Inventory_model->get_product_by_search($q, $this->limit, $offset);
@@ -195,19 +160,11 @@ class Shop extends CI_Controller {
 
 # ページネーションを生成します。検索キーワードには日本語が含まれます
 # ので、URLエンコードします。
-		$path  = '/shop/search/' . rawurlencode($q_uri);
-		$data['pagination'] = $this->_generate_pagination($path, $total, 4);
+		$path  = '/shop/search';
+		$data['pagination'] = $this->_generate_pagination($path, $total, 3);
 
-		$data['q'] = $q_disp;
-
-		if ($total)
-		{
-			$data['total_item'] = $total . '点の商品がヒットしました。';
-		}
-		else
-		{
-			$data['total_item'] = '"'. $q_disp . '"の検索に一致する商品はありませんでした。';
-		}
+		$data['q'] = $q;
+		$data['total'] = $total;
 
 		$data['main']   = $this->load->view('shop_search', $data, TRUE);
 		$data['item_count'] = $this->Cart_model->count();
@@ -316,6 +273,8 @@ class Shop extends CI_Controller {
 		$config['per_page']       = $this->limit;
 # ページ番号情報がどのURIセグメントに含まれるか指定します。
 		$config['uri_segment']    = $uri_segment;
+# ページネーションでクエリ文字列を使えるようにします。
+		$config['reuse_query_string'] = TRUE;
 # 生成するリンクのテンプレートを指定します。
 		$config['first_link']      = '&laquo;最初';
 		$config['last_link']       = '最後&raquo;';
