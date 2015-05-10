@@ -2,8 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ja" xml:lang="ja">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link rel="stylesheet" href="<?=base_url();?>css/shop.css" type="text/css" />
-<title>CIショップ: <?=$action?></title>
+<link rel="stylesheet" href="<?=base_url('css/shop.css');?>" type="text/css" />
+<title>CIショップ: <?=html_escape($action);?></title>
 </head>
 
 <body>
@@ -18,7 +18,7 @@
 <!-- ショップヘッダ -->
 	<div class="header">
 		<div class="title_banner">
-		<img src="<?=base_url();?>images/icons/shop_titile.jpg" alt="ショッピング" width="580" height="70" />
+		<img src="<?=base_url('images/icons/shop_titile.jpg');?>" alt="ショッピング" width="580" height="70" />
 		</div>
 	</div>
 <!-- ショップメイン -->
@@ -26,6 +26,6 @@
 </div>
 
 <!-- フッタ -->
-<?php $this->load->view('ci_footer');?>
+<?php $this->load->view('ci_footer'); ?>
 </body>
 </html>

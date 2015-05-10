@@ -22,7 +22,7 @@
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
-<td bgcolor="#EEEEEE"><a name="<?=$id?>">[<?=$id?>]</a> <?=html_escape($subject);?></td>
+<td bgcolor="#EEEEEE"><a name="<?=html_escape($id);?>">[<?=html_escape($id);?>]</a> <?=html_escape($subject);?></td>
 </tr>
 <tr>
 <td><?=html_escape($name);?>&nbsp;<?=html_escape($datetime);?>&nbsp;</td>

@@ -4,18 +4,18 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <!-- URLヘルパーのbase_url()メソッドは、メイン設定ファイルで設定した
 base_urlを返します。 -->
-<link rel="stylesheet" href="<?=base_url();?>css/form.css" type="text/css" />
+<link rel="stylesheet" href="<?=base_url('css/form.css');?>" type="text/css" />
 <title>コンタクトフォーム</title>
 </head>
 
 <body>
 <!-- ビューファイルform_header.phpを読み込んで、ヘッダ部分を表示します。 -->
-<?php $this->load->view('form_header');?>
+<?php $this->load->view('form_header'); ?>
 
 <!-- メイン部分です。 -->
 <div id="main">
 <div class="title_banner">
-<img src="<?=base_url();?>images/icons/form_titile.jpg" alt="お問い合わせ" width="580" height="70" />
+<img src="<?=base_url('images/icons/form_titile.jpg');?>" alt="お問い合わせ" width="580" height="70" />
 </div>
 
 <div class="outer_frame">
@@ -58,6 +58,6 @@ form_open()メソッドを使った場合は、このメソッドを使うこと
 </div>
 
 <!-- ビューファイルci_footer.phpを読み込んで、フッタ部分を表示します。 -->
-<?php $this->load->view('ci_footer');?>
+<?php $this->load->view('ci_footer'); ?>
 </body>
 </html>

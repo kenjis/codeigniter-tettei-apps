@@ -46,11 +46,11 @@
 
 <?php foreach($cart as $line => $item): ?>
 <tr>
-<td width="30" align="center" bgcolor="#E1E1E1" class="line_2"><?=$line?></td>
-<td bgcolor="#FFFFFF" class="line_1"><?=$item['name']?></td>
-<td align="center" bgcolor="#FFFFCC" class="line_1"><?=$item['qty']?></td>
-<td align="right" bgcolor="#FFFFFF" class="line_1"><?=number_format($item['price'])?>円</td>
-<td align="right" bgcolor="#FFFFFF" class="line_1"><?=number_format($item['amount'])?>円</td>
+<td width="30" align="center" bgcolor="#E1E1E1" class="line_2"><?=html_escape($line);?></td>
+<td bgcolor="#FFFFFF" class="line_1"><?=html_escape($item['name']);?></td>
+<td align="center" bgcolor="#FFFFCC" class="line_1"><?=html_escape($item['qty']);?></td>
+<td align="right" bgcolor="#FFFFFF" class="line_1"><?=number_format($item['price']);?>円</td>
+<td align="right" bgcolor="#FFFFFF" class="line_1"><?=number_format($item['amount']);?>円</td>
 <td align="right" bgcolor="#FFFFFF" class="line_1">&nbsp;</td>
 </tr>
 <?php endforeach; ?>

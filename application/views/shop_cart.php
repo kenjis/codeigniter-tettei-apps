@@ -16,16 +16,16 @@
 
 <?php foreach($cart as $line => $item): ?>
 <tr>
-<td width="30" align="center" bgcolor="#E1E1E1" class="line_2"><?=$line?></td>
-<td bgcolor="#FFFFFF" class="line_1"><?=$item['name']?></td>
+<td width="30" align="center" bgcolor="#E1E1E1" class="line_2"><?=html_escape($line);?></td>
+<td bgcolor="#FFFFFF" class="line_1"><?=html_escape($item['name']);?></td>
 <td align="center" bgcolor="#FFFFCC" class="line_1">
 <?=form_open('shop/add/' . $item['id']);?>
-<input type="text" name="qty" size="2" value="<?=$item['qty']?>" />
+<input type="text" name="qty" size="2" value="<?=html_escape($item['qty']);?>" />
 <input type="submit" value="変更" />
 <?=form_close();?>
 </td>
-<td align="right" bgcolor="#FFFFFF" class="line_1"><?=number_format($item['price'])?>円</td>
-<td align="right" bgcolor="#FFFFFF" class="line_1"><?=number_format($item['amount'])?>円</td>
+<td align="right" bgcolor="#FFFFFF" class="line_1"><?=number_format($item['price']);?>円</td>
+<td align="right" bgcolor="#FFFFFF" class="line_1"><?=number_format($item['amount']);?>円</td>
 <td align="center" bgcolor="#ECE1BF" class="line_1">
 <?=form_open('shop/add/' . $item['id']);?>
 <input type="hidden" name="qty" value="0" />

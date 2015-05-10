@@ -11,11 +11,11 @@
 </p>
 
 <?php foreach($list as $row): ?>
-<a href="<?=base_url();?>shop/product/<?=$row->id?>">
+<a href="<?=base_url('shop/product/'.$row->id);?>">
 <?php if ($row->img): ?>
-<img class="img" src="<?=base_url();?>images/<?=$row->img?>" alt="" />
+<img class="img" src="<?=base_url('images/'.$row->img);?>" alt="" />
 <?php else: ?>
-<img class="img" src="<?=base_url();?>images/now_printing.jpg" alt="" />
+<img class="img" src="<?=base_url('images/now_printing.jpg');?>" alt="" />
 <?php endif; ?>
 </a>
 <p class="shop_list">

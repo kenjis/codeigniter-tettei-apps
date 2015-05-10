@@ -2,28 +2,28 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ja" xml:lang="ja">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link rel="stylesheet" href="<?=base_url();?>css/bbs.css" type="text/css" />
+<link rel="stylesheet" href="<?=base_url('css/bbs.css');?>" type="text/css" />
 <title>掲示板: 投稿確認</title>
 </head>
 
 <body>
 <!-- header -->
-<?php $this->load->view('bbs_header');?>
+<?php $this->load->view('bbs_header'); ?>
 
 <!-- main -->
 <div id="main">
 <div class="title_banner">
-<img src="<?=base_url();?>images/icons/bbs_titile.jpg" alt="掲示板" width="580" height="70" />
+<img src="<?=base_url('images/icons/bbs_titile.jpg');?>" alt="掲示板" width="580" height="70" />
 </div>
 
 <div class="bbs_new_post_icon">
-<img src="<?=base_url();?>images/icons/bbs_new.jpg" alt="新規投稿" name="toukou" width="150" height="50" border="0" id="toukou" onmouseover="MM_swapImage('toukou','','<?=base_url();?>images/icons/bbs_new_on.jpg',1)" onmouseout="MM_swapImgRestore()" />
+<img src="<?=base_url('images/icons/bbs_new.jpg');?>" alt="新規投稿" name="toukou" width="150" height="50" border="0" id="toukou" onmouseover="MM_swapImage('toukou','','<?=base_url('images/icons/bbs_new_on.jpg');?>',1)" onmouseout="MM_swapImgRestore()" />
 </div>
 
 <p class="center">投稿確認</p>
 
 <div class="outer_frame">
-<?=validation_errors()?>
+<?=validation_errors();?>
 
 <div class="confirm">
 
@@ -66,6 +66,6 @@
 </div>
 </div>
 
-<?php $this->load->view('ci_footer');?>
+<?php $this->load->view('ci_footer'); ?>
 </body>
 </html>

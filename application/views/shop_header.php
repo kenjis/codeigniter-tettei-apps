@@ -1,5 +1,5 @@
 <div class="title_banner">
-<img src="<?=base_url();?>images/icons/shop_titile.jpg" alt="ショッピング" width="580" height="70" />
+<img src="<?=base_url('images/icons/shop_titile.jpg');?>" alt="ショッピング" width="580" height="70" />
 </div>
 
 <p class="cart">

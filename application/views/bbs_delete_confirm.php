@@ -2,18 +2,18 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ja" xml:lang="ja">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link rel="stylesheet" href="<?=base_url();?>css/bbs.css" type="text/css" />
+<link rel="stylesheet" href="<?=base_url('css/bbs.css');?>" type="text/css" />
 <title>掲示板: 削除の確認</title>
 </head>
 
 <body>
 <!-- header -->
-<?php $this->load->view('bbs_header');?>
+<?php $this->load->view('bbs_header'); ?>
 
 <!-- main -->
 <div id="main">
 <div class="title_banner">
-<img src="<?=base_url();?>images/icons/bbs_titile.jpg" alt="掲示板" width="580" height="70" />
+<img src="<?=base_url('images/icons/bbs_titile.jpg');?>" alt="掲示板" width="580" height="70" />
 </div>
 <p class="center">削除の確認</p>
 <div class="outer_frame">
@@ -21,7 +21,7 @@
 以下の記事を削除しますか？
 </p>
 <div class="confirm_delete">
-<h2><a name="<?=$id?>">[<?=$id?>]</a> <?=html_escape($subject);?></h2>
+<h2><a name="<?=html_escape($id);?>">[<?=html_escape($id);?>]</a> <?=html_escape($subject);?></h2>
 <div><?=html_escape($name);?>&nbsp;
 <?=html_escape($datetime);?>&nbsp;
 </div>
@@ -47,6 +47,6 @@
 </div>
 
 <!-- footer -->
-<?php $this->load->view('ci_footer');?>
+<?php $this->load->view('ci_footer'); ?>
 </body>
 </html>

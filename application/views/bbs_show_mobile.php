@@ -18,7 +18,7 @@ charsetにShift_JISを指定します。 -->
 <!-- ここから、php endforeachまで、記事を表示するループです。 -->
 <?php foreach($query->result() as $row): ?>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
-<tr><td bgcolor="#BBBBFF"><a name="id<?=$row->id?>">[<?=$row->id?>]</a> 
+<tr><td bgcolor="#BBBBFF"><a name="id<?=html_escape($row->id);?>">[<?=html_escape($row->id);?>]</a>
 <?=html_escape($row->subject);?></td></tr>
 <tr>
 <td><?=html_escape($row->name);?>&nbsp;<?=html_escape($row->datetime);?></td>

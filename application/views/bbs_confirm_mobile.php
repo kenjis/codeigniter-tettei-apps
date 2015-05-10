@@ -19,7 +19,7 @@
 <td>&nbsp;</td>
 </tr>
 <tr>
-<td bgcolor="#FFCCFF"><?=validation_errors()?></td>
+<td bgcolor="#FFCCFF"><?=validation_errors();?></td>
 </tr>
 <tr>
 <td>&nbsp;</td>

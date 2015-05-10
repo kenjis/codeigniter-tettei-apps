@@ -2,13 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ja" xml:lang="ja">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link rel="stylesheet" href="<?=base_url();?>css/shop.css" type="text/css" />
+<link rel="stylesheet" href="<?=base_url('css/shop.css');?>" type="text/css" />
 <title>CIショップ</title>
 </head>
 
 <body>
 <!-- ヘッダ -->
-<?php $this->load->view('shop_ci_header');?>
+<?php $this->load->view('shop_ci_header'); ?>
 
 <div id="main">
 <!-- ショップヘッダ -->
@@ -20,6 +20,6 @@
 </div>
 
 <!-- フッタ -->
-<?php $this->load->view('ci_footer');?>
+<?php $this->load->view('ci_footer'); ?>
 </body>
 </html>
