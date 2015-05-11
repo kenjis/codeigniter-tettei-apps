@@ -46,11 +46,13 @@ class Shop_test extends TestCase
 
 	public function test_confirm_pass()
 	{
+		get_new_instance();
+		$obj = new Shop();
+
 		$validation = $this->getMockBuilder('CI_Form_validation')
 			->getMock();
 		$validation->method('run')
 			->willReturn(true);
-		
 		$loader = $this->getMockBuilder('CITEST_Loader')
 			->setMethods(['view'])
 			->getMock();
@@ -60,9 +62,6 @@ class Shop_test extends TestCase
 				['shop_confirm', $this->anything(), TRUE],
 				['shop_tmpl_checkout', $this->anything()]
 			);
-
-		get_new_instance();
-		$obj = new Shop();
 		$obj->form_validation = $validation;
 		$obj->load = $loader;
 
@@ -71,11 +70,13 @@ class Shop_test extends TestCase
 
 	public function test_confirm_fail()
 	{
+		get_new_instance();
+		$obj = new Shop();
+
 		$validation = $this->getMockBuilder('CI_Form_validation')
 			->getMock();
 		$validation->method('run')
 			->willReturn(false);
-		
 		$loader = $this->getMockBuilder('CITEST_Loader')
 			->setMethods(['view'])
 			->getMock();
@@ -85,12 +86,92 @@ class Shop_test extends TestCase
 				['shop_customer_info', '', TRUE],
 				['shop_tmpl_checkout', $this->anything()]
 			);
-
-		get_new_instance();
-		$obj = new Shop();
 		$obj->form_validation = $validation;
 		$obj->load = $loader;
 
 		$obj->confirm();
+	}
+
+	public function test_order_cart_is_empty()
+	{
+		get_new_instance();
+		$obj = new Shop();
+
+		$cart = $this->getMockBuilder('Cart_model')
+			->setMethods(['count'])
+			->getMock();
+		$cart->method('count')
+			->willReturn(0);
+		$obj->Cart_model = $cart;
+
+		ob_start();
+		$obj->order();
+		$output = ob_get_clean();
+
+		$this->assertContains('買い物カゴには何も入っていません', $output);
+	}
+
+	public function test_order()
+	{
+		get_new_instance();
+		$obj = new Shop();
+
+		$cart = $this->getMockBuilder('Cart_model')
+			->setMethods(['count'])
+			->getMock();
+		$cart->method('count')
+			->willReturn(1);
+		$shop = $this->getMockBuilder('Shop_model')
+			->setMethods(['order'])
+			->getMock();
+		$shop->method('order')
+			->willReturn(TRUE);
+		$obj->Cart_model = $cart;
+		$obj->Shop_model = $shop;
+
+		// Warningを抑制する
+		// Severity: WarningMessage:  session_destroy(): Trying to destroy uninitialized session
+		$this->warning_off();
+
+		ob_start();
+		$obj->order();
+		$output = ob_get_clean();
+
+		// error_reportingを戻す
+		$this->warning_on();
+
+		$this->assertContains('ご注文ありがとうございます', $output);
+	}
+
+	public function test_order_system_error()
+	{
+		get_new_instance();
+		$obj = new Shop();
+
+		$cart = $this->getMockBuilder('Cart_model')
+			->setMethods(['count'])
+			->getMock();
+		$cart->method('count')
+			->willReturn(1);
+		$shop = $this->getMockBuilder('Shop_model')
+			->setMethods(['order'])
+			->getMock();
+		$shop->method('order')
+			->willReturn(FALSE);
+		$obj->Cart_model = $cart;
+		$obj->Shop_model = $shop;
+
+		// Warningを抑制する
+		// Severity: WarningMessage:  session_destroy(): Trying to destroy uninitialized session
+		$this->warning_off();
+
+		ob_start();
+		$obj->order();
+		$output = ob_get_clean();
+
+		// error_reportingを戻す
+		$this->warning_on();
+
+		$this->assertContains('システムエラー', $output);
 	}
 }

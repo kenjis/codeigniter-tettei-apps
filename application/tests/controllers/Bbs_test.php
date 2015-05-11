@@ -72,7 +72,7 @@ class Bbs_test extends TestCase
 	{
 		// Warningを抑制する
 		// Severity: WarningMessage:  Cannot modify header information - headers already sent
-		$er = error_reporting(E_ALL & ~E_WARNING);
+		$this->warning_off();
 		
 		$subject = "<s>xyz</s> " . time();
 		$output = $this->request(
@@ -91,7 +91,7 @@ class Bbs_test extends TestCase
 		);
 		
 		// error_reportingを戻す
-		error_reporting($er);
+		$this->warning_on();
 
 		$output = $this->request('GET', ['bbs', 'index'], [], $this->load_agent);
 		$this->assertContains(html_escape($subject), $output);
@@ -101,7 +101,7 @@ class Bbs_test extends TestCase
 	{
 		// Warningを抑制する
 		// Severity: WarningMessage:  Cannot modify header information - headers already sent
-		$er = error_reporting(E_ALL & ~E_WARNING);
+		$this->warning_off();
 		
 		$output = $this->request(
 			'POST',
@@ -119,7 +119,7 @@ class Bbs_test extends TestCase
 		);
 		
 		// error_reportingを戻す
-		error_reporting($er);
+		$this->warning_on();
 
 		$output = $this->request('GET', ['bbs', 'index'], [], $this->load_agent);
 		$crawler = new Crawler($output);
