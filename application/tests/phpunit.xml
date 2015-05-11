@@ -17,6 +17,9 @@
 			<directory suffix=".php">../controllers</directory>
 			<directory suffix=".php">../models</directory>
 			<directory suffix=".php">../views</directory>
+			<exclude>
+				<directory suffix=".php">../views/errors</directory>
+			</exclude>
 		</whitelist>
 	</filter>
 	<logging>
