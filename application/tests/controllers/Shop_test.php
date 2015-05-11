@@ -52,6 +52,7 @@ class Shop_test extends TestCase
 			->willReturn(true);
 		
 		$loader = $this->getMockBuilder('CITEST_Loader')
+			->setMethods(['view'])
 			->getMock();
 		$loader->expects($this->exactly(2))
 			->method('view')
@@ -76,6 +77,7 @@ class Shop_test extends TestCase
 			->willReturn(false);
 		
 		$loader = $this->getMockBuilder('CITEST_Loader')
+			->setMethods(['view'])
 			->getMock();
 		$loader->expects($this->exactly(2))
 			->method('view')

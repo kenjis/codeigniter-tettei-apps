@@ -65,9 +65,10 @@ class Shop extends CI_Controller {
 		$data['category'] = $this->Inventory_model->get_category_name($cat_id);
 
 # モデルよりそのカテゴリの商品数を取得し、ページネーションを生成します。
+		$this->load->library('Generate_pagination');
 		$path  = '/shop/index/' . $cat_id;
 		$total = $this->Inventory_model->get_product_count($cat_id);
-		$data['pagination'] = $this->_generate_pagination($path, $total, 4);
+		$data['pagination'] = $this->generate_pagination->get_links($path, $total, 4);
 
 		$data['total'] = $total;
 
@@ -152,8 +153,9 @@ class Shop extends CI_Controller {
 
 # ページネーションを生成します。検索キーワードには日本語が含まれます
 # ので、URLエンコードします。
+		$this->load->library('Generate_pagination');
 		$path  = '/shop/search';
-		$data['pagination'] = $this->_generate_pagination($path, $total, 3);
+		$data['pagination'] = $this->generate_pagination->get_links($path, $total, 3);
 
 		$data['q'] = $q;
 		$data['total'] = $total;
@@ -168,7 +170,8 @@ class Shop extends CI_Controller {
 	public function customer_info()
 	{
 # 検証ルールを設定します。
-		$this->_set_validation();
+		$this->load->library('Shop_validation');
+		$this->shop_validation->set();
 		$this->form_validation->run();
 
 		$data['action'] = 'お客様情報の入力';
@@ -179,7 +182,8 @@ class Shop extends CI_Controller {
 	// 注文内容確認
 	public function confirm()
 	{
-		$this->_set_validation();
+		$this->load->library('Shop_validation');
+		$this->shop_validation->set();
 
 		if ($this->form_validation->run() == TRUE)
 		{
@@ -227,60 +231,5 @@ class Shop extends CI_Controller {
 		{
 			echo 'システムエラー';
 		}
-	}
-
-	// バリデーションの設定
-	private function _set_validation()
-	{
-		$this->load->library('form_validation');
-		$this->form_validation->set_error_delimiters('<div class="error">', '</div>');
-
-		$this->form_validation->set_rules(
-			'name', '名前', 'trim|required|max_length[64]'
-		);
-		$this->form_validation->set_rules(
-			'zip', '郵便番号', 'trim|max_length[8]'
-		);
-		$this->form_validation->set_rules(
-			'addr', '住所', 'trim|required|max_length[128]'
-		);
-		$this->form_validation->set_rules(
-			'tel', '電話番号', 'trim|required|max_length[20]'
-		);
-		$this->form_validation->set_rules(
-			'email', 'メールアドレス', 'trim|required|valid_email|max_length[64]'
-		);
-	}
-
-	// ページネーションの生成
-	private function _generate_pagination($path, $total, $uri_segment)
-	{
-# ページネーションクラスをロードします。
-		$this->load->library('pagination');
-# リンク先のURLを指定します。
-		$config['base_url']       = $this->config->site_url($path);
-# 総件数を指定します。
-		$config['total_rows']     = $total;
-# 1ページに表示する件数を指定します。
-		$config['per_page']       = $this->limit;
-# ページ番号情報がどのURIセグメントに含まれるか指定します。
-		$config['uri_segment']    = $uri_segment;
-# ページネーションでクエリ文字列を使えるようにします。
-		$config['reuse_query_string'] = TRUE;
-# 生成するリンクのテンプレートを指定します。
-		$config['first_link']      = '&laquo;最初';
-		$config['last_link']       = '最後&raquo;';
-		$config['full_tag_open']   = '<p>';
-		$config['full_tag_close']  = '</p>';
-		$config['num_tag_open']    = ' ';
-		$config['num_tag_close']   = ' ';
-		$config['last_tag_open']   = ' ';
-		$config['last_tag_close']  = ' ';
-		$config['first_tag_open']  = ' ';
-		$config['first_tag_close'] = ' ';
-# $configでページネーションを初期化します。
-		$this->pagination->initialize($config);
-# 生成したリンクの文字列を返します。
-		return $this->pagination->create_links();
 	}
 }
