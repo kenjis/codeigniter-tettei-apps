@@ -58,4 +58,10 @@ class Inventory_model_test extends PHPUnit_Framework_TestCase
 		$expected = 3;
 		$this->assertEquals($expected, $actual);
 	}
+
+	public function test_is_available_product_item_not_available()
+	{
+		$actual = $this->obj->is_available_product_item(9999999999);
+		$this->assertFalse($actual);
+	}
 }
