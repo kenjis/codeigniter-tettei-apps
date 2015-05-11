@@ -265,10 +265,10 @@ class Bbs extends CI_Controller {
 	public function captcha_check($str)
 	{
 # 環境がtestingの場合は、キャプチャの検証をスキップします。
-	if (ENVIRONMENT === 'testing')
-	{
-		return TRUE;
-	}
+		if (ENVIRONMENT === 'testing' && $str === '8888')
+		{
+			return TRUE;
+		}
 
 # 有効期限を2時間に設定し、それ以前に生成されたキャプチャをデータベースから
 # 削除します。delete()メソッドの第2引数では、「captcha_time <」を配列のキーに
