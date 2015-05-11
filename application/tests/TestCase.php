@@ -1,4 +1,12 @@
 <?php
+/**
+ * Part of CI PHPUnit Test
+ *
+ * @author     Kenji Suzuki <https://github.com/kenjis>
+ * @license    MIT License
+ * @copyright  2015 Kenji Suzuki
+ * @link       https://github.com/kenjis/ci-phpunit-test
+ */
 
 class TestCase extends PHPUnit_Framework_TestCase
 {
@@ -32,11 +40,13 @@ class TestCase extends PHPUnit_Framework_TestCase
 			$callable($this->CI);
 		}
 		
-		$controller = ucfirst($_SERVER['argv'][1]);
-		$method = $_SERVER['argv'][2];
+		array_shift($_SERVER['argv']);
+		$controller = array_shift($_SERVER['argv']);
+		$controller = ucfirst($controller);
+		$method = array_shift($_SERVER['argv']);
 		$this->obj = new $controller;
 		ob_start();
-		call_user_func([$this->obj, $method]);
+		call_user_func_array([$this->obj, $method], $_SERVER['argv']);
 		$output = ob_get_clean();
 		
 		return $output;
