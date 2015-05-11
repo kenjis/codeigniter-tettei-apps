@@ -9,6 +9,7 @@
 		"mikey179/vfsStream": "1.1.*",
 		"kenjis/codeigniter-cli": "1.0.x@dev",
 		"fzaninotto/faker": "^1.4",
-		"codeception/codeception": "^2.0"
+		"codeception/codeception": "^2.0",
+		"symfony/dom-crawler": "^2.6"
 	}
 }

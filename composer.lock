@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e9fa3134d4c7a6bf7bf370b633342a1f",
+    "hash": "0968bedb14ebf1baffdca94ee1197039",
     "packages": [],
     "packages-dev": [
         {
@@ -673,7 +673,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kenjis/codeigniter-cli/zipball/c9e93bfa1be0dd044e670c7e3e649eadd48e126c",
+                "url": "https://api.github.com/repos/kenjis/codeigniter-cli/zipball/36f7ba53c312b8ddded222220ae2e698bd021ded",
                 "reference": "c9e93bfa1be0dd044e670c7e3e649eadd48e126c",
                 "shasum": ""
             },
@@ -1933,17 +1933,17 @@
         },
         {
             "name": "symfony/dom-crawler",
-            "version": "v2.6.6",
+            "version": "v2.6.7",
             "target-dir": "Symfony/Component/DomCrawler",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/DomCrawler.git",
-                "reference": "8897ebf39c7dfb752a5494fa301845a3fbb9e53d"
+                "reference": "adef13fb8d305d95e1fb8324d6b5895c8e79d332"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/DomCrawler/zipball/8897ebf39c7dfb752a5494fa301845a3fbb9e53d",
-                "reference": "8897ebf39c7dfb752a5494fa301845a3fbb9e53d",
+                "url": "https://api.github.com/repos/symfony/DomCrawler/zipball/adef13fb8d305d95e1fb8324d6b5895c8e79d332",
+                "reference": "adef13fb8d305d95e1fb8324d6b5895c8e79d332",
                 "shasum": ""
             },
             "require": {
@@ -1973,17 +1973,17 @@
             ],
             "authors": [
                 {
-                    "name": "Symfony Community",
-                    "homepage": "http://symfony.com/contributors"
-                },
-                {
                     "name": "Fabien Potencier",
                     "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
                 }
             ],
             "description": "Symfony DomCrawler Component",
-            "homepage": "http://symfony.com",
-            "time": "2015-03-30 15:54:10"
+            "homepage": "https://symfony.com",
+            "time": "2015-05-02 15:18:45"
         },
         {
             "name": "symfony/event-dispatcher",
