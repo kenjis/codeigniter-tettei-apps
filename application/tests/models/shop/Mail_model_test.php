@@ -1,6 +1,6 @@
 <?php
 
-class Mail_model_test extends PHPUnit_Framework_TestCase
+class Mail_model_test extends TestCase
 {
 	public function setUp()
 	{

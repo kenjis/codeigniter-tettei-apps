@@ -1,9 +1,11 @@
 <?php
 
-class Cart_model_test extends PHPUnit_Framework_TestCase
+class Cart_model_test extends TestCase
 {
 	public static function setUpBeforeClass()
 	{
+		parent::setUpBeforeClass();
+
 		$CI =& get_instance();
 		$CI->load->library('Seeder');
 		$CI->seeder->call('ProductSeeder');

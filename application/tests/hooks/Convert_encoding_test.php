@@ -1,6 +1,6 @@
 <?php
 
-class Convert_encoding_test extends PHPUnit_Framework_TestCase
+class Convert_encoding_test extends TestCase
 {
 	public function setUp()
 	{

@@ -4,6 +4,8 @@ class Shop_test extends TestCase
 {
 	public static function setUpBeforeClass()
 	{
+		parent::setUpBeforeClass();
+
 		$CI =& get_instance();
 		$CI->load->library('Seeder');
 		$CI->seeder->call('ProductSeeder');
