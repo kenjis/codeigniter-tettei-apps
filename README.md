@@ -25,14 +25,14 @@
   * categoryとproductテーブルのSeedを追加 [application/database/seeds](application/database/seeds)
   * キーワード検索をGETメソッドを使うように変更
   * メール本文の作成をテンプレートパーサクラスを使うように変更
-* コードのリファクタリング
   * クラスの分割
+* リファクタリング
   * ビューのコーディングスタイルを統一し、HTMLエスケープを徹底
 
 追加されたComposerのパッケージ
 
-* Cli for CodeIgniter
-* CI PHPUnit Test
+* Cli for CodeIgniter <http://blog.a-way-out.net/blog/2015/05/07/codeigniter-cli/>
+* CI PHPUnit Test <https://github.com/kenjis/ci-phpunit-test>
 * Faker
 * Codeception
 * Symfony DomCrawler
