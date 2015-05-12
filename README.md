@@ -34,9 +34,9 @@
 
 * Cli for CodeIgniter <http://blog.a-way-out.net/blog/2015/05/07/codeigniter-cli/>
 * CI PHPUnit Test <https://github.com/kenjis/ci-phpunit-test>
-* Faker
-* Codeception
-* Symfony DomCrawler
+* Faker <http://blog.a-way-out.net/blog/2014/06/13/faker/>
+* Codeception <http://codeception.com/>
+* Symfony DomCrawler <http://docs.symfony.gr.jp/symfony2/components/dom_crawler.html>
 
 ## インストール方法
 
