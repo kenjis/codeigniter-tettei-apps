@@ -39,9 +39,81 @@
 
 ## インストール方法
 
-@TODO
+### ダウンロード
+
+https://github.com/kenjis/codeigniter-tettei-apps/archive/develop.zip をダウンロードし解凍します。
+
+### Apacheの設定
+
+`codeigniter-tettei-apps/public`フォルダが公開フォルダです。ここを <http://localhost/CodeIgniter/> でアクセスできるように設定してください。
+
+例えば、以下のようにApacheの`htdocs`以下にシンボリックリンクを張ります。
+
+~~~
+$ cd /paht/to/Apache/htdocs/
+$ ln -s /path/to/codeigniter-tettei-apps/public/ CodeIgniter
+~~~
+
+### 依存パッケージのインストール
+
+Composerで依存パッケージをインストールします。
+
+~~~
+$ cd /path/to/codeigniter-tettei-apps/
+$ php composer.phar self-update
+$ php composer.phar install
+~~~
+
+### データベースとユーザの作成
+
+MySQLにデータベースとユーザを作成します。
+
+~~~
+CREATE DATABASE `codeigniter` DEFAULT CHARACTER SET utf8;
+GRANT ALL PRIVILEGES ON codeigniter.* TO username@localhost IDENTIFIED BY 'password';
+~~~
+
+### データベースマイグレーションとシーディングの実行
+
+データベースにテーブルを作成し、テストデータを挿入します。
+
+~~~
+$ php cli migrate
+$ php cli seed
+~~~
+
+## テストの実行方法
+
+### PHPUnitによるアプリケーションテスト
+
+~~~
+$ cd application/tests/
+$ ../../vendor/bin/phpunit
+~~~
+
+テストカバー率のレポートは`tests/build/coverage`フォルダに作成されます。なお、カバー率の集計にはXdebugが必要です。
+
+### Codeception/Seleniumによる受入テスト
+
+<http://docs.seleniumhq.org/download/> よりSelenium Server 2.45.0をダウンロードします。
+
+ダウンロードしたSeleniumサーバを起動します。
+
+~~~
+$ java -jar selenium-server-standalone-2.45.0.jar
+~~~
+
+受入テストを実行します。
+
+~~~
+$ sh acceptance-test.sh
+~~~
 
 ## 参考
+
+書籍のコードほぼそのままでCodeIgniter 3.0.0に対応したものを見たい場合は、[master](https://github.com/kenjis/codeigniter-tettei-apps/tree/master)ブランチをご覧ください。
+
+また、具体的な変更点は以下をご覧ください。
 
 * [application/以下のCodeIgniter 3.0へのアップデート](https://github.com/kenjis/codeigniter-tettei-apps/commit/3dcdeefc8e42b2c8f6636fba5e86c7de28f961a3?w=1)
 
