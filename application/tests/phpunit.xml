@@ -22,6 +22,7 @@
 			<directory suffix=".php">../hooks</directory>
 			<exclude>
 				<directory suffix=".php">../views/errors</directory>
+				<file>../views/welcome_message.php</file>
 			</exclude>
 		</whitelist>
 	</filter>
