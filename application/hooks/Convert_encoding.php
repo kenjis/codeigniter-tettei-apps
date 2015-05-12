@@ -25,7 +25,7 @@ class Convert_encoding
 		}
 
 # 携帯端末からのアクセスを判定するためユーザエージェントクラスをロードします。
-		$agent =& load_class('user_agent');
+		$agent =& load_class('User_agent');
 
 # 携帯端末からの入力文字エンコードを変換します。
 		if (count($_POST) > 1 && $agent->is_mobile())
