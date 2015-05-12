@@ -57,12 +57,22 @@ $ ln -s /path/to/codeigniter-tettei-apps/public/ CodeIgniter
 
 なお、`.htaccess`によるmod_rewriteの設定を有効にしてください。
 
+### ファイルのパーミッション設定
+
+必要な場合は、以下のフォルダにApacheから書き込みできる権限を付与してください。
+
+~~~
+$ cd /path/to/codeigniter-tettei-apps/
+$ chmod o+w application/logs/
+$ chmod o+w application/cache/
+$ chmod o+w public/captcha/
+~~~
+
 ### 依存パッケージのインストール
 
 Composerで依存パッケージをインストールします。
 
 ~~~
-$ cd /path/to/codeigniter-tettei-apps/
 $ php composer.phar self-update
 $ php composer.phar install
 ~~~
