@@ -1,9 +1,9 @@
 {
-	"description" : "The CodeIgniter framework",
-	"name" : "codeigniter/framework",
-	"license": "MIT",
+	"description" : "『CodeIgniter徹底入門』のサンプルアプリケーション",
+	"name" : "kenjis/codeigniter-tettei-apps",
+	"license": "BSD-3-Clause",
 	"require": {
-		"php": ">=5.2.4"
+		"php": ">=5.4"
 	},
 	"require-dev": {
 		"mikey179/vfsStream": "1.1.*",
@@ -11,6 +11,7 @@
 		"fzaninotto/faker": "1.4.*",
 		"codeception/codeception": "2.0.*",
 		"symfony/dom-crawler": "2.6.*",
-		"kenjis/ci-phpunit-test": "1.0.x@dev"
+		"kenjis/ci-phpunit-test": "1.0.x@dev",
+		"phpunit/phpunit": "4.6.*"
 	}
 }
