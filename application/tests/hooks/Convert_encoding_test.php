@@ -20,7 +20,7 @@ class Convert_encoding_test extends PHPUnit_Framework_TestCase
 			->getMock();
 		$agent->method('is_mobile')
 			->willReturn(true);
-		load_class_instance('user_agent', $agent);
+		load_class_instance('User_agent', $agent);
 		// is_cli()の返り値をfalseに変更
 		set_is_cli(FALSE);
 
@@ -45,7 +45,7 @@ class Convert_encoding_test extends PHPUnit_Framework_TestCase
 
 		$this->obj->run();
 		$loaded_classes = is_loaded();
-		$this->assertFalse(isset($loaded_classes['user_agent']));
+		$this->assertFalse(isset($loaded_classes['User_agent']));
 
 		$this->obj->add_agent();
 		$this->assertFalse(isset($CI->agent));
