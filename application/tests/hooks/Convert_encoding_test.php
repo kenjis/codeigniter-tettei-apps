@@ -31,9 +31,25 @@ class Convert_encoding_test extends PHPUnit_Framework_TestCase
 		$this->obj->add_agent();
 		$CI =& get_instance();
 		$this->assertSame($agent, $CI->agent);
-		$this->assertTrue(! isset($CI->user_agent));
+		$this->assertFalse(isset($CI->user_agent));
 
 		// is_cli()の返り値をtrueに戻す
+		set_is_cli(TRUE);
+	}
+
+	public function test_check_route_false()
+	{
+		$CI = get_new_instance();
+		set_is_cli(FALSE);
+		$_SERVER['PATH_INFO'] = '/shop';
+
+		$this->obj->run();
+		$loaded_classes = is_loaded();
+		$this->assertFalse(isset($loaded_classes['user_agent']));
+
+		$this->obj->add_agent();
+		$this->assertFalse(isset($CI->agent));
+
 		set_is_cli(TRUE);
 	}
 }
