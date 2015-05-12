@@ -3,6 +3,5 @@
 /application/tests/build/
 /public/captcha/
 /vendor/
-/config/
 /tmp/
 tests/_output/*
