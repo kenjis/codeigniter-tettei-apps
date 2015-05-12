@@ -19,6 +19,7 @@
 * CSRF対策を独自実装からCodeIgniterの自動保護に変更
 * Codeception/Seleniumによる受入テストの追加 [tests/acceptance](tests/acceptance)
 * PHPUnitによるアプリケーションテストの追加 [application/tests](application/tests)
+* データベースマイグレーションの追加 [application/database/migratons](application/database/migratons)
 * 掲示板
   * コントローラでの文字エンコード変換ができなくなったのでフックのpre_systemに移動
 * ショッピング
@@ -53,6 +54,8 @@ https://github.com/kenjis/codeigniter-tettei-apps/archive/develop.zip をダウ�
 $ cd /paht/to/Apache/htdocs/
 $ ln -s /path/to/codeigniter-tettei-apps/public/ CodeIgniter
 ~~~
+
+なお、`.htaccess`によるmod_rewriteの設定を有効にしてください。
 
 ### 依存パッケージのインストール
 
