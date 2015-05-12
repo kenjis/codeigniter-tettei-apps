@@ -19,13 +19,13 @@ class Bbs_test extends TestCase
 
 	public function test_index_mobile()
 	{
+		get_new_instance();
+		$obj = new Bbs();
+
 		$agent = $this->getMockBuilder('CI_User_agent')
 			->getMock();
 		$agent->method('is_mobile')
 			->willReturn(true);
-
-		get_new_instance();
-		$obj = new Bbs();
 		$obj->agent = $agent;
 
 		ob_start();

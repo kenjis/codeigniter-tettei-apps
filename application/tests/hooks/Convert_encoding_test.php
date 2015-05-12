@@ -1,0 +1,39 @@
+<?php
+
+class Convert_encoding_test extends PHPUnit_Framework_TestCase
+{
+	public function setUp()
+	{
+		require_once APPPATH . 'hooks/Convert_encoding.php';
+		$this->obj = new Convert_encoding();
+	}
+
+	public function test_run_and_add_agent()
+	{
+		$str = '尾骶骨';
+		$_SERVER['PATH_INFO'] = '/bbs';
+		$_POST = [
+			'name' => mb_convert_encoding($str, 'SJIS-win', 'UTF-8'),
+			'email' => '',
+		];
+		$agent = $this->getMockBuilder('CI_User_agent')
+			->getMock();
+		$agent->method('is_mobile')
+			->willReturn(true);
+		load_class_instance('user_agent', $agent);
+		// is_cli()の返り値をfalseに変更
+		set_is_cli(FALSE);
+
+		$this->obj->run();
+		$this->assertEquals('尾骨', $_POST['name']);
+
+		new CI_Controller();
+		$this->obj->add_agent();
+		$CI =& get_instance();
+		$this->assertSame($agent, $CI->agent);
+		$this->assertTrue(! isset($CI->user_agent));
+
+		// is_cli()の返り値をtrueに戻す
+		set_is_cli(TRUE);
+	}
+}

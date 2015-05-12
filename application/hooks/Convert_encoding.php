@@ -2,7 +2,7 @@
 
 class Convert_encoding
 {
-	public function check_route()
+	private function check_route()
 	{
 		if (isset($_SERVER['PATH_INFO']) && substr($_SERVER['PATH_INFO'], 0, 4) === '/bbs')
 		{
@@ -53,7 +53,7 @@ class Convert_encoding
 	}
 
 	// 入力文字エンコード変換
-	public function convert_to_utf8($array)
+	private function convert_to_utf8($array)
 	{
 # 引数が配列の場合は、配列の各々の要素を自分自身に渡し処理します。
 # array_map()関数の第1引数は、コールバック関数ですが、ここでは、クラス内の
