@@ -39,7 +39,15 @@ class Form_test extends TestCase
 				'name' => '<s>abc</s>',
 				'email' => 'test@example.jp',
 				'comment' => '<s>abc</s>',
-			]
+			],
+			function ($CI) {
+				$email = $this->getMockBuilder('CI_Email')
+					->setMethods(['send'])
+					->getMock();
+				$email->method('send')
+					->willReturn(true);
+				load_class_instance('email', $email);
+			}
 		);
 		$this->assertContains('送信しました', $output);
 	}
