@@ -10,6 +10,33 @@
 
 * PHP 5.4以降
 
+## 書籍のコードからの変更点
+
+* CodeIgniter 3.0.0に対応
+* フォルダ構成を変更し、Web公開領域を`public`フォルダ以下に限定
+* CodeIgniterでComposerを利用可能に設定
+* ISO-2022-JPのメールは作成できなくなったのでUTF-8に変更
+* CSRF対策を独自実装からCodeIgniterの自動保護に変更
+* Codeception/Seleniumによる受入テストの追加 [tests/acceptance](tests/acceptance)
+* PHPUnitによるアプリケーションテストの追加 [application/tests](application/tests)
+* 掲示板
+  * コントローラでの文字エンコード変換ができなくなったのでフックのpre_systemに移動
+* ショッピング
+  * categoryとproductテーブルのSeedを追加 [application/database/seeds](application/database/seeds)
+  * キーワード検索をGETメソッドを使うように変更
+  * メール本文の作成をテンプレートパーサクラスを使うように変更
+* コードのリファクタリング
+  * クラスの分割
+  * ビューのコーディングスタイルを統一し、HTMLエスケープを徹底
+
+追加されたComposerのパッケージ
+
+* Cli for CodeIgniter
+* CI PHPUnit Test
+* Faker
+* Codeception
+* Symfony DomCrawler
+
 ## インストール方法
 
 @TODO
