@@ -19,7 +19,7 @@
 * CSRF対策を独自実装からCodeIgniterの自動保護に変更
 * Codeception/Seleniumによる受入テストの追加 [tests/acceptance](tests/acceptance)
 * PHPUnitによるアプリケーションテストの追加 [application/tests](application/tests)
-* データベースマイグレーションの追加 [application/database/migratons](application/database/migratons)
+* データベースマイグレーションの追加 [application/database/migrations](application/database/migrations)
 * 掲示板
   * コントローラでの文字エンコード変換ができなくなったのでフックのpre_systemに移動
 * ショッピング
