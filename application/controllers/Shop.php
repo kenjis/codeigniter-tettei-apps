@@ -60,7 +60,9 @@ class Shop extends CI_Controller {
 
 # カテゴリIDとoffset値と、1ページに表示する商品の数を渡し、モデルより
 # 商品一覧を取得します。
-		$data['list'] = $this->Inventory_model->get_product_list($cat_id, $this->limit, $offset);
+		$data['list'] = $this->Inventory_model->get_product_list(
+			$cat_id, $this->limit, $offset
+		);
 # カテゴリIDより、カテゴリ名を取得します。
 		$data['category'] = $this->Inventory_model->get_category_name($cat_id);
 
@@ -148,11 +150,12 @@ class Shop extends CI_Controller {
 		$offset = (int) $this->uri->segment(3, 0);
 
 # モデルから、キーワードで検索した商品データと総件数を取得します。
-		$data['list'] = $this->Inventory_model->get_product_by_search($q, $this->limit, $offset);
+		$data['list'] = $this->Inventory_model->get_product_by_search(
+			$q, $this->limit, $offset
+		);
 		$total = $this->Inventory_model->get_count_by_search($q);
 
-# ページネーションを生成します。検索キーワードには日本語が含まれます
-# ので、URLエンコードします。
+# ページネーションを生成します。
 		$this->load->library('Generate_pagination');
 		$path  = '/shop/search';
 		$data['pagination'] = $this->generate_pagination->get_links($path, $total, 3);
