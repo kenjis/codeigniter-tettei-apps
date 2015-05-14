@@ -22,10 +22,7 @@ class Bbs_test extends TestCase
 		get_new_instance();
 		$obj = new Bbs();
 
-		$agent = $this->getMockBuilder('CI_User_agent')
-			->getMock();
-		$agent->method('is_mobile')
-			->willReturn(true);
+		$agent = $this->get_mock('CI_User_agent', ['is_mobile' => TRUE]);
 		$obj->agent = $agent;
 
 		ob_start();

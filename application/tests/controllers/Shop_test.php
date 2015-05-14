@@ -51,19 +51,15 @@ class Shop_test extends TestCase
 		get_new_instance();
 		$obj = new Shop();
 
-		$validation = $this->getMockBuilder('CI_Form_validation')
-			->getMock();
-		$validation->method('run')
-			->willReturn(true);
-		$loader = $this->getMockBuilder('CITEST_Loader')
-			->setMethods(['view'])
-			->getMock();
-		$loader->expects($this->exactly(2))
-			->method('view')
-			->withConsecutive(
+		$validation = $this->get_mock('CI_Form_validation', ['run' => TRUE]);
+		$loader = $this->get_mock('CITEST_Loader', ['view' => NULL]);
+		$this->verifyInvokedMultipleTimes(
+			$loader, 'view', 2,
+			[
 				['shop_confirm', $this->anything(), TRUE],
-				['shop_tmpl_checkout', $this->anything()]
-			);
+				['shop_tmpl_checkout', $this->anything()],
+			]
+		);
 		$obj->form_validation = $validation;
 		$obj->load = $loader;
 
@@ -75,13 +71,8 @@ class Shop_test extends TestCase
 		get_new_instance();
 		$obj = new Shop();
 
-		$validation = $this->getMockBuilder('CI_Form_validation')
-			->getMock();
-		$validation->method('run')
-			->willReturn(false);
-		$loader = $this->getMockBuilder('CITEST_Loader')
-			->setMethods(['view'])
-			->getMock();
+		$validation = $this->get_mock('CI_Form_validation', ['run' => FALSE]);
+		$loader = $this->get_mock('CITEST_Loader', ['view' => NULL]);
 		$loader->expects($this->exactly(2))
 			->method('view')
 			->withConsecutive(
@@ -99,11 +90,7 @@ class Shop_test extends TestCase
 		get_new_instance();
 		$obj = new Shop();
 
-		$cart = $this->getMockBuilder('Cart_model')
-			->setMethods(['count'])
-			->getMock();
-		$cart->method('count')
-			->willReturn(0);
+		$cart = $this->get_mock('Cart_model', ['count' => 0]);
 		$obj->Cart_model = $cart;
 
 		ob_start();
@@ -118,16 +105,8 @@ class Shop_test extends TestCase
 		get_new_instance();
 		$obj = new Shop();
 
-		$cart = $this->getMockBuilder('Cart_model')
-			->setMethods(['count'])
-			->getMock();
-		$cart->method('count')
-			->willReturn(1);
-		$shop = $this->getMockBuilder('Shop_model')
-			->setMethods(['order'])
-			->getMock();
-		$shop->method('order')
-			->willReturn(TRUE);
+		$cart = $this->get_mock('Cart_model', ['count' => 1]);
+		$shop = $this->get_mock('Shop_model', ['order' => TRUE]);
 		$obj->Cart_model = $cart;
 		$obj->Shop_model = $shop;
 
@@ -150,16 +129,8 @@ class Shop_test extends TestCase
 		get_new_instance();
 		$obj = new Shop();
 
-		$cart = $this->getMockBuilder('Cart_model')
-			->setMethods(['count'])
-			->getMock();
-		$cart->method('count')
-			->willReturn(1);
-		$shop = $this->getMockBuilder('Shop_model')
-			->setMethods(['order'])
-			->getMock();
-		$shop->method('order')
-			->willReturn(FALSE);
+		$cart = $this->get_mock('Cart_model', ['count' => 1]);
+		$shop = $this->get_mock('Shop_model', ['order' => FALSE]);
 		$obj->Cart_model = $cart;
 		$obj->Shop_model = $shop;
 

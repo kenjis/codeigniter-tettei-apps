@@ -41,11 +41,7 @@ class Form_test extends TestCase
 				'comment' => '<s>abc</s>',
 			],
 			function ($CI) {
-				$email = $this->getMockBuilder('CI_Email')
-					->setMethods(['send'])
-					->getMock();
-				$email->method('send')
-					->willReturn(true);
+				$email = $this->get_mock('CI_Email', ['send' => TRUE]);
 				load_class_instance('email', $email);
 			}
 		);

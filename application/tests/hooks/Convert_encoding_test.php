@@ -16,10 +16,7 @@ class Convert_encoding_test extends TestCase
 			'name' => mb_convert_encoding($str, 'SJIS-win', 'UTF-8'),
 			'email' => '',
 		];
-		$agent = $this->getMockBuilder('CI_User_agent')
-			->getMock();
-		$agent->method('is_mobile')
-			->willReturn(true);
+		$agent = $this->get_mock('CI_User_agent', ['is_mobile' => TRUE]);
 		load_class_instance('User_agent', $agent);
 		// is_cli()の返り値をfalseに変更
 		set_is_cli(FALSE);
