@@ -41,7 +41,7 @@ class Form_test extends TestCase
 				'comment' => '<s>abc</s>',
 			],
 			function ($CI) {
-				$email = $this->get_mock('CI_Email', ['send' => TRUE]);
+				$email = $this->getDouble('CI_Email', ['send' => TRUE]);
 				load_class_instance('email', $email);
 			}
 		);

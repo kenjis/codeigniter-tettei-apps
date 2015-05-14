@@ -51,8 +51,8 @@ class Shop_test extends TestCase
 		get_new_instance();
 		$obj = new Shop();
 
-		$validation = $this->get_mock('CI_Form_validation', ['run' => TRUE]);
-		$loader = $this->get_mock('CITEST_Loader', ['view' => NULL]);
+		$validation = $this->getDouble('CI_Form_validation', ['run' => TRUE]);
+		$loader = $this->getDouble('CITEST_Loader', ['view' => NULL]);
 		$this->verifyInvokedMultipleTimes(
 			$loader, 'view', 2,
 			[
@@ -71,14 +71,15 @@ class Shop_test extends TestCase
 		get_new_instance();
 		$obj = new Shop();
 
-		$validation = $this->get_mock('CI_Form_validation', ['run' => FALSE]);
-		$loader = $this->get_mock('CITEST_Loader', ['view' => NULL]);
-		$loader->expects($this->exactly(2))
-			->method('view')
-			->withConsecutive(
+		$validation = $this->getDouble('CI_Form_validation', ['run' => FALSE]);
+		$loader = $this->getDouble('CITEST_Loader', ['view' => NULL]);
+		$this->verifyInvokedMultipleTimes(
+			$loader, 'view', 2,
+			[
 				['shop_customer_info', '', TRUE],
 				['shop_tmpl_checkout', $this->anything()]
-			);
+			]
+		);
 		$obj->form_validation = $validation;
 		$obj->load = $loader;
 
@@ -90,7 +91,7 @@ class Shop_test extends TestCase
 		get_new_instance();
 		$obj = new Shop();
 
-		$cart = $this->get_mock('Cart_model', ['count' => 0]);
+		$cart = $this->getDouble('Cart_model', ['count' => 0]);
 		$obj->Cart_model = $cart;
 
 		ob_start();
@@ -105,21 +106,21 @@ class Shop_test extends TestCase
 		get_new_instance();
 		$obj = new Shop();
 
-		$cart = $this->get_mock('Cart_model', ['count' => 1]);
-		$shop = $this->get_mock('Shop_model', ['order' => TRUE]);
+		$cart = $this->getDouble('Cart_model', ['count' => 1]);
+		$shop = $this->getDouble('Shop_model', ['order' => TRUE]);
 		$obj->Cart_model = $cart;
 		$obj->Shop_model = $shop;
 
 		// Warningを抑制する
 		// Severity: WarningMessage:  session_destroy(): Trying to destroy uninitialized session
-		$this->warning_off();
+		$this->warningOff();
 
 		ob_start();
 		$obj->order();
 		$output = ob_get_clean();
 
 		// error_reportingを戻す
-		$this->warning_on();
+		$this->warningOn();
 
 		$this->assertContains('ご注文ありがとうございます', $output);
 	}
@@ -129,21 +130,21 @@ class Shop_test extends TestCase
 		get_new_instance();
 		$obj = new Shop();
 
-		$cart = $this->get_mock('Cart_model', ['count' => 1]);
-		$shop = $this->get_mock('Shop_model', ['order' => FALSE]);
+		$cart = $this->getDouble('Cart_model', ['count' => 1]);
+		$shop = $this->getDouble('Shop_model', ['order' => FALSE]);
 		$obj->Cart_model = $cart;
 		$obj->Shop_model = $shop;
 
 		// Warningを抑制する
 		// Severity: WarningMessage:  session_destroy(): Trying to destroy uninitialized session
-		$this->warning_off();
+		$this->warningOff();
 
 		ob_start();
 		$obj->order();
 		$output = ob_get_clean();
 
 		// error_reportingを戻す
-		$this->warning_on();
+		$this->warningOn();
 
 		$this->assertContains('システムエラー', $output);
 	}
