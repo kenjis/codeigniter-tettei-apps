@@ -36,7 +36,7 @@ class Convert_encoding_test extends TestCase
 
 	public function test_check_route_false()
 	{
-		$CI = get_new_instance();
+		get_new_instance();
 		set_is_cli(FALSE);
 		$_SERVER['PATH_INFO'] = '/shop';
 
