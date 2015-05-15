@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a9ae29667c4f925482c1cc9faa2167b9",
+    "hash": "9d7eefc4d2d2bf06f46f7aaaca0574e2",
     "packages": [],
     "packages-dev": [
         {
@@ -362,6 +362,60 @@
             "time": "2015-04-24 23:54:03"
         },
         {
+            "name": "compwright/codeigniter-installers",
+            "version": "1.1.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/compwright/codeigniter-installers.git",
+                "reference": "adbbd5ae2cbf5a24a39931235b1ac7dab56abb4f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/compwright/codeigniter-installers/zipball/adbbd5ae2cbf5a24a39931235b1ac7dab56abb4f",
+                "reference": "adbbd5ae2cbf5a24a39931235b1ac7dab56abb4f",
+                "shasum": ""
+            },
+            "require-dev": {
+                "composer/composer": "1.0.*@dev"
+            },
+            "type": "composer-installer",
+            "extra": {
+                "class": "Composer\\Installer\\CodeigniterInstaller"
+            },
+            "autoload": {
+                "psr-0": {
+                    "Composer\\Installer": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jonathon Hill",
+                    "email": "jhill9693@gmail.com",
+                    "homepage": "http://jonathonhill.net",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Composer installers for CodeIgniter",
+            "homepage": "https://github.com/compwright/codeigniter-installers",
+            "keywords": [
+                "MX",
+                "codeigniter",
+                "composer",
+                "core",
+                "hmvc",
+                "installer",
+                "library",
+                "module",
+                "spark",
+                "sparks"
+            ],
+            "time": "2012-11-12 16:11:38"
+        },
+        {
             "name": "doctrine/instantiator",
             "version": "1.0.4",
             "source": {
@@ -673,7 +727,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kenjis/ci-phpunit-test/zipball/322bf7021b57d41ff063143775692567249b45a0",
+                "url": "https://api.github.com/repos/kenjis/ci-phpunit-test/zipball/778a65fb6cf5871e859a59ae5e74727dce3f68f6",
                 "reference": "322bf7021b57d41ff063143775692567249b45a0",
                 "shasum": ""
             },
@@ -766,6 +820,62 @@
                 "command line"
             ],
             "time": "2015-05-10 08:45:46"
+        },
+        {
+            "name": "maximebf/debugbar",
+            "version": "v1.10.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/maximebf/php-debugbar.git",
+                "reference": "7b2006e6e095126b5a061ec33fca3d90ea8a8219"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/maximebf/php-debugbar/zipball/7b2006e6e095126b5a061ec33fca3d90ea8a8219",
+                "reference": "7b2006e6e095126b5a061ec33fca3d90ea8a8219",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0",
+                "psr/log": "~1.0",
+                "symfony/var-dumper": "~2.6"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "suggest": {
+                "kriswallsmith/assetic": "The best way to manage assets",
+                "monolog/monolog": "Log using Monolog",
+                "predis/predis": "Redis storage"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.10-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "DebugBar": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Maxime Bouroumeau-Fuseau",
+                    "email": "maxime.bouroumeau@gmail.com",
+                    "homepage": "http://maximebf.com"
+                }
+            ],
+            "description": "Debug bar in the browser for php application",
+            "homepage": "https://github.com/maximebf/php-debugbar",
+            "keywords": [
+                "debug"
+            ],
+            "time": "2015-02-05 07:51:20"
         },
         {
             "name": "mikey179/vfsStream",
@@ -2137,6 +2247,66 @@
             "time": "2015-05-02 15:18:45"
         },
         {
+            "name": "symfony/var-dumper",
+            "version": "v2.6.7",
+            "target-dir": "Symfony/Component/VarDumper",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/var-dumper.git",
+                "reference": "89eec96645fb44af4a454a26c74c72ba6311f5bc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/89eec96645fb44af4a454a26c74c72ba6311f5bc",
+                "reference": "89eec96645fb44af4a454a26c74c72ba6311f5bc",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "symfony/phpunit-bridge": "~2.7"
+            },
+            "suggest": {
+                "ext-symfony_debug": ""
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.6-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "Resources/functions/dump.php"
+                ],
+                "psr-0": {
+                    "Symfony\\Component\\VarDumper\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony mechanism for exploring and dumping PHP variables",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "debug",
+                "dump"
+            ],
+            "time": "2015-05-01 14:14:24"
+        },
+        {
             "name": "symfony/yaml",
             "version": "v2.6.7",
             "target-dir": "Symfony/Component/Yaml",
@@ -2185,13 +2355,53 @@
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
             "time": "2015-05-02 15:18:45"
+        },
+        {
+            "name": "tan5en5/codeigniter-debugbar",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Tan5en5/codeigniter-debugbar.git",
+                "reference": "ca37fff0ffb24269dc6e5911a99cdf96ad767a73"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Tan5en5/codeigniter-debugbar/zipball/ca37fff0ffb24269dc6e5911a99cdf96ad767a73",
+                "reference": "ca37fff0ffb24269dc6e5911a99cdf96ad767a73",
+                "shasum": ""
+            },
+            "require": {
+                "compwright/codeigniter-installers": "*",
+                "maximebf/debugbar": ">=1.0.0"
+            },
+            "type": "codeigniter-third-party",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Anthony Tansens",
+                    "email": "atansens@gac-technology.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "CodeIgniter Debug Bar using PHP Debug Bar.",
+            "homepage": "https://github.com/tan5en5/codeigniter-debugbar",
+            "keywords": [
+                "codeigniter",
+                "debug",
+                "profiler"
+            ],
+            "time": "2015-05-13 09:26:23"
         }
     ],
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
         "kenjis/codeigniter-cli": 20,
-        "kenjis/ci-phpunit-test": 20
+        "kenjis/ci-phpunit-test": 20,
+        "tan5en5/codeigniter-debugbar": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

@@ -40,6 +40,7 @@
 * Codeception <http://codeception.com/>
 * Symfony DomCrawler <http://docs.symfony.gr.jp/symfony2/components/dom_crawler.html>
 * PHPUnit <https://phpunit.de/manual/4.6/ja/index.html>
+* CodeIgniter Debug Bar <https://github.com/Tan5en5/codeigniter-debugbar>
 
 ## インストール方法
 

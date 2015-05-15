@@ -39,7 +39,9 @@ class Shop extends CI_Controller {
 
 		$this->output->set_header('Content-Type: text/html; charset=UTF-8');
 
-		//$this->output->enable_profiler(TRUE);
+		if (ENVIRONMENT === 'development') {
+			$this->output->enable_profiler(TRUE);
+		}
 	}
 
 	// トップページ = カテゴリ別商品一覧

@@ -12,6 +12,7 @@
 		"codeception/codeception": "2.0.*",
 		"symfony/dom-crawler": "2.6.*",
 		"kenjis/ci-phpunit-test": "1.0.x@dev",
-		"phpunit/phpunit": "4.6.*"
+		"phpunit/phpunit": "4.6.*",
+		"tan5en5/codeigniter-debugbar": "dev-master"
 	}
 }
