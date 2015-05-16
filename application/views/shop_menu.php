@@ -4,7 +4,7 @@
 <?php foreach($list as $row): ?>
 	<li class="shop_navi2">
 	<img src="<?=base_url('images/icons/botan_1.gif');?>" />
-	<?=anchor('shop/index/' . $row->id, $row->name);?>
+	<?=anchor('shop/index/' . html_escape($row->id), html_escape($row->name));?>
 	</li>
 <?php endforeach; ?>
 </ul>

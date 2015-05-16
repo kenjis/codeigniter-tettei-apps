@@ -28,7 +28,7 @@
 <!-- 個別商品ページへのリンクをURLヘルパーのanchor()メソッドを使い生成
 します。リンク先は
 「http://localhost/CodeIgniter/shop/product/商品ID」とします。-->
-<?=anchor('shop/product/' . $row->id, $row->name);?> <br />
+<?=anchor('shop/product/' . html_escape($row->id), html_escape($row->name));?> <br />
 価格: <?=number_format($row->price);?>円<br />
 </p>
 <hr />

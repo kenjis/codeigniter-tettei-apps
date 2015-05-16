@@ -19,7 +19,7 @@
 <?php endif; ?>
 </a>
 <p class="shop_list">
-<?=anchor('shop/product/' . $row->id, $row->name);?> <br />
+<?=anchor('shop/product/' . html_escape($row->id), html_escape($row->name));?> <br />
 価格: <?=number_format($row->price);?>円<br />
 </p>
 <hr />
