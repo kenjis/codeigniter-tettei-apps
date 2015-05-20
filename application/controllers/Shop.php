@@ -10,7 +10,7 @@
  * @property Cart_model      $Cart_model
  * @property Customer_model  $Customer_model
  */
-class Shop extends CI_Controller {
+class Shop extends MY_Controller {
 
 	public $limit;	// 1ページに表示する商品の数
 	public $admin;	// 管理者のメールアドレス
@@ -36,12 +36,6 @@ class Shop extends CI_Controller {
 # 「設定項目名」と「設定ファイル名」を渡すことで取得できます。
 		$this->limit = $this->config->item('per_page', 'config_shop');
 		$this->admin = $this->config->item('admin_email', 'config_shop');
-
-		$this->output->set_header('Content-Type: text/html; charset=UTF-8');
-
-		if (ENVIRONMENT === 'development') {
-			$this->output->enable_profiler(TRUE);
-		}
 	}
 
 	// トップページ = カテゴリ別商品一覧
