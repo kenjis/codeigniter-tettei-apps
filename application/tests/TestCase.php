@@ -14,7 +14,7 @@ class TestCase extends PHPUnit_Framework_TestCase
 
 	public static function setUpBeforeClass()
 	{
-		// Fix ix CLI args, because you may set invalid URI characters
+		// Fix CLI args, because you may set invalid URI characters
 		// For example, you run tests on NetBeans
 		$_SERVER['argv'] = [
 			'index.php',
@@ -53,11 +53,18 @@ class TestCase extends PHPUnit_Framework_TestCase
 			$callable($this->CI);
 		}
 		
+		// remove 'index.php'
 		array_shift($_SERVER['argv']);
-		$controller = array_shift($_SERVER['argv']);
-		$controller = ucfirst($controller);
-		$method = array_shift($_SERVER['argv']);
-		$this->obj = new $controller;
+		
+		$RTR =& load_class('Router', 'core');
+		$class = ucfirst($RTR->class);
+		$method = $RTR->method;
+		
+		// remove controller and method
+		array_shift($_SERVER['argv']);
+		array_shift($_SERVER['argv']);
+		
+		$this->obj = new $class;
 		ob_start();
 		call_user_func_array([$this->obj, $method], $_SERVER['argv']);
 		$output = ob_get_clean();
@@ -77,8 +84,8 @@ class TestCase extends PHPUnit_Framework_TestCase
 	 * 
 	 * $email = $this->getDouble('CI_Email', ['send' => TRUE]);
 	 * 
-	 * @param string $classname 
-	 * @param array  $params    [method_name => return_value]
+	 * @param  string $classname 
+	 * @param  array  $params    [method_name => return_value]
 	 * @return object PHPUnit mock object
 	 */
 	public function getDouble($classname, $params)
@@ -94,6 +101,48 @@ class TestCase extends PHPUnit_Framework_TestCase
 		}
 		
 		return $mock;
+	}
+
+	protected function _verify($mock, $method, $times, $params = null, $expects, $with)
+	{
+		$invocation = $mock->expects($expects)
+			->method($method);
+		
+		$count = count($params);
+		
+		switch ($count) {
+			case 0:
+				break;
+			case 1:
+				$invocation->$with(
+					$params[0]
+				);
+				break;
+			case 2:
+				$invocation->$with(
+					$params[0], $params[1]
+				);
+				break;
+			case 3:
+				$invocation->$with(
+					$params[0], $params[1], $params[2]
+				);
+				break;
+			case 4:
+				$invocation->$with(
+					$params[0], $params[1], $params[2], $params[3]
+				);
+				break;
+			case 5:
+				$invocation->$with(
+					$params[0], $params[1], $params[2], $params[3], $params[4], $params[5]
+				);
+				break;
+			default:
+				throw new RuntimeException(
+					'Sorry, ' . $count . ' params not implemented yet'
+				);
+		}
 	}
 
 	/**
@@ -123,45 +172,53 @@ class TestCase extends PHPUnit_Framework_TestCase
 	 * @param int    $times  
 	 * @param array  $params arguments
 	 */
-	public function verifyInvokedMultipleTimes($mock, $method, $times, $params)
+	public function verifyInvokedMultipleTimes($mock, $method, $times, $params = null)
 	{
-		$invocation = $mock->expects($this->exactly($times))
-			->method($method);
-		
-		$count = count($params);
-		
-		switch ($count) {
-			case 1:
-				$invocation->withConsecutive(
-					$params[0]
-				);
-				break;
-			case 2:
-				$invocation->withConsecutive(
-					$params[0], $params[1]
-				);
-				break;
-			case 3:
-				$invocation->withConsecutive(
-					$params[0], $params[1], $params[2]
-				);
-				break;
-			case 4:
-				$invocation->withConsecutive(
-					$params[0], $params[1], $params[2], $params[3]
-				);
-				break;
-			case 5:
-				$invocation->withConsecutive(
-					$params[0], $params[1], $params[2], $params[3], $params[4], $params[5]
-				);
-				break;
-			default:
-				throw new RuntimeException(
-					'Sorry, ' . $count . ' params not implemented yet'
-				);
-				break;
-		}
+		$this->_verify(
+			$mock, $method, $times, $params, $this->exactly($times), 'withConsecutive'
+		);
+	}
+
+	/**
+	 * Verifies a method was invoked at least once
+	 * 
+	 * @param object $mock   PHPUnit mock object
+	 * @param string $method 
+	 * @param array  $params arguments
+	 */
+	public function verifyInvoked($mock, $method, $params = null)
+	{
+		$this->_verify(
+			$mock, $method, $times, $params, $this->atLeastOnce(), 'with'
+		);
+	}
+
+	/**
+	 * Verifies that method was invoked only once
+	 * 
+	 * @param object $mock   PHPUnit mock object
+	 * @param string $method 
+	 * @param array  $params arguments
+	 */
+	public function verifyInvokedOnce($mock, $method, $params = null)
+	{
+		$this->_verify(
+			$mock, $method, $times, $params, $this->once(), 'with'
+		);
+	}
+
+	/**
+	 * Verifies that method was not called
+	 * 
+	 * @param object $mock   PHPUnit mock object
+	 * @param string $method 
+	 * @param array  $params arguments
+	 */
+	public function verifyNeverInvoked($mock, $method, $params = null)
+	{
+		$this->_verify(
+			$mock, $method, $times, $params, $this->never(), 'with'
+		);
 	}
 
 	public function warningOff()
