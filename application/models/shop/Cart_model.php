@@ -23,7 +23,8 @@ class Cart_model extends CI_Model {
 	{
 # 商品IDと数量を引数として渡され、数量が0以下の場合は、セッションクラスの
 # unset_userdata()メソッドで、セッションデータからその商品を削除します。
-		if ($qty <= 0) {
+		if ($qty <= 0)
+		{
 			$this->session->unset_userdata('item' . $id);
 		}
 # 指定の数量が1以上の場合は、その商品が存在するかチェックした後に、商品と数量を
@@ -45,9 +46,9 @@ class Cart_model extends CI_Model {
 		$total = 0;		// 合計金額
 		$line  = 0;		// 行数
 
-# セッションクラスのall_userdata()メソッドですべてのセッションデータを取得し、 
+# セッションクラスのuserdata()メソッドですべてのセッションデータを取得し、
 # ループで回して必要な情報を取り出します。
-		foreach ($this->session->all_userdata() as $key => $val)
+		foreach ($this->session->userdata() as $key => $val)
 		{
 # 配列のキーが「item」で始まる場合、商品情報です。
 			if (substr($key, 0, 4) == 'item')
