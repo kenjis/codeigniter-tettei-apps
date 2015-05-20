@@ -11,6 +11,11 @@ $I->amGoingTo('左コラムの「CD」をクリック');
 $I->click('CD');
 $I->see('「CD」のリスト');
 
+$I->amGoingTo('検索ボタンを空のまま押す');
+$I->fillField('q', '');
+$I->click('GO');
+$I->see('「全商品」の検索結果');
+
 $I->amGoingTo('「入門」を検索');
 $I->fillField('q', '入門');
 $I->click('GO');

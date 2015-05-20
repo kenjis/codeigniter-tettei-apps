@@ -1,4 +1,4 @@
-<div class="shop_title">「<?=html_escape($q);?>」の検索結果</div>
+<div class="shop_title">「<?php echo $q == '' ? '全商品' : html_escape($q); ?>」の検索結果</div>
 
 <?=$pagination?>
 
