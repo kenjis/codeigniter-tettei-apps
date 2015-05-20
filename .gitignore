@@ -1,5 +1,6 @@
 /nbproject/
 /application/logs/
+/application/cache/
 /application/tests/build/
 /public/captcha/
 /vendor/

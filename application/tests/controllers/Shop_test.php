@@ -51,18 +51,20 @@ class Shop_test extends TestCase
 		get_new_instance();
 		$obj = new Shop();
 
+		$model = $this->getDouble('Customer_model', ['set' => NULL]);
+		$this->verifyInvokedOnce($model, 'set');
 		$validation = $this->getDouble('CI_Form_validation', ['run' => TRUE]);
-		$loader = $this->getDouble('CITEST_Loader', ['view' => NULL]);
+		$twig = $this->getDouble('Twig_Environment', ['render' => NULL]);
 		$this->verifyInvokedMultipleTimes(
-			$loader, 'view', 2,
+			$twig, 'render', 1,
 			[
-				['shop_confirm', $this->anything(), TRUE],
 				['shop_tmpl_checkout', $this->anything()],
 			]
 		);
 		$obj->form_validation = $validation;
-		$obj->load = $loader;
-
+		$obj->twig = $twig;
+		$obj->Customer_model = $model;
+		
 		$obj->confirm();
 	}
 
@@ -71,17 +73,22 @@ class Shop_test extends TestCase
 		get_new_instance();
 		$obj = new Shop();
 
+		$model = $this->getDouble('Customer_model', ['set' => NULL]);
+		$this->verifyNeverInvoked($model, 'set');
 		$validation = $this->getDouble('CI_Form_validation', ['run' => FALSE]);
-		$loader = $this->getDouble('CITEST_Loader', ['view' => NULL]);
+		$twig = $this->getDouble('Twig_Environment', ['render' => NULL]);
+		
+		$data['action'] = 'お客様情報の入力';
+		$data['main']   = 'shop_customer_info';
 		$this->verifyInvokedMultipleTimes(
-			$loader, 'view', 2,
+			$twig, 'render', 1,
 			[
-				['shop_customer_info', '', TRUE],
-				['shop_tmpl_checkout', $this->anything()]
+				['shop_tmpl_checkout', $data]
 			]
 		);
 		$obj->form_validation = $validation;
-		$obj->load = $loader;
+		$obj->twig = $twig;
+		$obj->Customer_model = $model;
 
 		$obj->confirm();
 	}
@@ -103,7 +110,7 @@ class Shop_test extends TestCase
 
 	public function test_order()
 	{
-		get_new_instance();
+		$CI = get_new_instance();
 		$obj = new Shop();
 
 		$cart = $this->getDouble('Cart_model', ['count' => 1]);
@@ -115,9 +122,8 @@ class Shop_test extends TestCase
 		// Severity: WarningMessage:  session_destroy(): Trying to destroy uninitialized session
 		$this->warningOff();
 
-		ob_start();
 		$obj->order();
-		$output = ob_get_clean();
+		$output = $CI->output->get_output();
 
 		// error_reportingを戻す
 		$this->warningOn();

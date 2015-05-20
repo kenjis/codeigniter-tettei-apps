@@ -2,24 +2,24 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ja" xml:lang="ja">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link rel="stylesheet" href="<?=base_url('css/shop.css');?>" type="text/css" />
+<link rel="stylesheet" href="{{ base_url('css/shop.css') }}" type="text/css" />
 <title>CIショップ</title>
 </head>
 
 <body>
 <!-- ヘッダ -->
-<?php $this->load->view('shop_ci_header'); ?>
+{% include 'shop_ci_header.twig' %}
 
 <div id="main">
 <!-- ショップヘッダ -->
-	<div class="header"><?=$header?></div>
+	<div class="header">{% include 'shop_header.twig' %}</div>
 <!-- ショップメニュー -->
-	<div class="menu"><?=$menu?></div>
+	<div class="menu">{% include 'shop_menu.twig' %}</div>
 <!-- ショップメイン -->
-	<div class="main_shop"><?=$main?></div>
+	<div class="main_shop">{% include main ~ '.twig' %}</div>
 </div>
 
 <!-- フッタ -->
-<?php $this->load->view('ci_footer'); ?>
+{% include 'ci_footer.twig' %}
 </body>
 </html>

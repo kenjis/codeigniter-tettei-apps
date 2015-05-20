@@ -1,0 +1,28 @@
+<div class="shop_title">「{{ q|default('全商品') }}」の検索結果</div>
+
+{{ pagination|raw }}
+
+<p class="coment">
+{% if total %}
+{{ total }}点の商品がヒットしました。
+{% else %}
+"{{ q }}"の検索に一致する商品はありませんでした。
+{% endif %}
+</p>
+
+{% for row in list %}
+<a href="{{ base_url('shop/product/' ~ row.id) }}">
+{% if row.img %}
+<img class="img" src="{{ base_url('images/' ~ row.img) }}" alt="" />
+{% else %}
+<img class="img" src="{{ base_url('images/now_printing.jpg') }}" alt="" />
+{% endif %}
+</a>
+<p class="shop_list">
+{{ anchor('shop/product/' ~ row.id, row.name) }}<br />
+価格: {{ row.price|number_format }}円<br />
+</p>
+<hr />
+{% endfor %}
+
+{{ pagination|raw }}

@@ -1,0 +1,12 @@
+<div class="shop_navi">
+<img src="{{ base_url('images/icons/shop_menu_top.jpg') }}" />
+<ul>
+{% for row in cat_list %}
+	<li class="shop_navi2">
+	<img src="{{ base_url('images/icons/botan_1.gif') }}" />
+	{{ anchor('shop/index/' ~ row.id, row.name) }}
+	</li>
+{% endfor %}
+</ul>
+<img src="{{ base_url('images/icons/shop_menu_bottom.jpg') }}" />
+</div>
