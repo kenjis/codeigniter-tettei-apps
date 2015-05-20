@@ -5,6 +5,12 @@
 	"require": {
 		"php": ">=5.4"
 	},
+	"repositories": [
+		{
+			"type": "vcs",
+			"url": "https://github.com/kenjis/codeigniter-debugbar"
+		}
+	],
 	"require-dev": {
 		"mikey179/vfsStream": "1.1.*",
 		"kenjis/codeigniter-cli": "1.0.x@dev",
@@ -13,6 +19,6 @@
 		"symfony/dom-crawler": "2.6.*",
 		"kenjis/ci-phpunit-test": "1.0.x@dev",
 		"phpunit/phpunit": "4.6.*",
-		"tan5en5/codeigniter-debugbar": "dev-master"
+		"tan5en5/codeigniter-debugbar": "dev-develop"
 	}
 }

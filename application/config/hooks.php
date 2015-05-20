@@ -24,3 +24,10 @@ $hook['post_controller_constructor'] = array(
 	'filename' => 'Convert_encoding.php',
 	'filepath' => 'hooks'
 );
+
+$hook['display_override'][] = array(
+	'class'     => 'DebugBarHook',
+	'function'  => 'addHeader',
+	'filename'  => 'DebugBarHook.php',
+	'filepath'  => 'third_party/codeigniter-debugbar/hooks'
+);

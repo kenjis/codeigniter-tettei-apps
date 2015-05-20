@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "9d7eefc4d2d2bf06f46f7aaaca0574e2",
+    "hash": "c7eca4f3a90bf5bfc581dac71d6c62fd",
     "packages": [],
     "packages-dev": [
         {
@@ -727,7 +727,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kenjis/ci-phpunit-test/zipball/778a65fb6cf5871e859a59ae5e74727dce3f68f6",
+                "url": "https://api.github.com/repos/kenjis/ci-phpunit-test/zipball/e972871e899cb6eb9e95a8c16c7b227ac07b0f7d",
                 "reference": "322bf7021b57d41ff063143775692567249b45a0",
                 "shasum": ""
             },
@@ -2358,16 +2358,16 @@
         },
         {
             "name": "tan5en5/codeigniter-debugbar",
-            "version": "dev-master",
+            "version": "dev-develop",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Tan5en5/codeigniter-debugbar.git",
-                "reference": "ca37fff0ffb24269dc6e5911a99cdf96ad767a73"
+                "url": "https://github.com/kenjis/codeigniter-debugbar.git",
+                "reference": "ce64b339cdba59543ad8940d03aef30125b9ab22"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Tan5en5/codeigniter-debugbar/zipball/ca37fff0ffb24269dc6e5911a99cdf96ad767a73",
-                "reference": "ca37fff0ffb24269dc6e5911a99cdf96ad767a73",
+                "url": "https://api.github.com/repos/kenjis/codeigniter-debugbar/zipball/ce64b339cdba59543ad8940d03aef30125b9ab22",
+                "reference": "ce64b339cdba59543ad8940d03aef30125b9ab22",
                 "shasum": ""
             },
             "require": {
@@ -2375,7 +2375,6 @@
                 "maximebf/debugbar": ">=1.0.0"
             },
             "type": "codeigniter-third-party",
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -2393,7 +2392,11 @@
                 "debug",
                 "profiler"
             ],
-            "time": "2015-05-13 09:26:23"
+            "support": {
+                "issues": "https://github.com/tan5en5/codeigniter-debugbar/issues",
+                "source": "https://github.com/tan5en5/codeigniter-debugbar/tree/master"
+            },
+            "time": "2015-05-19 08:54:17"
         }
     ],
     "aliases": [],
