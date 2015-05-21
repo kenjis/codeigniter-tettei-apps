@@ -1,5 +1,7 @@
 # 『CodeIgniter徹底入門』のサンプルアプリケーションをCodeIgniter 3.0にアップデート
 
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/kenjis/codeigniter-tettei-apps/badges/quality-score.png?b=develop)](https://scrutinizer-ci.com/g/kenjis/codeigniter-tettei-apps/?branch=develop)
+
 ここは『CodeIgniter徹底入門』（翔泳社）に含まれている以下のサンプルアプリケーション（CodeIgniter 1.6.1用）をCodeIgniter 3.0で動作するように更新するためのプロジェクトです（作業中）。
 
 * コンタクトフォーム（7章）
