@@ -27,6 +27,7 @@ class Customer_model extends CI_Model {
 	 */
 	public function get()
 	{
+		$data = [];
 		$data['name']  = $this->session->userdata('name');
 		$data['zip']   = $this->session->userdata('zip');
 		$data['addr']  = $this->session->userdata('addr');

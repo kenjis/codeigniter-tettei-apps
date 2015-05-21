@@ -2,12 +2,16 @@
 
 class Generate_pagination
 {
+	private $CI;
+
 	// ページネーションの生成
 	public function get_links($path, $total, $uri_segment)
 	{
 # ページネーションクラスをロードします。
 		$this->CI =& get_instance();
 		$this->CI->load->library('pagination');
+
+		$config = [];
 # リンク先のURLを指定します。
 		$config['base_url']       = $this->CI->config->site_url($path);
 # 総件数を指定します。

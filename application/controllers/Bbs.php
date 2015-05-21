@@ -29,10 +29,12 @@ class Bbs extends CI_Controller {
 # (オブジェクト)を取得し、$data['query']に代入します。order_by()メソッドは、
 # フィールド名とソート順を引数にとり、ORDER BY句を指定します。
 		$this->db->order_by('id', 'desc');
+		$data = [];
 		$data['query'] = $this->db->get('bbs', $this->limit, $offset);
 
 # ページネーションを生成します。
 		$this->load->library('pagination');
+		$config = [];
 		$config['base_url'] = $this->config->site_url('/bbs/index/');
 # 記事の総件数をbbsテーブルから取得します。count_all()メソッドは、テーブル名
 # を引数にとり、そのテーブルのレコード数を返します。
@@ -88,6 +90,7 @@ class Bbs extends CI_Controller {
 		}
 		else
 		{
+			$data = [];
 			$data['name']       = $this->input->post('name');
 			$data['email']      = $this->input->post('email');
 			$data['subject']    = $this->input->post('subject');
@@ -175,6 +178,7 @@ class Bbs extends CI_Controller {
 				{
 					$row = $query->row();
 
+					$data = [];
 					$data['id']       = $row->id;
 					$data['name']     = $row->name;
 					$data['email']    = $row->email;
@@ -248,6 +252,7 @@ class Bbs extends CI_Controller {
 		else
 		{
 # 検証にパスした場合は、送られたデータとIPアドレスをbbsテーブルに登録します。
+			$data = [];
 			$data['name']       = $this->input->post('name');
 			$data['email']      = $this->input->post('email');
 			$data['subject']    = $this->input->post('subject');

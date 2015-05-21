@@ -41,6 +41,7 @@ class Shop extends MY_Controller {
 	// トップページ = カテゴリ別商品一覧
 	public function index()
 	{
+		$data = [];
 # モデルからカテゴリの一覧を取得し、shop_menuビューに渡します。このとき、
 # view()メソッドの第2引数にTRUEを指定することで、処理されたページデータを
 # ブラウザに送信させずに、文字列として取得し、変数に代入します。
@@ -83,6 +84,7 @@ class Shop extends MY_Controller {
 	// 商品詳細ページ
 	public function product()
 	{
+		$data = [];
 		$data['list'] = $this->Inventory_model->get_category_list();
 		$data['menu'] = $this->load->view('shop_menu', $data, TRUE);
 
@@ -113,8 +115,9 @@ class Shop extends MY_Controller {
 	}
 
 	// 買い物カゴページ
-	function cart()
+	public function cart()
 	{
+		$data = [];
 		$data['list'] = $this->Inventory_model->get_category_list();
 		$data['menu'] = $this->load->view('shop_menu', $data, TRUE);
 
@@ -132,8 +135,7 @@ class Shop extends MY_Controller {
 	// 検索ページ
 	public function search()
 	{
-		$q = '';	// 検索キーワード
-
+		$data = [];
 		$data['list'] = $this->Inventory_model->get_category_list();
 		$data['menu'] = $this->load->view('shop_menu', $data, TRUE);
 
@@ -173,6 +175,7 @@ class Shop extends MY_Controller {
 		$this->shop_validation->set();
 		$this->form_validation->run();
 
+		$data = [];
 		$data['action'] = 'お客様情報の入力';
 		$data['main']  = $this->load->view('shop_customer_info', '', TRUE);
 		$this->load->view('shop_tmpl_checkout', $data);
@@ -187,6 +190,7 @@ class Shop extends MY_Controller {
 		if ($this->form_validation->run() == TRUE)
 		{
 # 検証をパスした入力データは、モデルを使って保存します。
+			$data = [];
 			$data['name']  = $this->input->post('name');
 			$data['zip']   = $this->input->post('zip');
 			$data['addr']  = $this->input->post('addr');
@@ -203,6 +207,7 @@ class Shop extends MY_Controller {
 		}
 		else
 		{
+			$data = [];
 			$data['action'] = 'お客様情報の入力';
 			$data['main']  = $this->load->view('shop_customer_info', '', TRUE);
 		}
@@ -220,6 +225,7 @@ class Shop extends MY_Controller {
 # モデルのorder()メソッドを呼び出し、注文データの処理を依頼します。
 		else if ($this->Shop_model->order())
 		{
+			$data = [];
 			$data['action'] = '注文の完了';
 			$data['main']   = $this->load->view('shop_thankyou', '', TRUE);
 			$this->load->view('shop_tmpl_checkout', $data);

@@ -18,6 +18,7 @@ class Shop_model extends CI_Model {
 	// 注文の処理
 	public function order()
 	{
+		$data = [];
 # 注文日時をPHPのdate()関数から取得します。
 		$data['date'] = date("Y/m/d H:i:s");
 # カートの情報を取得します。
@@ -35,6 +36,7 @@ class Shop_model extends CI_Model {
 		$data = array_merge($data, $this->Customer_model->get());
 
 # メールのヘッダを設定します。Bccで同じメールを管理者にも送るようにします。
+		$mail = [];
 		$mail['from_name'] = 'CIショップ';
 		$mail['from']      = $this->admin;
 		$mail['to']        = $data['email'];

@@ -2,6 +2,8 @@
 
 class Shop_validation
 {
+	private $CI;
+
 	// バリデーションの設定
 	public function set()
 	{

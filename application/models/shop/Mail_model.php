@@ -20,6 +20,7 @@ class Mail_model extends CI_Model {
 	public function sendmail($mail)
 	{
 # Emailクラスを初期化します。
+		$config = [];
 		$config['protocol'] = 'mail';
 		$config['wordwrap'] = FALSE;
 		$this->email->initialize($config);

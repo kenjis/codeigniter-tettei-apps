@@ -64,6 +64,7 @@ class Form extends CI_Controller {
 		if ($this->form_validation->run() == TRUE)
 		{
 # メールの内容を設定します。
+			$mail = [];
 			$mail['from_name'] = $this->input->post('name');
 			$mail['from']      = $this->input->post('email');
 			$mail['to']        = 'info@example.jp';
@@ -95,6 +96,7 @@ class Form extends CI_Controller {
 	{
 # Emailクラスをロードします。
 		$this->load->library('email');
+		$config = [];
 # メールの送信方法を指定します。ここでは、mail()関数を使います。
 		$config['protocol'] = 'mail';
 # 日本語ではワードラップ機能は使えませんのでオフにします。
