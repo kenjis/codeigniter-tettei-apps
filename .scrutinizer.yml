@@ -1,3 +1,10 @@
 filter:
     paths:
-        - application/*
+        - application/controllers/*
+        - application/core/*
+        - application/database/*
+        - application/helpers/*
+        - application/hooks/*
+        - application/libraries/*
+        - application/models/*
+        - application/views/*
