@@ -1,0 +1,22 @@
+language: php
+
+php:
+  - 5.4
+  - 5.5
+  - 5.6
+
+before_script:
+  - composer self-update
+  - composer install
+  - mysql -uroot -e "CREATE DATABASE codeigniter DEFAULT CHARACTER SET utf8;"
+  - mysql -uroot -e "GRANT ALL PRIVILEGES ON codeigniter.* TO username@localhost IDENTIFIED BY 'password';"
+  - php cli migrate
+  - php cli seed
+
+script:
+  - cd application/tests/
+  - phpunit --coverage-text
+
+after_script:
+  - cd ../..
+  - php vendor/bin/coveralls -v

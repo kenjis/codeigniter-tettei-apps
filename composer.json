@@ -19,6 +19,7 @@
 		"symfony/dom-crawler": "2.6.*",
 		"kenjis/ci-phpunit-test": "1.0.x@dev",
 		"phpunit/phpunit": "4.6.*",
-		"tan5en5/codeigniter-debugbar": "dev-develop"
+		"tan5en5/codeigniter-debugbar": "dev-develop",
+		"satooshi/php-coveralls": "0.6.*"
 	}
 }
