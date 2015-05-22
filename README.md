@@ -1,6 +1,8 @@
 # 『CodeIgniter徹底入門』のサンプルアプリケーションをCodeIgniter 3.0にアップデート
 
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/kenjis/codeigniter-tettei-apps/badges/quality-score.png?b=develop)](https://scrutinizer-ci.com/g/kenjis/codeigniter-tettei-apps/?branch=develop)
+[![Coverage Status](https://coveralls.io/repos/kenjis/codeigniter-tettei-apps/badge.svg?branch=develop)](https://coveralls.io/r/kenjis/codeigniter-tettei-apps?branch=develop)
+[![Build Status](https://travis-ci.org/kenjis/codeigniter-tettei-apps.svg?branch=develop)](https://travis-ci.org/kenjis/codeigniter-tettei-apps)
 
 ここは『CodeIgniter徹底入門』（翔泳社）に含まれている以下のサンプルアプリケーション（CodeIgniter 1.6.1用）をCodeIgniter 3.0で動作するように更新するためのプロジェクトです（作業中）。
 
