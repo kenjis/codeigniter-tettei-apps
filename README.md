@@ -34,11 +34,13 @@
   * メール本文の作成をテンプレートパーサクラスを使うように変更
   * クラスの分割
   * MY_Controllerの追加
+  * ビューにTwigを利用
 * リファクタリング
   * ビューのコーディングスタイルを統一し、HTMLエスケープを徹底
 
 追加されたComposerのパッケージ
 
+* CodeIgniter Simple and Secure Twig <https://github.com/kenjis/codeigniter-ss-twig>
 * Cli for CodeIgniter <http://blog.a-way-out.net/blog/2015/05/07/codeigniter-cli/>
 * CI PHPUnit Test <http://blog.a-way-out.net/blog/2015/05/19/ci-phpunit-test/>
 * Faker <http://blog.a-way-out.net/blog/2014/06/13/faker/>

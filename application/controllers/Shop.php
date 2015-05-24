@@ -20,6 +20,7 @@ class Shop extends MY_Controller {
 		parent::__construct();
 		$this->load->library('session');
 		$this->load->helper(['form', 'url']);
+		$this->load->library('Twig');
 
 # モデルをロードします。ロード後のモデルオブジェクトは、$this->Shop_model
 # として利用できます。
@@ -42,11 +43,9 @@ class Shop extends MY_Controller {
 	public function index()
 	{
 		$data = [];
-# モデルからカテゴリの一覧を取得し、shop_menuビューに渡します。このとき、
-# view()メソッドの第2引数にTRUEを指定することで、処理されたページデータを
-# ブラウザに送信させずに、文字列として取得し、変数に代入します。
-		$data['list'] = $this->Inventory_model->get_category_list();
-		$data['menu'] = $this->load->view('shop_menu', $data, TRUE);
+
+# モデルからカテゴリの一覧を取得します。
+		$data['cat_list'] = $this->Inventory_model->get_category_list();
 
 # 3番目のURIセグメントより、カテゴリIDを取得します。セグメントデータがない
 # 場合は、1を設定します。
@@ -71,33 +70,30 @@ class Shop extends MY_Controller {
 
 		$data['total'] = $total;
 
-		$data['main']   = $this->load->view('shop_list', $data, TRUE);
+		$data['main'] = 'shop_list';
 
 # モデルよりカートの中の商品アイテム数を取得します。
 		$data['item_count'] = $this->Cart_model->count();
-# ショップヘッダのページデータを文字列として取得し、変数に代入します。
-		$data['header'] = $this->load->view('shop_header', $data, TRUE);
+
 # ビューを表示します。
-		$this->load->view('shop_tmpl_shop', $data);
+		$this->twig->render('shop_tmpl_shop', $data);
 	}
 
 	// 商品詳細ページ
 	public function product()
 	{
 		$data = [];
-		$data['list'] = $this->Inventory_model->get_category_list();
-		$data['menu'] = $this->load->view('shop_menu', $data, TRUE);
+		$data['cat_list'] = $this->Inventory_model->get_category_list();
 
 # 3番目のURIセグメントより、商品IDを取得します。セグメントデータがない
 # 場合は、1を設定します。
 		$prod_id = (int) $this->uri->segment(3, 1);
 # モデルより商品データを取得します。
 		$data['item'] = $this->Inventory_model->get_product_item($prod_id);
-		$data['main']   = $this->load->view('shop_product', $data, TRUE);
+		$data['main'] = 'shop_product';
 
 		$data['item_count'] = $this->Cart_model->count();
-		$data['header'] = $this->load->view('shop_header', $data, TRUE);
-		$this->load->view('shop_tmpl_shop', $data);
+		$this->twig->render('shop_tmpl_shop', $data);
 	}
 
 	// カゴに入れる
@@ -118,8 +114,7 @@ class Shop extends MY_Controller {
 	public function cart()
 	{
 		$data = [];
-		$data['list'] = $this->Inventory_model->get_category_list();
-		$data['menu'] = $this->load->view('shop_menu', $data, TRUE);
+		$data['cat_list'] = $this->Inventory_model->get_category_list();
 
 # モデルより、カートの情報を取得します。
 		$cart = $this->Cart_model->get_all();
@@ -127,17 +122,15 @@ class Shop extends MY_Controller {
 		$data['cart']       = $cart['items'];
 		$data['item_count'] = $cart['line'];
 
-		$data['main']   = $this->load->view('shop_cart', $data, TRUE);
-		$data['header'] = $this->load->view('shop_header', $data, TRUE);
-		$this->load->view('shop_tmpl_shop', $data);
+		$data['main'] = 'shop_cart';
+		$this->twig->render('shop_tmpl_shop', $data);
 	}
 
 	// 検索ページ
 	public function search()
 	{
 		$data = [];
-		$data['list'] = $this->Inventory_model->get_category_list();
-		$data['menu'] = $this->load->view('shop_menu', $data, TRUE);
+		$data['cat_list'] = $this->Inventory_model->get_category_list();
 
 # 検索キーワードをクエリ文字列から取得します。
 		$q = (string) $this->input->get('q');
@@ -161,10 +154,9 @@ class Shop extends MY_Controller {
 		$data['q'] = $q;
 		$data['total'] = $total;
 
-		$data['main']   = $this->load->view('shop_search', $data, TRUE);
+		$data['main']   = 'shop_search';
 		$data['item_count'] = $this->Cart_model->count();
-		$data['header'] = $this->load->view('shop_header', $data, TRUE);
-		$this->load->view('shop_tmpl_shop', $data);
+		$this->twig->render('shop_tmpl_shop', $data);
 	}
 
 	// お客様情報入力ページ
@@ -177,8 +169,8 @@ class Shop extends MY_Controller {
 
 		$data = [];
 		$data['action'] = 'お客様情報の入力';
-		$data['main']  = $this->load->view('shop_customer_info', '', TRUE);
-		$this->load->view('shop_tmpl_checkout', $data);
+		$data['main']   = 'shop_customer_info';
+		$this->twig->render('shop_tmpl_checkout', $data);
 	}
 
 	// 注文内容確認
@@ -203,16 +195,16 @@ class Shop extends MY_Controller {
 			$data['cart']  = $cart['items'];
 
 			$data['action'] = '注文内容の確認';
-			$data['main']  = $this->load->view('shop_confirm', $data, TRUE);
+			$data['main']   = 'shop_confirm';
 		}
 		else
 		{
 			$data = [];
 			$data['action'] = 'お客様情報の入力';
-			$data['main']  = $this->load->view('shop_customer_info', '', TRUE);
+			$data['main']   = 'shop_customer_info';
 		}
 
-		$this->load->view('shop_tmpl_checkout', $data);
+		$this->twig->render('shop_tmpl_checkout', $data);
 	}
 
 	// 注文処理
@@ -227,8 +219,8 @@ class Shop extends MY_Controller {
 		{
 			$data = [];
 			$data['action'] = '注文の完了';
-			$data['main']   = $this->load->view('shop_thankyou', '', TRUE);
-			$this->load->view('shop_tmpl_checkout', $data);
+			$data['main']   = 'shop_thankyou';
+			$this->twig->render('shop_tmpl_checkout', $data);
 # 注文が完了したので、セッションを破棄します。
 			$this->session->sess_destroy();
 		}
