@@ -42,7 +42,7 @@ class Form_test extends TestCase
 			],
 			function ($CI) {
 				$email = $this->getDouble('CI_Email', ['send' => TRUE]);
-				load_class_instance('email', $email);
+				$CI->email = $email;
 			}
 		);
 		$this->assertContains('送信しました', $output);
