@@ -20,11 +20,9 @@ function load_class_instance($classname, $instance)
 }
 
 /**
- * Get new CodeIgniter instance
- * 
- * @return CI_Controller
+ * Reset CodeIgniter instance
  */
-function get_new_instance()
+function reset_instance()
 {
 	// Reset loaded classes
 	load_class('', '', '', TRUE);
@@ -44,6 +42,17 @@ function get_new_instance()
 	
 	$loader = new CITEST_Loader();
 	load_class_instance('Loader', $loader);
+}
+
+/**
+ * Get new CodeIgniter instance
+ * @deprecated
+ * 
+ * @return CI_Controller
+ */
+function get_new_instance()
+{
+	reset_instance();
 	
 	$controller = new CI_Controller();
 	return $controller;
