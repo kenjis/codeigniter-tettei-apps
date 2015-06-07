@@ -19,7 +19,7 @@ class Bbs_test extends TestCase
 
 	public function test_index_mobile()
 	{
-		get_new_instance();
+		reset_instance();
 		$obj = new Bbs();
 
 		$agent = $this->getDouble('CI_User_agent', ['is_mobile' => TRUE]);
@@ -161,6 +161,7 @@ class Bbs_test extends TestCase
 
 	public function test_captcha_check()
 	{
+		reset_instance();
 		$obj = new Bbs();
 		$obj->form_validation = new CI_Form_validation();
 		$actual = $obj->captcha_check('bad_input');

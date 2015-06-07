@@ -48,7 +48,7 @@ class Shop_test extends TestCase
 
 	public function test_confirm_pass()
 	{
-		get_new_instance();
+		reset_instance();
 		$obj = new Shop();
 
 		$model = $this->getDouble('Customer_model', ['set' => NULL]);
@@ -70,7 +70,7 @@ class Shop_test extends TestCase
 
 	public function test_confirm_fail()
 	{
-		get_new_instance();
+		reset_instance();
 		$obj = new Shop();
 
 		$model = $this->getDouble('Customer_model', ['set' => NULL]);
@@ -95,7 +95,7 @@ class Shop_test extends TestCase
 
 	public function test_order_cart_is_empty()
 	{
-		get_new_instance();
+		reset_instance();
 		$obj = new Shop();
 
 		$cart = $this->getDouble('Cart_model', ['count' => 0]);
@@ -110,8 +110,10 @@ class Shop_test extends TestCase
 
 	public function test_order()
 	{
-		$CI = get_new_instance();
+		reset_instance();
+		
 		$obj = new Shop();
+		$CI =& get_instance();
 
 		$cart = $this->getDouble('Cart_model', ['count' => 1]);
 		$shop = $this->getDouble('Shop_model', ['order' => TRUE]);
@@ -133,7 +135,7 @@ class Shop_test extends TestCase
 
 	public function test_order_system_error()
 	{
-		get_new_instance();
+		reset_instance();
 		$obj = new Shop();
 
 		$cart = $this->getDouble('Cart_model', ['count' => 1]);
