@@ -924,7 +924,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kenjis/ci-phpunit-test/zipball/2760475070ca212de00116acf92d0838b93e9e4e",
+                "url": "https://api.github.com/repos/kenjis/ci-phpunit-test/zipball/94f6b52d589788a2f6594bedece2ab7102628ee6",
                 "reference": "2760475070ca212de00116acf92d0838b93e9e4e",
                 "shasum": ""
             },
@@ -962,12 +962,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kenjis/codeigniter-cli.git",
-                "reference": "2cb3fbf7316bdf05d0eb1699f1418870384dbf43"
+                "reference": "6edb9ec82eaf6fbffe55e2780fccac7cc1e6be74"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/kenjis/codeigniter-cli/zipball/6edb9ec82eaf6fbffe55e2780fccac7cc1e6be74",
-                "reference": "2cb3fbf7316bdf05d0eb1699f1418870384dbf43",
+                "reference": "6edb9ec82eaf6fbffe55e2780fccac7cc1e6be74",
                 "shasum": ""
             },
             "require": {
@@ -1016,7 +1016,7 @@
                 "command",
                 "command line"
             ],
-            "time": "2015-05-22 07:22:18"
+            "time": "2015-05-23 11:19:42"
         },
         {
             "name": "maximebf/debugbar",
