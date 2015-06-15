@@ -67,28 +67,29 @@ class Bbs_test extends TestCase
 
 	public function test_insert()
 	{
-		// Warningを抑制する
-		// Severity: WarningMessage:  Cannot modify header information - headers already sent
-		$this->warningOff();
-		
-		$subject = "<s>xyz</s> " . time();
-		$output = $this->request(
-			'POST',
-			['bbs', 'insert'],
-			[
-				'name' => "<s>xyz</s>",
-				'email' => "test@example.jp",
-				'subject' => $subject,
-				'body' => "<s>xyz</s>",
-				'password' => "<s>xyz</s>",
-				'captcha' => "8888",
-				'key' => "139",
-			],
-			$this->load_agent
-		);
-		
-		// error_reportingを戻す
-		$this->warningOn();
+		try
+		{
+			$subject = "<s>xyz</s> " . time();
+			$output = $this->request(
+				'POST',
+				['bbs', 'insert'],
+				[
+					'name' => "<s>xyz</s>",
+					'email' => "test@example.jp",
+					'subject' => $subject,
+					'body' => "<s>xyz</s>",
+					'password' => "<s>xyz</s>",
+					'captcha' => "8888",
+					'key' => "139",
+				],
+				$this->load_agent
+			);
+		}
+		catch (PHPUnit_Framework_Exception $e)
+		{
+			$this->assertEquals(302, $e->getCode());
+			$this->assertRegExp('!\ARedirect to .+/bbs\z!', $e->getMessage());
+		}
 
 		$output = $this->request('GET', ['bbs', 'index'], [], $this->load_agent);
 		$this->assertContains(html_escape($subject), $output);
@@ -96,27 +97,28 @@ class Bbs_test extends TestCase
 
 	public function test_delete()
 	{
-		// Warningを抑制する
-		// Severity: WarningMessage:  Cannot modify header information - headers already sent
-		$this->warningOff();
-		
-		$output = $this->request(
-			'POST',
-			['bbs', 'insert'],
-			[
-				'name' => "削除太郎",
-				'email' => "test@example.jp",
-				'subject' => "削除する投稿",
-				'body' => "この投稿を削除します。",
-				'password' => "delete",
-				'captcha' => "8888",
-				'key' => "139",
-			],
-			$this->load_agent
-		);
-		
-		// error_reportingを戻す
-		$this->warningOn();
+		try
+		{
+			$output = $this->request(
+				'POST',
+				['bbs', 'insert'],
+				[
+					'name' => "削除太郎",
+					'email' => "test@example.jp",
+					'subject' => "削除する投稿",
+					'body' => "この投稿を削除します。",
+					'password' => "delete",
+					'captcha' => "8888",
+					'key' => "139",
+				],
+				$this->load_agent
+			);
+		}
+		catch (PHPUnit_Framework_Exception $e)
+		{
+			$this->assertEquals(302, $e->getCode());
+			$this->assertRegExp('!\ARedirect to .+/bbs\z!', $e->getMessage());
+		}
 
 		$output = $this->request('GET', ['bbs', 'index'], [], $this->load_agent);
 		$crawler = new Crawler($output);

@@ -38,7 +38,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * CodeIgniter URL Helpers with little modification
+ * CodeIgniter URL Helpers with little modification for testing
  *
  * @package		CodeIgniter
  * @subpackage	Helpers
@@ -89,5 +89,14 @@ function redirect($uri = '', $method = 'auto', $code = NULL)
 	if (ENVIRONMENT !== 'testing')
 	{
 		exit;
+	}
+	else
+	{
+		while (ob_get_level() > 1)
+		{
+			ob_end_clean();
+		}
+
+		throw new PHPUnit_Framework_Exception('Redirect to ' . $uri, $code);
 	}
 }
