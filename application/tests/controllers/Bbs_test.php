@@ -6,14 +6,16 @@ class Bbs_test extends TestCase
 {
 	public function setUp()
 	{
-		$this->load_agent = function ($CI) {
-			$CI->load->library('user_agent');
-		};
+		$this->request->setCallable(
+			function ($CI) {
+				$CI->load->library('user_agent');
+			}
+		);
 	}
 
 	public function test_index()
 	{
-		$output = $this->request('GET', ['bbs', 'index'], [], $this->load_agent);
+		$output = $this->request('GET', ['bbs', 'index']);
 		$this->assertContains('<title>掲示板</title>', $output);
 	}
 
@@ -34,14 +36,14 @@ class Bbs_test extends TestCase
 
 	public function test_post()
 	{
-		$output = $this->request('GET', ['bbs', 'post'], [], $this->load_agent);
+		$output = $this->request('GET', ['bbs', 'post']);
 		$this->assertContains('<title>掲示板: 新規投稿</title>', $output);
 	}
 
 	public function test_confirm_error()
 	{
 		$output = $this->request(
-			'POST', ['bbs', 'confirm'], ['name' => ''], $this->load_agent
+			'POST', ['bbs', 'confirm'], ['name' => '']
 		);
 		$this->assertContains('名前欄は必須フィールドです', $output);
 	}
@@ -59,8 +61,7 @@ class Bbs_test extends TestCase
 				'password' => "<s>abc</s>",
 				'captcha' => "8888",
 				'key' => "139",
-			],
-			$this->load_agent
+			]
 		);
 		$this->assertContains('投稿確認', $output);
 	}
@@ -81,8 +82,7 @@ class Bbs_test extends TestCase
 					'password' => "<s>xyz</s>",
 					'captcha' => "8888",
 					'key' => "139",
-				],
-				$this->load_agent
+				]
 			);
 		}
 		catch (PHPUnit_Framework_Exception $e)
@@ -91,7 +91,7 @@ class Bbs_test extends TestCase
 			$this->assertRegExp('!\ARedirect to .+/bbs\z!', $e->getMessage());
 		}
 
-		$output = $this->request('GET', ['bbs', 'index'], [], $this->load_agent);
+		$output = $this->request('GET', ['bbs', 'index']);
 		$this->assertContains(html_escape($subject), $output);
 	}
 
@@ -110,8 +110,7 @@ class Bbs_test extends TestCase
 					'password' => "delete",
 					'captcha' => "8888",
 					'key' => "139",
-				],
-				$this->load_agent
+				]
 			);
 		}
 		catch (PHPUnit_Framework_Exception $e)
@@ -120,21 +119,20 @@ class Bbs_test extends TestCase
 			$this->assertRegExp('!\ARedirect to .+/bbs\z!', $e->getMessage());
 		}
 
-		$output = $this->request('GET', ['bbs', 'index'], [], $this->load_agent);
+		$output = $this->request('GET', ['bbs', 'index']);
 		$crawler = new Crawler($output);
 		
 		// 最初の <h1><a>〜</a></h1> のテキストを取得
 		$text = $crawler->filter('h1 > a')->eq(0)->text();
 		$id = trim($text, '[]');
 		
-		$output = $this->request('POST', ['bbs', 'delete', $id], [], $this->load_agent);
+		$output = $this->request('POST', ['bbs', 'delete', $id]);
 		$this->assertContains('記事を削除できませんでした', $output);
 
 		$output = $this->request(
 			'POST',
 			['bbs', 'delete', $id],
-			['password' => 'delete'],
-			$this->load_agent
+			['password' => 'delete']
 		);
 		$this->assertContains('削除の確認', $output);
 
@@ -144,8 +142,7 @@ class Bbs_test extends TestCase
 			[
 				'password' => 'bad password',
 				'delete' => '1',
-			],
-			$this->load_agent
+			]
 		);
 		$this->assertContains('記事を削除できませんでした', $output);
 
@@ -155,8 +152,7 @@ class Bbs_test extends TestCase
 			[
 				'password' => 'delete',
 				'delete' => '1',
-			],
-			$this->load_agent
+			]
 		);
 		$this->assertContains('記事の削除完了', $output);
 	}
