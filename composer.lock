@@ -16,7 +16,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kenjis/codeigniter-ss-twig/zipball/c7fe6c229c43f6df6c8804c96db34fdca643da4c",
+                "url": "https://api.github.com/repos/kenjis/codeigniter-ss-twig/zipball/60130cee28c585d40635154202d8d04d7a479117",
                 "reference": "c7fe6c229c43f6df6c8804c96db34fdca643da4c",
                 "shasum": ""
             },
@@ -917,12 +917,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kenjis/ci-phpunit-test.git",
-                "reference": "0a99843046afd86bc9dbe9b669e9c23ad4a54304"
+                "reference": "39f83b5a38c4e1a59a8f94348c1cfbe19aee241a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kenjis/ci-phpunit-test/zipball/0a99843046afd86bc9dbe9b669e9c23ad4a54304",
-                "reference": "0a99843046afd86bc9dbe9b669e9c23ad4a54304",
+                "url": "https://api.github.com/repos/kenjis/ci-phpunit-test/zipball/39f83b5a38c4e1a59a8f94348c1cfbe19aee241a",
+                "reference": "39f83b5a38c4e1a59a8f94348c1cfbe19aee241a",
                 "shasum": ""
             },
             "require": {
@@ -945,13 +945,14 @@
                 }
             ],
             "description": "An easier way to use PHPUnit with CodeIgniter 3.0",
+            "homepage": "http://kenjis.github.io/ci-phpunit-test/",
             "keywords": [
                 "codeigniter",
                 "phpunit",
                 "test",
                 "unit testing"
             ],
-            "time": "2015-07-14 02:07:34"
+            "time": "2015-07-19 23:53:28"
         },
         {
             "name": "kenjis/codeigniter-cli",
