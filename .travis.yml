@@ -22,7 +22,7 @@ before_script:
 
 script:
   - cd application/tests/
-  - php vendor/bin/phpunit --coverage-text
+  - php ../../vendor/bin/phpunit --coverage-text
 
 after_script:
   - cd ../..
