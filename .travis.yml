@@ -22,8 +22,10 @@ before_script:
 
 script:
   - cd application/tests/
-  - phpunit --coverage-text
+  - php vendor/bin/phpunit --coverage-text
 
 after_script:
   - cd ../..
-  - php vendor/bin/coveralls -v
+  - if [[ "$TRAVIS_PHP_VERSION" == "5.4" ]]; then php vendor/bin/coveralls -v; fi
+  - if [[ "$TRAVIS_PHP_VERSION" == "5.5" ]]; then php vendor/bin/coveralls -v; fi
+  - if [[ "$TRAVIS_PHP_VERSION" == "5.6" ]]; then php vendor/bin/coveralls -v; fi
