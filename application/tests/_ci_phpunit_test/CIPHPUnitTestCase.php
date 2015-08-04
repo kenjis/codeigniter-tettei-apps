@@ -40,11 +40,34 @@ class CIPHPUnitTestCase extends PHPUnit_Framework_TestCase
 	public static function setUpBeforeClass()
 	{
 		// Fix CLI args, because you may set invalid URI characters
-		// For example, you run tests on NetBeans
+		// For example, when you run tests on NetBeans
 		$_SERVER['argv'] = [
 			'index.php',
 		];
 		$_SERVER['argc'] = 1;
+	}
+
+	public function tearDown()
+	{
+		if (class_exists('MonkeyPatch', false))
+		{
+			if (MonkeyPatchManager::isEnabled('FunctionPatcher'))
+			{
+				MonkeyPatch::resetFunctions();
+			}
+
+			if (MonkeyPatchManager::isEnabled('MethodPatcher'))
+			{
+				try {
+					MonkeyPatch::verifyInvocations();
+				} catch (Exception $e) {
+					MonkeyPatch::resetMethods();
+					throw $e;
+				}
+
+				MonkeyPatch::resetMethods();
+			}
+		}
 	}
 
 	/**

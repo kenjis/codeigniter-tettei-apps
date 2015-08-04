@@ -917,12 +917,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kenjis/ci-phpunit-test.git",
-                "reference": "ffec22db01088dbde81572927f9c690becd0b82b"
+                "reference": "7536947f396e4ebebd3658c0a9153c11e66f2cad"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kenjis/ci-phpunit-test/zipball/ffec22db01088dbde81572927f9c690becd0b82b",
-                "reference": "ffec22db01088dbde81572927f9c690becd0b82b",
+                "url": "https://api.github.com/repos/kenjis/ci-phpunit-test/zipball/7536947f396e4ebebd3658c0a9153c11e66f2cad",
+                "reference": "7536947f396e4ebebd3658c0a9153c11e66f2cad",
                 "shasum": ""
             },
             "require": {
@@ -952,7 +952,7 @@
                 "test",
                 "unit testing"
             ],
-            "time": "2015-07-27 07:17:56"
+            "time": "2015-08-05 02:04:26"
         },
         {
             "name": "kenjis/codeigniter-cli",

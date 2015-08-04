@@ -16,31 +16,3 @@ class CIPHPUnitTestExitException extends RuntimeException
 	public $method;
 	public $exit_status;
 }
-
-function exit__($status = null)
-{
-	$trace = debug_backtrace();
-	$file = $trace[0]['file'];
-	$line = $trace[0]['line'];
-	$class = isset($trace[1]['class']) ? $trace[1]['class'] : null;
-	$method = $trace[1]['function'];
-
-	if ($class === null)
-	{
-		$message = 'exit() called in ' . $method . '() function';
-	}
-	else
-	{
-		$message = 'exit() called in ' . $class . '::' . $method . '()';
-	}
-	
-
-	$exception = new CIPHPUnitTestExitException($message);
-	$exception->file = $file;
-	$exception->line = $line;
-	$exception->class = $class;
-	$exception->method = $method;
-	$exception->exit_status = $status;
-
-	throw $exception;
-}

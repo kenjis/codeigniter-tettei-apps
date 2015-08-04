@@ -28,6 +28,10 @@ class CIPHPUnitTest
 		require __DIR__ . '/replacing/core/Common.php';
 		require BASEPATH . 'core/Common.php';
 
+		// Workaround for missing CodeIgniter's error handler
+		// See https://github.com/kenjis/ci-phpunit-test/issues/37
+		set_error_handler('_error_handler');
+
 		// Load new functions of CIPHPUnitTest
 		require __DIR__ . '/functions.php';
 
@@ -59,15 +63,8 @@ class CIPHPUnitTest
 			new CI_Controller();
 		}
 
-		require APPPATH . '/tests/TestCase.php';
-
 		// Restore $_SERVER
 		$_SERVER = $_server_backup;
-
-		if (isset(TestCase::$enable_patcher) && TestCase::$enable_patcher)
-		{
-			self::enablePatcher();
-		}
 	}
 
 	protected static function replaceLoader()
@@ -97,40 +94,23 @@ class CIPHPUnitTest
 		require __DIR__ . '/CIPHPUnitTestCase.php';
 		require __DIR__ . '/CIPHPUnitTestRequest.php';
 		require __DIR__ . '/CIPHPUnitTestDouble.php';
+		require __DIR__ . '/CIPHPUnitTestReflection.php';
 		require __DIR__ . '/exceptions/CIPHPUnitTestRedirectException.php';
 		require __DIR__ . '/exceptions/CIPHPUnitTestShow404Exception.php';
 		require __DIR__ . '/exceptions/CIPHPUnitTestShowErrorException.php';
 		require __DIR__ . '/exceptions/CIPHPUnitTestExitException.php';
+		require APPPATH . '/tests/TestCase.php';
 	}
 
-	protected static function enablePatcher()
+	public static function setPatcherCacheDir($dir = null)
 	{
-		require __DIR__ . '/patcher/CIPHPUnitTestIncludeStream.php';
-		require __DIR__ . '/patcher/CIPHPUnitTestPatchPathChecker.php';
-		require __DIR__ . '/patcher/CIPHPUnitTestPatcher.php';
+		if ($dir === null)
+		{
+			$dir = APPPATH . 'tests/_ci_phpunit_test/tmp/cache';
+		}
 
-		// Register include stream wrapper for monkey patching
-		CIPHPUnitTestIncludeStream::wrap();
-
-		CIPHPUnitTestPatchPathChecker::setWhitelistDir(
-			[
-				APPPATH,
-			]
-		);
-		CIPHPUnitTestPatchPathChecker::setBlacklistDir(
-			[
-				realpath(APPPATH . '../vendor/'),
-				APPPATH . 'tests/',
-			]
-		);
-
-		self::setPatcherCacheDir();
-	}
-
-	public static function setPatcherCacheDir()
-	{
-		CIPHPUnitTestPatcher::setCacheDir(
-			APPPATH . 'tests/_ci_phpunit_test/tmp/cache'
+		MonkeyPatchManager::setCacheDir(
+			$dir
 		);
 	}
 
