@@ -22,6 +22,8 @@ class Cache
 	private static $tmp_function_blacklist_file;
 	private static $tmp_function_whitelist_file;
 	private static $tmp_patcher_list_file;
+	private static $tmp_include_paths_file;
+	private static $tmp_exclude_paths_file;
 
 	public static function setCacheDir($dir)
 	{
@@ -34,6 +36,10 @@ class Cache
 			self::$cache_dir . '/conf/func_blacklist.php';
 		self::$tmp_patcher_list_file = 
 			self::$cache_dir . '/conf/patcher_list.php';
+		self::$tmp_include_paths_file = 
+			self::$cache_dir . '/conf/include_paths.php';
+		self::$tmp_exclude_paths_file = 
+			self::$cache_dir . '/conf/exclude_paths.php';
 	}
 
 	public static function getCacheDir()
@@ -119,10 +125,7 @@ class Cache
 
 	public static function createTmpListFiles()
 	{
-		if (
-			is_readable(self::$tmp_function_blacklist_file)
-			&& is_readable(self::$tmp_patcher_list_file)
-		)
+		if (is_readable(self::$tmp_function_blacklist_file))
 		{
 			return;
 		}
@@ -131,7 +134,6 @@ class Cache
 		self::createDir($dir);
 
 		touch(self::$tmp_function_blacklist_file);
-		touch(self::$tmp_patcher_list_file);
 	}
 
 	public static function appendTmpFunctionBlacklist($function)
@@ -154,6 +156,22 @@ class Cache
 		$contents = implode("\n", $functions);
 		file_put_contents(
 			self::$tmp_patcher_list_file, $contents
+		);
+	}
+
+	public static function writeTmpIncludePaths(array $functions)
+	{
+		$contents = implode("\n", $functions);
+		file_put_contents(
+			self::$tmp_include_paths_file, $contents
+		);
+	}
+
+	public static function writeTmpExcludePaths(array $functions)
+	{
+		$contents = implode("\n", $functions);
+		file_put_contents(
+			self::$tmp_exclude_paths_file, $contents
 		);
 	}
 
@@ -181,6 +199,30 @@ class Cache
 		return [];
 	}
 
+	public static function getTmpIncludePaths()
+	{
+		if (is_readable(self::$tmp_include_paths_file))
+		{
+			return file(
+				self::$tmp_include_paths_file,
+				FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES
+			);
+		}
+		return [];
+	}
+
+	public static function getTmpExcludePaths()
+	{
+		if (is_readable(self::$tmp_exclude_paths_file))
+		{
+			return file(
+				self::$tmp_exclude_paths_file,
+				FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES
+			);
+		}
+		return [];
+	}
+
 	/**
 	 * @param string $orig_file original source file
 	 * @return string removed cache file
@@ -196,13 +238,13 @@ class Cache
 	public static function clearSrcCache()
 	{
 		self::recursiveUnlink(self::$src_cache_dir);
-		MonkeyPatchManager::log('clear_src_cache: cleared');
+		MonkeyPatchManager::log('clear_src_cache: cleared ' . self::$src_cache_dir);
 	}
 
 	public static function clearCache()
 	{
 		self::recursiveUnlink(self::$cache_dir);
-		MonkeyPatchManager::log('clear_cache: cleared');
+		MonkeyPatchManager::log('clear_cache: cleared ' . self::$cache_dir);
 	}
 
 	/**

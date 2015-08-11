@@ -12,7 +12,7 @@ namespace Kenjis\MonkeyPatch\Patcher;
 
 if (! class_exists('PhpParser\Autoloader'))
 {
-	require __DIR__ . '/../vendor/PHP-Parser/lib/bootstrap.php';
+	require __DIR__ . '/../third_party/PHP-Parser/lib/bootstrap.php';
 }
 require __DIR__ . '/MethodPatcher/NodeVisitor.php';
 require __DIR__ . '/MethodPatcher/PatchManager.php';
@@ -28,7 +28,7 @@ use Kenjis\MonkeyPatch\Patcher\MethodPatcher\NodeVisitor;
 class MethodPatcher
 {
 	const CODE = <<<'EOL'
-if (($__ret__ = \__PatchManager__::getReturn(__CLASS__, __FUNCTION__, func_get_args())) !== __GO_ORIG_METHOD__) return $__ret__;
+if (($__ret__ = \__PatchManager__::getReturn(__CLASS__, __FUNCTION__, func_get_args())) !== __GO_TO_ORIG__) return $__ret__;
 EOL;
 
 	public static $replacement;

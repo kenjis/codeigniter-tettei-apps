@@ -12,7 +12,7 @@ namespace Kenjis\MonkeyPatch\Patcher;
 
 if (! class_exists('PhpParser\Autoloader'))
 {
-	require __DIR__ . '/../vendor/PHP-Parser/lib/bootstrap.php';
+	require __DIR__ . '/../third_party/PHP-Parser/lib/bootstrap.php';
 }
 require __DIR__ . '/FunctionPatcher/NodeVisitor.php';
 require __DIR__ . '/FunctionPatcher/Proxy.php';
@@ -43,7 +43,7 @@ class FunctionPatcher
 		'time',
 		'microtime',
 		'date',
-		'function_exist',
+		'function_exists',
 		// Functions that have param called by reference
 		// Need to prepare method in FunctionPatcher\Proxy class
 		'openssl_random_pseudo_bytes',

@@ -19,13 +19,31 @@ use ReflectionException;
 use Kenjis\MonkeyPatch\Patcher\FunctionPatcher;
 use Kenjis\MonkeyPatch\MonkeyPatchManager;
 use Kenjis\MonkeyPatch\Cache;
+use Kenjis\MonkeyPatch\InvocationVerifier;
 
 class Proxy
 {
-	private static $mocks = [];
+	private static $patches = [];
+	private static $patches_to_apply = [];
+	private static $expected_invocations = [];
+	private static $invocations = [];
 
-	public static function patch__($function, $return_value)
+	/**
+	 * Set a function patch
+	 * 
+	 * This method has '__' suffix, because if it matches real function name,
+	 * '__callStatic()' catch it.
+	 * 
+	 * @param string $function     function name
+	 * @param mixed  $return_value return value or callable
+	 * @param string $class_name   class::method to apply this patch
+	 * 
+	 * @throws LogicException
+	 */
+	public static function patch__($function, $return_value, $class_method = null)
 	{
+		$function = strtolower($function);
+
 		if (FunctionPatcher::isBlacklisted($function))
 		{
 			$msg = "<red>Can't patch on '$function'. It is in blacklist.</red>";
@@ -34,35 +52,129 @@ class Proxy
 		}
 		if (! FunctionPatcher::isWhitelisted($function))
 		{
-			MonkeyPatchManager::log('clear_src_cache: from ' . __METHOD__);
-			Cache::clearSrcCache();
-
 			$msg = "<red>Can't patch on '$function'. It is not in whitelist. If you want to patch it, please add it to 'functions_to_patch' in 'tests/Bootstrap.php'. But note that there are some limitations. See <https://github.com/kenjis/ci-phpunit-test/blob/master/docs/HowToWriteTests.md#patching-functions> for details.</red>";
 			self::outputMessage($msg);
 			throw new LogicException($msg);
 		}
 
-		self::$mocks[$function] = $return_value;
+		self::$patches[$function] = $return_value;
+		self::$patches_to_apply[$function] = strtolower($class_method);
 	}
 
+	/**
+	 * Clear all patches and invocation data
+	 * 
+	 * This method has '__' suffix, because if it matches real function name,
+	 * '__callStatic()' catch it.
+	 */
 	public static function reset__()
 	{
-		self::$mocks = [];
+		self::$patches = [];
+		self::$patches_to_apply = [];
+		self::$expected_invocations = [];
+		self::$invocations = [];
+	}
+
+	public static function setExpectedInvocations($function, $times, $params)
+	{
+		self::$expected_invocations[strtolower($function)][] = [$params, $times];
+	}
+
+	public static function verifyInvocations()
+	{
+		InvocationVerifier::verify(self::$expected_invocations, self::$invocations);
+	}
+
+	protected static function logInvocation($function, $arguments)
+	{
+		if (MonkeyPatchManager::$debug)
+		{
+			$trace = debug_backtrace();
+			$file = $trace[1]['file'];
+			$line = $trace[1]['line'];
+			$method = isset($trace[3]['class']) ? $trace[3]['class'].'::'.$trace[3]['function'] : $trace[3]['function'];
+			
+			$log_args = function () use ($arguments) {
+				$output = '';
+				foreach ($arguments as $arg) {
+					$output .= var_export($arg, true) . ', ';
+				}
+				$output = rtrim($output, ', ');
+				return $output;
+			};
+			MonkeyPatchManager::log(
+				'invoke_func: ' . $function . '(' . $log_args() . ') on line ' . $line . ' in ' . $file . ' by ' . $method . '()'
+			);
+		}
+	}
+
+	protected static function checkCalledMethod($function)
+	{
+		$trace  = debug_backtrace();
+		$class  = isset($trace[3]['class']) ? strtolower($trace[3]['class']) : null;
+		$method = strtolower($trace[3]['function']);
+
+		// Patches the functions only in the class
+		if (strpos(self::$patches_to_apply[$function], '::') === false)
+		{
+			if (self::$patches_to_apply[$function] !== $class)
+			{
+				return false;
+			}
+			return true;
+		}
+		//Patches the functions only in the class method
+		else
+		{
+			if (self::$patches_to_apply[$function] !== $class.'::'.$method)
+			{
+				return false;
+			}
+			return true;
+		}
 	}
 
 	public static function __callStatic($function, array $arguments)
 	{
-		if (isset(self::$mocks[$function]))
-		{
-			if (is_callable(self::$mocks[$function]))
-			{
-				$callable = self::$mocks[$function];
-				return call_user_func_array($callable, $arguments);
-			}
+		$function = strtolower($function);
 
-			return self::$mocks[$function];
+		self::logInvocation($function, $arguments);
+		self::$invocations[$function][] = $arguments;
+
+		if (isset(self::$patches_to_apply[$function]))
+		{
+			if (! self::checkCalledMethod($function))
+			{
+				MonkeyPatchManager::log(
+					'invoke_func: ' . $function . '() not patched (out of scope)'
+				);
+				self::checkPassedByReference($function);
+				return call_user_func_array($function, $arguments);
+			}
 		}
 
+		if (isset(self::$patches[$function]))
+		{
+			MonkeyPatchManager::log('invoke_func: ' . $function . '() patched');
+
+			if (is_callable(self::$patches[$function]))
+			{
+				$callable = self::$patches[$function];
+				
+				$return = call_user_func_array($callable, $arguments);
+				if ($return !== __GO_TO_ORIG__)
+				{
+					return $return;
+				}
+				return call_user_func_array($function, $arguments);
+			}
+
+			return self::$patches[$function];
+		}
+
+		MonkeyPatchManager::log(
+			'invoke_func: ' . $function . '() not patched (no patch)'
+		);
 		self::checkPassedByReference($function);
 		return call_user_func_array($function, $arguments);
 	}
@@ -135,23 +247,28 @@ class Proxy
 		$length, &$crypto_strong
 	)
 	{
+		$function = 'openssl_random_pseudo_bytes';
+		$arguments = [$length, $crypto_strong];
+		self::logInvocation($function, $arguments);
+		self::$invocations[$function][] = $arguments;
+
 		if ($crypto_strong === null)
 		{
 			$crypto_strong = true;
 		}
 
-		if (isset(self::$mocks['openssl_random_pseudo_bytes']))
+		if (isset(self::$patches['openssl_random_pseudo_bytes']))
 		{
-			if (is_callable(self::$mocks['openssl_random_pseudo_bytes']))
+			if (is_callable(self::$patches['openssl_random_pseudo_bytes']))
 			{
-				$callable = self::$mocks['openssl_random_pseudo_bytes'];
+				$callable = self::$patches['openssl_random_pseudo_bytes'];
 				return call_user_func_array(
 					$callable,
 					[$length, &$crypto_strong]
 				);
 			}
 
-			return self::$mocks['openssl_random_pseudo_bytes'];
+			return self::$patches['openssl_random_pseudo_bytes'];
 		}
 
 		return openssl_random_pseudo_bytes($length, $crypto_strong);

@@ -21,10 +21,11 @@ class MonkeyPatch
 	 * 
 	 * @param string $function     function name
 	 * @param mixed  $return_value return value
+	 * @param string $class_name   class::method to apply this patch
 	 */
-	public static function patchFunction($function, $return_value)
+	public static function patchFunction($function, $return_value, $class_method = null)
 	{
-		Proxy::patch__($function, $return_value);
+		Proxy::patch__($function, $return_value, $class_method);
 	}
 
 	/**
@@ -54,40 +55,81 @@ class MonkeyPatch
 		PatchManager::clear();
 	}
 
+	protected static function getClassname($class_method)
+	{
+		if (strpos($class_method, '::') === false)
+		{
+			return 'Kenjis\MonkeyPatch\Patcher\FunctionPatcher\Proxy';
+		}
+		else
+		{
+			return 'Kenjis\MonkeyPatch\Patcher\MethodPatcher\PatchManager';
+		}
+	}
+
+	/**
+	 * @param string $class_method class::method or function name
+	 * @param int    $times        times
+	 * @param array $params        parameters
+	 */
 	public static function verifyInvokedMultipleTimes(
-		$class_method, $times, $params = null
+		$class_method, $times, array $params = null
 	)
 	{
-		PatchManager::setExpectedInvocations(
+		$classname = self::getClassname($class_method);
+		$classname::setExpectedInvocations(
 			$class_method, $times, $params
 		);
 	}
 
-	public static function verifyInvoked($class_method, $params = null)
+	/**
+	 * @param string $class_method class::method or function name
+	 * @param array $params        parameters
+	 */
+	public static function verifyInvoked($class_method, array $params = null)
 	{
-		PatchManager::setExpectedInvocations(
+		$classname = self::getClassname($class_method);
+		$classname::setExpectedInvocations(
 			$class_method, '+', $params
 		);
 	}
 
-	public static function verifyInvokedOnce($class_method, $params = null)
+	/**
+	 * @param string $class_method class::method or function name
+	 * @param array $params        parameters
+	 */
+	public static function verifyInvokedOnce($class_method, array $params = null)
 	{
-		PatchManager::setExpectedInvocations(
+		$classname = self::getClassname($class_method);
+		$classname::setExpectedInvocations(
 			$class_method, 1, $params
 		);
 	}
 
-	public static function verifyNeverInvoked($class_method, $params = null)
+	/**
+	 * @param string $class_method class::method or function name
+	 * @param array $params        parameters
+	 */
+	public static function verifyNeverInvoked($class_method, array $params = null)
 	{
-		PatchManager::setExpectedInvocations(
+		$classname = self::getClassname($class_method);
+		$classname::setExpectedInvocations(
 			$class_method, 0, $params
 		);
 	}
 
 	/**
-	 * Run verifcations
+	 * Run function verifcations
 	 */
-	public static function verifyInvocations()
+	public static function verifyFunctionInvocations()
+	{
+		Proxy::verifyInvocations();
+	}
+
+	/**
+	 * Run method verifcations
+	 */
+	public static function verifyMethodInvocations()
 	{
 		PatchManager::verifyInvocations();
 	}

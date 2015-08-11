@@ -23,6 +23,11 @@ class CIPHPUnitTestCase extends PHPUnit_Framework_TestCase
 	protected $double;
 
 	/**
+	 * @var CI_Controller CodeIgniter instance
+	 */
+	protected $CI;
+
+	/**
 	 * Constructs a test case with the given name.
 	 *
 	 * @param string $name
@@ -47,19 +52,36 @@ class CIPHPUnitTestCase extends PHPUnit_Framework_TestCase
 		$_SERVER['argc'] = 1;
 	}
 
-	public function tearDown()
+	/**
+	 * Reset CodeIgniter instance and assign new CodeIgniter instance as $this->CI
+	 */
+	public function resetInstance()
+	{
+		reset_instance();
+		new CI_Controller();
+		$this->CI =& get_instance();
+	}
+
+	protected function tearDown()
 	{
 		if (class_exists('MonkeyPatch', false))
 		{
 			if (MonkeyPatchManager::isEnabled('FunctionPatcher'))
 			{
+				try {
+					MonkeyPatch::verifyFunctionInvocations();
+				} catch (Exception $e) {
+					MonkeyPatch::resetFunctions();
+					throw $e;
+				}
+
 				MonkeyPatch::resetFunctions();
 			}
 
 			if (MonkeyPatchManager::isEnabled('MethodPatcher'))
 			{
 				try {
-					MonkeyPatch::verifyInvocations();
+					MonkeyPatch::verifyMethodInvocations();
 				} catch (Exception $e) {
 					MonkeyPatch::resetMethods();
 					throw $e;
