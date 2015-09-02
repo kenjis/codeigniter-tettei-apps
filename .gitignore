@@ -2,6 +2,7 @@
 /application/logs/
 /application/cache/
 /application/tests/build/
+/application/tests/_ci_phpunit_test/tmp/
 /public/captcha/
 /vendor/
 /tmp/

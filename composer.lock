@@ -16,7 +16,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kenjis/codeigniter-ss-twig/zipball/60130cee28c585d40635154202d8d04d7a479117",
+                "url": "https://api.github.com/repos/kenjis/codeigniter-ss-twig/zipball/1733856e6f884a1e2363a78f7729140e1f891349",
                 "reference": "c7fe6c229c43f6df6c8804c96db34fdca643da4c",
                 "shasum": ""
             },
@@ -917,12 +917,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kenjis/ci-phpunit-test.git",
-                "reference": "cf26c4a9d38796c485ccd7098c5eb0804f1c4d8d"
+                "reference": "dbdd2e8ccbb6625307c82b15db3cecbeaeeb3863"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kenjis/ci-phpunit-test/zipball/cf26c4a9d38796c485ccd7098c5eb0804f1c4d8d",
-                "reference": "cf26c4a9d38796c485ccd7098c5eb0804f1c4d8d",
+                "url": "https://api.github.com/repos/kenjis/ci-phpunit-test/zipball/dbdd2e8ccbb6625307c82b15db3cecbeaeeb3863",
+                "reference": "dbdd2e8ccbb6625307c82b15db3cecbeaeeb3863",
                 "shasum": ""
             },
             "require": {
@@ -952,7 +952,7 @@
                 "test",
                 "unit testing"
             ],
-            "time": "2015-08-11 03:15:53"
+            "time": "2015-09-02 09:44:59"
         },
         {
             "name": "kenjis/codeigniter-cli",

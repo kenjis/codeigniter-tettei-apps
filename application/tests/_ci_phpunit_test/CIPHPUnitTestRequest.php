@@ -10,6 +10,13 @@
 
 class CIPHPUnitTestRequest
 {
+	protected $testCase;
+
+	/**
+	 * @var CIPHPUnitTestSuperGlobal
+	 */
+	protected $superGlobal;
+
 	/**
 	 * @var callable callable post controller constructor
 	 */
@@ -36,6 +43,23 @@ class CIPHPUnitTestRequest
 	 * @deprecated
 	 */
 	protected $bc_mode_throw_PHPUnit_Framework_Exception = false;
+
+	public function __construct(PHPUnit_Framework_TestCase $testCase)
+	{
+		$this->testCase = $testCase;
+		$this->superGlobal = new CIPHPUnitTestSuperGlobal();
+	}
+
+	/**
+	 * Set HTTP request header
+	 * 
+	 * @param string $name  header name
+	 * @param string $value value
+	 */
+	public function setHeader($name, $value)
+	{
+		$this->superGlobal->set_SERVER_HttpHeader($name, $value);
+	}
 
 	/**
 	 * Set callable
@@ -72,25 +96,35 @@ class CIPHPUnitTestRequest
 	 *
 	 * @param string       $http_method HTTP method
 	 * @param array|string $argv        array of controller,method,arg|uri
-	 * @param array        $params      POST parameters/Query string
-	 * @param callable     $callable    [deprecated] function to run after controller instantiation. Use setCallable() method instead
+	 * @param array|string $params      POST params/GET params|raw_input_stream
 	 */
-	public function request($http_method, $argv, $params = [], $callable = null)
+	public function request($http_method, $argv, $params = [])
 	{
 		// We need this because if 404 route, no controller is created.
 		// But we need $this->CI->output->_status
 		$this->CI =& get_instance();
 
+		if (is_string($argv))
+		{
+			$argv = ltrim($argv, '/');
+		}
+
+		// Set super globals
+		$_SERVER['REQUEST_METHOD'] = $http_method;
+		$this->superGlobal->set_GET($argv, $params);
+		$this->superGlobal->set_POST($params);
+		$this->superGlobal->set_SERVER_REQUEST_URI($argv);
+
 		try {
 			if (is_array($argv))
 			{
 				return $this->callControllerMethod(
-					$http_method, $argv, $params, $callable
+					$http_method, $argv, $params
 				);
 			}
 			else
 			{
-				return $this->requestUri($http_method, $argv, $params, $callable);
+				return $this->requestUri($http_method, $argv, $params);
 			}
 		}
 		// redirect()
@@ -110,11 +144,13 @@ class CIPHPUnitTestRequest
 		catch (CIPHPUnitTestShow404Exception $e)
 		{
 			$this->processError($e);
+			return $e->getMessage();
 		}
 		// show_error()
 		catch (CIPHPUnitTestShowErrorException $e)
 		{
 			$this->processError($e);
+			return $e->getMessage();
 		}
 	}
 
@@ -134,24 +170,13 @@ class CIPHPUnitTestRequest
 	/**
 	 * Call Controller Method
 	 *
-	 * @param string   $http_method    HTTP method
-	 * @param array    $argv           controller, method [, arg1, ...]
-	 * @param array    $request_params POST parameters/Query string
-	 * @param callable $callable       [deprecated] function to run after controller instantiation. Use setCallable() method instead
+	 * @param string       $http_method    HTTP method
+	 * @param array        $argv           controller, method [, arg1, ...]
+	 * @param array|string $request_params POST params/GET params|raw_input_stream
 	 */
-	protected function callControllerMethod($http_method, $argv, $request_params, $callable = null)
+	protected function callControllerMethod($http_method, $argv, $request_params)
 	{
-		$_SERVER['REQUEST_METHOD'] = $http_method;
 		$_SERVER['argv'] = array_merge(['index.php'], $argv);
-
-		if ($http_method === 'POST')
-		{
-			$_POST = $request_params;
-		}
-		elseif ($http_method === 'GET')
-		{
-			$_GET = $request_params;
-		}
 
 		$class  = ucfirst($argv[0]);
 		$method = $argv[1];
@@ -173,6 +198,8 @@ class CIPHPUnitTestRequest
 		// Reset CodeIgniter instance state
 		reset_instance();
 
+		$this->setRawInputStream($request_params);
+
 		// 404 checking
 		if (! class_exists($class) || ! method_exists($class, $method))
 		{
@@ -181,36 +208,19 @@ class CIPHPUnitTestRequest
 
 		$params = $argv;
 
-		// @deprecated
-		if (is_callable($callable))
-		{
-			$this->callable = $callable;
-		}
-
 		return $this->createAndCallController($class, $method, $params);
 	}
 
 	/**
 	 * Request to URI
 	 *
-	 * @param string   $http_method    HTTP method
-	 * @param string   $uri            URI string
-	 * @param array    $request_params POST parameters/Query string
-	 * @param callable $callable       [deprecated] function to run after controller instantiation. Use setCallable() method instead
+	 * @param string       $http_method    HTTP method
+	 * @param string       $uri            URI string
+	 * @param array|string $request_params POST params/GET params|raw_input_stream
 	 */
-	protected function requestUri($http_method, $uri, $request_params, $callable = null)
+	protected function requestUri($http_method, $uri, $request_params)
 	{
-		$_SERVER['REQUEST_METHOD'] = $http_method;
 		$_SERVER['argv'] = ['index.php', $uri];
-
-		if ($http_method === 'POST')
-		{
-			$_POST = $request_params;
-		}
-		elseif ($http_method === 'GET')
-		{
-			$_GET = $request_params;
-		}
 
 		// Force cli mode because if not, it changes URI (and RTR) behavior
 		$cli = is_cli();
@@ -218,6 +228,8 @@ class CIPHPUnitTestRequest
 
 		// Reset CodeIgniter instance state
 		reset_instance();
+
+		$this->setRawInputStream($request_params);
 
 		// Get route
 		$RTR =& load_class('Router', 'core');
@@ -237,12 +249,6 @@ class CIPHPUnitTestRequest
 //		];
 //		var_dump($request, $_SERVER['argv']);
 
-		// @deprecated
-		if (is_callable($callable))
-		{
-			$this->callable = $callable;
-		}
-
 		return $this->createAndCallController($class, $method, $params);
 	}
 
@@ -251,6 +257,19 @@ class CIPHPUnitTestRequest
 		if ($this->enableHooks)
 		{
 			$this->hooks->call_hook($hook);
+		}
+	}
+
+	protected function setRawInputStream($string)
+	{
+		if (is_string($string))
+		{
+			$INPUT =& load_class('Input', 'core');
+			CIPHPUnitTestReflection::setPrivateProperty(
+				$INPUT,
+				'_raw_input_stream',
+				$string
+			);
 		}
 	}
 
@@ -270,6 +289,10 @@ class CIPHPUnitTestRequest
 		// Create controller
 		$controller = new $class;
 		$this->CI =& get_instance();
+
+		// Set CodeIgniter instance to TestCase
+		$this->testCase->setCI($this->CI);
+
 		// Set default response code 200
 		set_status_header(200);
 		// Run callable

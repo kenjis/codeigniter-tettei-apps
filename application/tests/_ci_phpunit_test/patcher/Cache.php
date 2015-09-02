@@ -17,6 +17,7 @@ use RecursiveDirectoryIterator;
 
 class Cache
 {
+	private static $project_root;
 	private static $cache_dir;
 	private static $src_cache_dir;
 	private static $tmp_function_blacklist_file;
@@ -25,10 +26,25 @@ class Cache
 	private static $tmp_include_paths_file;
 	private static $tmp_exclude_paths_file;
 
+	public static function setProjectRootDir($dir)
+	{
+		self::$project_root = realpath($dir);
+		if (self::$project_root === false)
+		{
+			throw new LogicException("No such directory: $dir");
+		}
+	}
+
 	public static function setCacheDir($dir)
 	{
 		self::createDir($dir);
 		self::$cache_dir = realpath($dir);
+		
+		if (self::$cache_dir === false)
+		{
+			throw new LogicException("No such directory: $dir");
+		}
+		
 		self::$src_cache_dir = self::$cache_dir . '/src';
 		self::$tmp_function_whitelist_file = 
 			self::$cache_dir . '/conf/func_whiltelist.php';
@@ -49,8 +65,7 @@ class Cache
 
 	public static function getSrcCacheFilePath($path)
 	{
-		$root = realpath(APPPATH . '../');	// @TODO depends on APPPATH
-		$len = strlen($root);
+		$len = strlen(self::$project_root);
 		$relative_path = substr($path, $len);
 
 		if ($relative_path === false)
@@ -74,9 +89,9 @@ class Cache
 
 	/**
 	 * @param string $path original source file path
-	 * @return boolean
+	 * @return string|false
 	 */
-	public static function hasValidSrcCache($path)
+	public static function getValidSrcCachePath($path)
 	{
 		$cache_file = self::getSrcCacheFilePath($path);
 
@@ -84,7 +99,7 @@ class Cache
 			is_readable($cache_file) && filemtime($cache_file) > filemtime($path)
 		)
 		{
-			return true;
+			return $cache_file;
 		}
 
 		return false;
@@ -123,7 +138,7 @@ class Cache
 		return self::$tmp_function_blacklist_file;
 	}
 
-	public static function createTmpListFiles()
+	public static function createTmpListDir()
 	{
 		if (is_readable(self::$tmp_function_blacklist_file))
 		{
@@ -143,84 +158,72 @@ class Cache
 		);
 	}
 
+	protected static function writeTmpConfFile($filename, array $list)
+	{
+		$contents = implode("\n", $list);
+		file_put_contents(
+			self::$$filename, $contents
+		);
+	}
+
 	public static function writeTmpFunctionWhitelist(array $functions)
 	{
-		$contents = implode("\n", $functions);
-		file_put_contents(
-			self::$tmp_function_whitelist_file, $contents
+		return self::writeTmpConfFile(
+			'tmp_function_whitelist_file', $functions
 		);
 	}
 
-	public static function writeTmpPatcherList(array $functions)
+	public static function writeTmpPatcherList(array $patchers)
 	{
-		$contents = implode("\n", $functions);
-		file_put_contents(
-			self::$tmp_patcher_list_file, $contents
+		return self::writeTmpConfFile(
+			'tmp_patcher_list_file', $patchers
 		);
 	}
 
-	public static function writeTmpIncludePaths(array $functions)
+	public static function writeTmpIncludePaths(array $paths)
 	{
-		$contents = implode("\n", $functions);
-		file_put_contents(
-			self::$tmp_include_paths_file, $contents
+		return self::writeTmpConfFile(
+			'tmp_include_paths_file', $paths
 		);
 	}
 
-	public static function writeTmpExcludePaths(array $functions)
+	public static function writeTmpExcludePaths(array $paths)
 	{
-		$contents = implode("\n", $functions);
-		file_put_contents(
-			self::$tmp_exclude_paths_file, $contents
+		return self::writeTmpConfFile(
+			'tmp_exclude_paths_file', $paths
 		);
+	}
+
+	protected static function getTmpConfFile($filename)
+	{
+		if (is_readable(self::$$filename))
+		{
+			return file(
+				self::$$filename,
+				FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES
+			);
+		}
+		return [];
 	}
 
 	public static function getTmpFunctionWhitelist()
 	{
-		if (is_readable(self::$tmp_function_whitelist_file))
-		{
-			return file(
-				self::$tmp_function_whitelist_file,
-				FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES
-			);
-		}
-		return [];
+		return self::getTmpConfFile('tmp_function_whitelist_file');
 	}
 
 	public static function getTmpPatcherList()
 	{
-		if (is_readable(self::$tmp_patcher_list_file))
-		{
-			return file(
-				self::$tmp_patcher_list_file,
-				FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES
-			);
-		}
-		return [];
+		return self::getTmpConfFile('tmp_patcher_list_file');
 	}
 
 	public static function getTmpIncludePaths()
 	{
-		if (is_readable(self::$tmp_include_paths_file))
-		{
-			return file(
-				self::$tmp_include_paths_file,
-				FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES
-			);
-		}
-		return [];
+		return self::getTmpConfFile('tmp_include_paths_file');
 	}
 
 	public static function getTmpExcludePaths()
 	{
-		if (is_readable(self::$tmp_exclude_paths_file))
-		{
-			return file(
-				self::$tmp_exclude_paths_file,
-				FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES
-			);
-		}
-		return [];
+		return self::getTmpConfFile('tmp_exclude_paths_file');
 	}
 
 	/**

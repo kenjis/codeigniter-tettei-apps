@@ -8,38 +8,40 @@
  * @link       https://github.com/kenjis/ci-phpunit-test
  */
 
+/**
+ * @property CIPHPUnitTestRequest    $request
+ * @property CIPHPUnitTestDouble     $double
+ * @property CIPHPUnitTestReflection $reflection
+ */
 class CIPHPUnitTestCase extends PHPUnit_Framework_TestCase
 {
 	protected $_error_reporting = -1;
 	
 	/**
-	 * @var CIPHPUnitTestRequest
-	 */
-	protected $request;
-	
-	/**
-	 * @var CIPHPUnitTestDouble
-	 */
-	protected $double;
-
-	/**
 	 * @var CI_Controller CodeIgniter instance
 	 */
 	protected $CI;
+	
+	protected $class_map = [
+		'request'    => 'CIPHPUnitTestRequest',
+		'double'     => 'CIPHPUnitTestDouble',
+		'reflection' => 'CIPHPUnitTestReflection',
+	];
 
-	/**
-	 * Constructs a test case with the given name.
-	 *
-	 * @param string $name
-	 * @param array  $data
-	 * @param string $dataName
-	 */
-	public function __construct($name = null, array $data = array(), $dataName = '')
+	public function setCI(CI_Controller $CI)
 	{
-		parent::__construct($name, $data, $dataName);
+		$this->CI = $CI;
+	}
 
-		$this->request = new CIPHPUnitTestRequest();
-		$this->double = new CIPHPUnitTestDouble($this);
+	public function __get($name)
+	{
+		if (isset($this->class_map[$name]))
+		{
+			$this->$name = new $this->class_map[$name]($this);
+			return $this->$name;
+		}
+
+		throw new LogicException('No such property: ' . $name);
 	}
 
 	public static function setUpBeforeClass()
@@ -98,11 +100,10 @@ class CIPHPUnitTestCase extends PHPUnit_Framework_TestCase
 	 * @param string       $http_method HTTP method
 	 * @param array|string $argv        array of controller,method,arg|uri
 	 * @param array        $params      POST parameters/Query string
-	 * @param callable     $callable    [deprecated] function to run after controller instantiation. Use $this->request->setCallable() method instead
 	 */
-	public function request($http_method, $argv, $params = [], $callable = null)
+	public function request($http_method, $argv, $params = [])
 	{
-		return $this->request->request($http_method, $argv, $params, $callable);
+		return $this->request->request($http_method, $argv, $params);
 	}
 
 	/**
@@ -111,12 +112,11 @@ class CIPHPUnitTestCase extends PHPUnit_Framework_TestCase
 	 * @param string       $http_method HTTP method
 	 * @param array|string $argv        array of controller,method,arg|uri
 	 * @param array        $params      POST parameters/Query string
-	 * @param callable     $callable    [deprecated] function to run after controller instantiation. Use $this->request->setCallable() method instead
 	 */
-	public function ajaxRequest($http_method, $argv, $params = [], $callable = null)
+	public function ajaxRequest($http_method, $argv, $params = [])
 	{
 		$_SERVER['HTTP_X_REQUESTED_WITH'] = 'xmlhttprequest';
-		return $this->request($http_method, $argv, $params, $callable);
+		return $this->request($http_method, $argv, $params);
 	}
 
 	/**
@@ -212,7 +212,9 @@ class CIPHPUnitTestCase extends PHPUnit_Framework_TestCase
 
 	public function warningOff()
 	{
-		$this->_error_reporting = error_reporting(E_ALL & ~E_WARNING);
+		$this->_error_reporting = error_reporting(
+			E_ALL & ~E_WARNING & ~E_NOTICE
+		);
 	}
 
 	public function warningOn()
@@ -238,12 +240,33 @@ class CIPHPUnitTestCase extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Set Expected Redirect
+	 * Asserts HTTP response header
 	 * 
-	 * This method needs <https://github.com/kenjis/ci-phpunit-test/blob/master/application/helpers/MY_url_helper.php>.
+	 * @param string $name  header name
+	 * @param string $value header value
+	 */
+	public function assertResponseHeader($name, $value)
+	{
+		$CI =& get_instance();
+		$actual = $CI->output->get_header($name);
+
+		if ($actual === null)
+		{
+			$this->fail("The '$name' header is not set.\nNote that `assertResponseHeader()` can only assert headers set by `\$this->output->set_header()`");
+		}
+
+		$this->assertEquals(
+			$value,
+			$actual,
+			"The '$name' header is not '$value' but '$actual'."
+		);
+	}
+
+	/**
+	 * Asserts Redirect
 	 * 
 	 * @param string $uri  URI to redirect
-	 * @param int    $code Response Code
+	 * @param int    $code response code
 	 */
 	public function assertRedirect($uri, $code = null)
 	{

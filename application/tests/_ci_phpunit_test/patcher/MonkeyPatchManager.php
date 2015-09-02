@@ -40,7 +40,9 @@ class MonkeyPatchManager
 		}
 
 		$time = date('Y-m-d H:i:s');
-		$log = "[$time] $message\n";
+		list($usec, $sec) = explode(' ', microtime());
+		$usec = substr($usec, 1);
+		$log = "[$time $usec] $message\n";
 		file_put_contents(self::$log_file, $log, FILE_APPEND);
 	}
 
@@ -65,6 +67,16 @@ class MonkeyPatchManager
 			self::$log_file = __DIR__ . '/debug.log';
 		}
 
+		if (isset($config['root_dir']))
+		{
+			Cache::setProjectRootDir($config['root_dir']);
+		}
+		else
+		{
+			// APPPATH is constant in CodeIgniter
+			Cache::setProjectRootDir(APPPATH . '../');
+		}
+
 		if (! isset($config['cache_dir']))
 		{
 			throw new LogicException('You have to set "cache_dir"');
@@ -82,7 +94,7 @@ class MonkeyPatchManager
 			self::setExcludePaths($config['exclude_paths']);
 		}
 
-		Cache::createTmpListFiles();
+		Cache::createTmpListDir();
 
 		if (isset($config['patcher_list']))
 		{
@@ -219,23 +231,17 @@ class MonkeyPatchManager
 	 */
 	public static function patch($path)
 	{
-		if (Cache::getCacheDir() === null)
-		{
-			throw new LogicException("You have to set 'cache_dir'");
-		}
-
 		if (! is_readable($path))
 		{
 			throw new LogicException("Can't read '$path'");
 		}
 
 		// Check cache file
-		if (Cache::hasValidSrcCache($path))
+		if ($cache_file = Cache::getValidSrcCachePath($path))
 		{
 			self::log('cache_hit: ' . $path);
-			return fopen(Cache::getSrcCacheFilePath($path), 'r');
+			return fopen($cache_file, 'r');
 		}
-
 
 		self::log('cache_miss: ' . $path);
 		$source = file_get_contents($path);
@@ -273,7 +279,8 @@ class MonkeyPatchManager
 		foreach (self::$patcher_list as $classname)
 		{
 			$classname = 'Kenjis\MonkeyPatch\Patcher\\' . $classname;
-			list($source, $patched_this) = $classname::patch($source);
+			$patcher = new $classname;
+			list($source, $patched_this) = $patcher->patch($source);
 			$patched = $patched || $patched_this;
 		}
 
