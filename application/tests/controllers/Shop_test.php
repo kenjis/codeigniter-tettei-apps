@@ -118,15 +118,8 @@ class Shop_test extends TestCase
 		$obj->Cart_model = $cart;
 		$obj->Shop_model = $shop;
 
-		// Warningを抑制する
-		// Severity: WarningMessage:  session_destroy(): Trying to destroy uninitialized session
-		$this->warningOff();
-
 		$obj->order();
 		$output = $this->CI->output->get_output();
-
-		// error_reportingを戻す
-		$this->warningOn();
 
 		$this->assertContains('ご注文ありがとうございます', $output);
 	}
@@ -141,16 +134,9 @@ class Shop_test extends TestCase
 		$obj->Cart_model = $cart;
 		$obj->Shop_model = $shop;
 
-		// Warningを抑制する
-		// Severity: WarningMessage:  session_destroy(): Trying to destroy uninitialized session
-		$this->warningOff();
-
 		ob_start();
 		$obj->order();
 		$output = ob_get_clean();
-
-		// error_reportingを戻す
-		$this->warningOn();
 
 		$this->assertContains('システムエラー', $output);
 	}

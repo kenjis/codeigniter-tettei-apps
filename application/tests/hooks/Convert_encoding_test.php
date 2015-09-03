@@ -11,7 +11,7 @@ class Convert_encoding_test extends TestCase
 	public function test_run_and_add_agent()
 	{
 		reset_instance();
-		
+
 		$str = '尾骶骨';
 		$_SERVER['PATH_INFO'] = '/bbs';
 		$_POST = [
@@ -26,10 +26,8 @@ class Convert_encoding_test extends TestCase
 		$this->obj->run();
 		$this->assertEquals('尾骨', $_POST['name']);
 
-		$this->warningOff();
 		new CI_Controller();
-		$this->warningOn();
-		
+
 		$this->obj->add_agent();
 		$CI =& get_instance();
 		$this->assertSame($agent, $CI->agent);
