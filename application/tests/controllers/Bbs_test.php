@@ -90,27 +90,20 @@ class Bbs_test extends TestCase
 
 	public function test_delete()
 	{
-		try
-		{
-			$output = $this->request(
-				'POST',
-				['bbs', 'insert'],
-				[
-					'name' => "削除太郎",
-					'email' => "test@example.jp",
-					'subject' => "削除する投稿",
-					'body' => "この投稿を削除します。",
-					'password' => "delete",
-					'captcha' => "8888",
-					'key' => "139",
-				]
-			);
-		}
-		catch (PHPUnit_Framework_Exception $e)
-		{
-			$this->assertEquals(302, $e->getCode());
-			$this->assertRegExp('!\ARedirect to .+/bbs\z!', $e->getMessage());
-		}
+		$output = $this->request(
+			'POST',
+			['bbs', 'insert'],
+			[
+				'name' => "削除太郎",
+				'email' => "test@example.jp",
+				'subject' => "削除する投稿",
+				'body' => "この投稿を削除します。",
+				'password' => "delete",
+				'captcha' => "8888",
+				'key' => "139",
+			]
+		);
+		$this->assertRedirect('bbs', 302);
 
 		$output = $this->request('GET', ['bbs', 'index']);
 		$crawler = new Crawler($output);

@@ -110,10 +110,8 @@ class Shop_test extends TestCase
 
 	public function test_order()
 	{
-		reset_instance();
-		
+		$this->resetInstance();
 		$obj = new Shop();
-		$CI =& get_instance();
 
 		$cart = $this->getDouble('Cart_model', ['count' => 1]);
 		$shop = $this->getDouble('Shop_model', ['order' => TRUE]);
@@ -125,7 +123,7 @@ class Shop_test extends TestCase
 		$this->warningOff();
 
 		$obj->order();
-		$output = $CI->output->get_output();
+		$output = $this->CI->output->get_output();
 
 		// error_reportingを戻す
 		$this->warningOn();
@@ -135,7 +133,7 @@ class Shop_test extends TestCase
 
 	public function test_order_system_error()
 	{
-		reset_instance();
+		$this->resetInstance();
 		$obj = new Shop();
 
 		$cart = $this->getDouble('Cart_model', ['count' => 1]);

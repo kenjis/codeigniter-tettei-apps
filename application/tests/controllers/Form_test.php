@@ -32,6 +32,12 @@ class Form_test extends TestCase
 
 	public function test_send()
 	{
+		$this->request->setCallable(
+			function ($CI) {
+				$email = $this->getDouble('CI_Email', ['send' => TRUE]);
+				$CI->email = $email;
+			}
+		);
 		$output = $this->request(
 			'POST',
 			['form', 'send'],
@@ -39,11 +45,7 @@ class Form_test extends TestCase
 				'name' => '<s>abc</s>',
 				'email' => 'test@example.jp',
 				'comment' => '<s>abc</s>',
-			],
-			function ($CI) {
-				$email = $this->getDouble('CI_Email', ['send' => TRUE]);
-				$CI->email = $email;
-			}
+			]
 		);
 		$this->assertContains('送信しました', $output);
 	}
