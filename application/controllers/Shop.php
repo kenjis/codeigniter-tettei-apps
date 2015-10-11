@@ -77,7 +77,7 @@ class Shop extends MY_Controller {
 		$data['item_count'] = $this->cart_model->count();
 
 # ビューを表示します。
-		$this->twig->render('shop_tmpl_shop', $data);
+		$this->twig->display('shop_tmpl_shop', $data);
 	}
 
 	// 商品詳細ページ
@@ -94,7 +94,7 @@ class Shop extends MY_Controller {
 		$data['main'] = 'shop_product';
 
 		$data['item_count'] = $this->cart_model->count();
-		$this->twig->render('shop_tmpl_shop', $data);
+		$this->twig->display('shop_tmpl_shop', $data);
 	}
 
 	// カゴに入れる
@@ -124,7 +124,7 @@ class Shop extends MY_Controller {
 		$data['item_count'] = $cart['line'];
 
 		$data['main'] = 'shop_cart';
-		$this->twig->render('shop_tmpl_shop', $data);
+		$this->twig->display('shop_tmpl_shop', $data);
 	}
 
 	// 検索ページ
@@ -157,7 +157,7 @@ class Shop extends MY_Controller {
 
 		$data['main']   = 'shop_search';
 		$data['item_count'] = $this->cart_model->count();
-		$this->twig->render('shop_tmpl_shop', $data);
+		$this->twig->display('shop_tmpl_shop', $data);
 	}
 
 	// お客様情報入力ページ
@@ -171,7 +171,7 @@ class Shop extends MY_Controller {
 			'action' => 'お客様情報の入力',
 			'main'   => 'shop_customer_info',
 		];
-		$this->twig->render('shop_tmpl_checkout', $data);
+		$this->twig->display('shop_tmpl_checkout', $data);
 	}
 
 	// 注文内容確認
@@ -206,7 +206,7 @@ class Shop extends MY_Controller {
 			];
 		}
 
-		$this->twig->render('shop_tmpl_checkout', $data);
+		$this->twig->display('shop_tmpl_checkout', $data);
 	}
 
 	// 注文処理
@@ -223,7 +223,7 @@ class Shop extends MY_Controller {
 				'action' => '注文の完了',
 				'main'   => 'shop_thankyou',
 			];
-			$this->twig->render('shop_tmpl_checkout', $data);
+			$this->twig->display('shop_tmpl_checkout', $data);
 # 注文が完了したので、セッションを破棄します。
 			$this->session->sess_destroy();
 		}

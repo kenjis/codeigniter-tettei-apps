@@ -8,8 +8,18 @@
  * @link       https://github.com/kenjis/codeigniter-ss-twig
  */
 
+// If you don't use Composer, uncomment below
+/*
+require_once APPPATH . 'third_party/Twig-1.xx.x/lib/Twig/Autoloader.php';
+Twig_Autoloader::register();
+*/
+
 class Twig
 {
+	private $config = [
+		'paths' => [VIEWPATH],
+	];
+
 	private $functions_asis = [
 		'base_url', 'site_url'
 	];
@@ -19,6 +29,11 @@ class Twig
 
 	private $twig;
 	private $loader;
+
+	public function __construct($params = [])
+	{
+		$this->config = array_merge($this->config, $params);
+	}
 
 	public function createTwig()
 	{
@@ -31,8 +46,9 @@ class Twig
 			$debug = TRUE;
 		}
 
-		if ($this->loader === null) {
-			$this->loader = new \Twig_Loader_Filesystem([VIEWPATH]);
+		if ($this->loader === null)
+		{
+			$this->loader = new \Twig_Loader_Filesystem($this->config['paths']);
 		}
 
 		$twig = new \Twig_Environment($this->loader, [
@@ -55,13 +71,31 @@ class Twig
 		$this->loader = $loader;
 	}
 
+	/**
+	 * Renders Twig Template and Set Output
+	 * 
+	 * @param string $view  template filename without `.twig`
+	 * @param array $params
+	 */
+	public function display($view, $params = [])
+	{
+		$CI =& get_instance();
+		$CI->output->set_output($this->render($view, $params));
+	}
+
+	/**
+	 * Renders Twig Template and Returns as String
+	 * 
+	 * @param string $view  template filename without `.twig`
+	 * @param array $params
+	 * @return string
+	 */
 	public function render($view, $params = [])
 	{
 		$this->createTwig();
 
 		$view = $view . '.twig';
-		$CI =& get_instance();
-		$CI->output->set_output($this->twig->render($view, $params));
+		return $this->twig->render($view, $params);
 	}
 
 	private function addCIFunctions()

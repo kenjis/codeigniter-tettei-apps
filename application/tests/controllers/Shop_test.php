@@ -54,9 +54,9 @@ class Shop_test extends TestCase
 		$model = $this->getDouble('Customer_model', ['set' => NULL]);
 		$this->verifyInvokedOnce($model, 'set');
 		$validation = $this->getDouble('CI_Form_validation', ['run' => TRUE]);
-		$twig = $this->getDouble('Twig_Environment', ['render' => NULL]);
+		$twig = $this->getDouble('Twig_Environment', ['display' => NULL]);
 		$this->verifyInvokedMultipleTimes(
-			$twig, 'render', 1,
+			$twig, 'display', 1,
 			[
 				['shop_tmpl_checkout', $this->anything()],
 			]
@@ -76,12 +76,12 @@ class Shop_test extends TestCase
 		$model = $this->getDouble('Customer_model', ['set' => NULL]);
 		$this->verifyNeverInvoked($model, 'set');
 		$validation = $this->getDouble('CI_Form_validation', ['run' => FALSE]);
-		$twig = $this->getDouble('Twig_Environment', ['render' => NULL]);
+		$twig = $this->getDouble('Twig_Environment', ['display' => NULL]);
 		
 		$data['action'] = 'お客様情報の入力';
 		$data['main']   = 'shop_customer_info';
 		$this->verifyInvokedMultipleTimes(
-			$twig, 'render', 1,
+			$twig, 'display', 1,
 			[
 				['shop_tmpl_checkout', $data]
 			]
