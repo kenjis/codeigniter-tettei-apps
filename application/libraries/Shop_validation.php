@@ -5,7 +5,7 @@ class Shop_validation
 	private $CI;
 
 	// バリデーションの設定
-	public function set()
+	public function __construct()
 	{
 		$this->CI =& get_instance();
 

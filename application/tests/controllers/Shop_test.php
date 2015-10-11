@@ -63,7 +63,7 @@ class Shop_test extends TestCase
 		);
 		$obj->form_validation = $validation;
 		$obj->twig = $twig;
-		$obj->Customer_model = $model;
+		$obj->customer_model = $model;
 		
 		$obj->confirm();
 	}
@@ -115,8 +115,8 @@ class Shop_test extends TestCase
 
 		$cart = $this->getDouble('Cart_model', ['count' => 1]);
 		$shop = $this->getDouble('Shop_model', ['order' => TRUE]);
-		$obj->Cart_model = $cart;
-		$obj->Shop_model = $shop;
+		$obj->cart_model = $cart;
+		$obj->shop_model = $shop;
 
 		$obj->order();
 		$output = $this->CI->output->get_output();
@@ -131,8 +131,8 @@ class Shop_test extends TestCase
 
 		$cart = $this->getDouble('Cart_model', ['count' => 1]);
 		$shop = $this->getDouble('Shop_model', ['order' => FALSE]);
-		$obj->Cart_model = $cart;
-		$obj->Shop_model = $shop;
+		$obj->cart_model = $cart;
+		$obj->shop_model = $shop;
 
 		ob_start();
 		$obj->order();
