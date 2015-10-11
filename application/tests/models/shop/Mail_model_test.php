@@ -5,8 +5,8 @@ class Mail_model_test extends TestCase
 	public function setUp()
 	{
 		$this->CI =& get_instance();
-		$this->CI->load->model('shop/Mail_model');
-		$this->obj = $this->CI->Mail_model;
+		$this->CI->load->model('shop/mail_model');
+		$this->obj = $this->CI->mail_model;
 		$this->CI->email = new Mock_Libraries_Email();
 	}
 

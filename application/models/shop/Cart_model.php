@@ -2,7 +2,7 @@
 
 /**
  * @property CI_Session      $session
- * @property Inventory_model $Inventory_model
+ * @property Inventory_model $inventory_model
  */
 class Cart_model extends CI_Model {
 
@@ -10,7 +10,7 @@ class Cart_model extends CI_Model {
 	{
 		parent::__construct();
 		$this->load->library('session');
-		$this->load->model('shop/Inventory_model');
+		$this->load->model('shop/inventory_model');
 	}
 
 	/**
@@ -29,7 +29,7 @@ class Cart_model extends CI_Model {
 		}
 # 指定の数量が1以上の場合は、その商品が存在するかチェックした後に、商品と数量を
 # セッションデータに追加します。セッションの項目名は「item+商品ID」とします。
-		else if ($this->Inventory_model->is_available_product_item($id))
+		elseif ($this->inventory_model->is_available_product_item($id))
 		{
 			$this->session->set_userdata('item' . $id, $qty);
 		}
@@ -57,7 +57,7 @@ class Cart_model extends CI_Model {
 # 配列のキーから商品IDを取り出します。
 				$id     = (int) substr($key, 4);
 # get_product_item()メソッドを使い、商品データを取得します。
-				$item   = $this->Inventory_model->get_product_item($id);
+				$item   = $this->inventory_model->get_product_item($id);
 # 単価に数量を掛けて金額を計算します。
 				$amount = $item->price * $val;
 # 以上の情報を連想配列に代入します。

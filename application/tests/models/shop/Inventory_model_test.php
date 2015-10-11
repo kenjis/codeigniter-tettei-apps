@@ -7,15 +7,15 @@ class Inventory_model_test extends TestCase
 		parent::setUpBeforeClass();
 
 		$CI =& get_instance();
-		$CI->load->library('Seeder');
+		$CI->load->library('seeder');
 		$CI->seeder->call('CategorySeeder');
 	}
 
 	public function setUp()
 	{
 		$this->CI =& get_instance();
-		$this->CI->load->model('shop/Inventory_model');
-		$this->obj = $this->CI->Inventory_model;
+		$this->CI->load->model('shop/inventory_model');
+		$this->obj = $this->CI->inventory_model;
 	}
 
 	public function test_get_category_list()

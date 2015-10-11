@@ -7,15 +7,15 @@ class Cart_model_test extends TestCase
 		parent::setUpBeforeClass();
 
 		$CI =& get_instance();
-		$CI->load->library('Seeder');
+		$CI->load->library('seeder');
 		$CI->seeder->call('ProductSeeder');
 	}
 
 	public function setUp()
 	{
 		$this->CI =& get_instance();
-		$this->CI->load->model('shop/Cart_model');
-		$this->obj = $this->CI->Cart_model;
+		$this->CI->load->model('shop/cart_model');
+		$this->obj = $this->CI->cart_model;
 	}
 
 	public function test_add()

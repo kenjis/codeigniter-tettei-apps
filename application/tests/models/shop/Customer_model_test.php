@@ -5,8 +5,8 @@ class Customer_model_test extends TestCase
 	public function setUp()
 	{
 		$this->CI =& get_instance();
-		$this->CI->load->model('shop/Customer_model');
-		$this->obj = $this->CI->Customer_model;
+		$this->CI->load->model('shop/customer_model');
+		$this->obj = $this->CI->customer_model;
 	}
 
 	public function test_set_and_get()
