@@ -25,7 +25,7 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"": "application/libraries/Validation/"
+			"": "application/libraries/validation/"
 		}
 	}
 }
