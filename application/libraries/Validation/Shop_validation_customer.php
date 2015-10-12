@@ -1,6 +1,6 @@
 <?php
 
-class Shop_validation extends Custom_validation
+class Shop_validation_customer extends Custom_validation
 {
 	// バリデーションの設定
 	protected function set_validation_rules()
