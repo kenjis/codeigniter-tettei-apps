@@ -22,5 +22,10 @@
 		"phpunit/phpunit": "4.6.*",
 		"tan5en5/codeigniter-debugbar": "dev-develop",
 		"satooshi/php-coveralls": "0.6.*"
+	},
+	"autoload": {
+		"psr-4": {
+			"": "application/libraries/Validation/"
+		}
 	}
 }

@@ -164,7 +164,7 @@ class Shop extends MY_Controller {
 	public function customer_info()
 	{
 # 検証ルールを設定します。
-		$this->load->library('shop_validation');
+		$this->load->library('validation/shop_validation');
 		$this->form_validation->run();
 
 		$data = [
@@ -177,7 +177,7 @@ class Shop extends MY_Controller {
 	// 注文内容確認
 	public function confirm()
 	{
-		$this->load->library('shop_validation');
+		$this->load->library('validation/shop_validation');
 
 		if ($this->form_validation->run() == TRUE)
 		{
