@@ -150,12 +150,12 @@ class Shop extends MY_Controller {
 
 # 検索キーワードをクエリ文字列から取得します。
 		$q = (string) $this->input->get('q');
+# 全角スペースを半角スペースに変換します。
+		$q = trim(mb_convert_kana($q, 's'));
 # 検索キーワードを検証します。
 		$this->field_validation->validate(
 			$q, 'max_length[100]'
 		);
-# 全角スペースを半角スペースに変換します。
-		$q = trim(mb_convert_kana($q, 's'));
 
 		$data = [];
 		$data['cat_list'] = $this->inventory_model->get_category_list();
