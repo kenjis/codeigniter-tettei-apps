@@ -26,4 +26,20 @@ abstract class Custom_validation
 	{
 		$this->CI->form_validation->set_rules($field, $label, $rules, $errors);
 	}
+
+	public function validate(array $data = [])
+	{
+		if ($data !== [])
+		{
+			$this->CI->form_validation->set_data($data);
+			$this->set_validation_rules();
+		}
+
+		return $this->run();
+	}
+
+	public function run()
+	{
+		return $this->CI->form_validation->run();
+	}
 }

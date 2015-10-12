@@ -41,19 +41,21 @@ class Shop extends MY_Controller {
 	}
 
 	// トップページ = カテゴリ別商品一覧
-	public function index()
+	public function index($cat_id = '1', $offset = '0')
 	{
+# カテゴリーIDとオフセットを検証します。
+		$this->load->library('validation/field_validation');
+		$this->field_validation->validate(
+			$cat_id, 'required|is_natural|max_length[11]'
+		);
+		$this->field_validation->validate(
+			$offset, 'required|is_natural|max_length[3]'
+		);
+
 		$data = [];
 
 # モデルからカテゴリの一覧を取得します。
 		$data['cat_list'] = $this->inventory_model->get_category_list();
-
-# 3番目のURIセグメントより、カテゴリIDを取得します。セグメントデータがない
-# 場合は、1を設定します。
-		$cat_id = (int) $this->uri->segment(3, 1);
-# 4番目のURIセグメントより、offset値を取得します。セグメントデータがない場合
-# は、0を設定します。
-		$offset = (int) $this->uri->segment(4, 0);
 
 # カテゴリIDとoffset値と、1ページに表示する商品の数を渡し、モデルより
 # 商品一覧を取得します。
@@ -81,14 +83,17 @@ class Shop extends MY_Controller {
 	}
 
 	// 商品詳細ページ
-	public function product()
+	public function product($prod_id = '1')
 	{
+# 商品IDを検証します。
+		$this->load->library('validation/field_validation');
+		$this->field_validation->validate(
+			$prod_id, 'required|is_natural|max_length[11]'
+		);
+
 		$data = [];
 		$data['cat_list'] = $this->inventory_model->get_category_list();
 
-# 3番目のURIセグメントより、商品IDを取得します。セグメントデータがない
-# 場合は、1を設定します。
-		$prod_id = (int) $this->uri->segment(3, 1);
 # モデルより商品データを取得します。
 		$data['item'] = $this->inventory_model->get_product_item($prod_id);
 		$data['main'] = 'shop_product';
@@ -98,13 +103,20 @@ class Shop extends MY_Controller {
 	}
 
 	// カゴに入れる
-	public function add()
+	public function add($prod_id = '0')
 	{
-# 3番目のURIセグメントより、商品IDを取得します。セグメントデータがない
-# 場合は、0を設定します。
-		$prod_id = (int) $this->uri->segment(3, 0);
+# 商品IDを検証します。
+		$this->load->library('validation/field_validation');
+		$this->field_validation->validate(
+			$prod_id, 'required|is_natural|max_length[11]'
+		);
 # POSTされたqtyフィールドより、数量を取得します。
-		$qty     = (int) $this->input->post('qty');
+		$qty = $this->input->post('qty');
+# 数量を検証します。
+		$this->field_validation->validate(
+			$qty, 'required|is_natural|max_length[3]'
+		);
+
 		$this->cart_model->add($prod_id, $qty);
 
 # コントローラのcart()メソッドを呼び出し、カートを表示します。
@@ -128,18 +140,25 @@ class Shop extends MY_Controller {
 	}
 
 	// 検索ページ
-	public function search()
+	public function search($offset = '0')
 	{
-		$data = [];
-		$data['cat_list'] = $this->inventory_model->get_category_list();
+# オフセットを検証します。
+		$this->load->library('validation/field_validation');
+		$this->field_validation->validate(
+			$offset, 'required|is_natural|max_length[3]'
+		);
 
 # 検索キーワードをクエリ文字列から取得します。
 		$q = (string) $this->input->get('q');
+# 検索キーワードを検証します。
+		$this->field_validation->validate(
+			$q, 'max_length[100]'
+		);
 # 全角スペースを半角スペースに変換します。
 		$q = trim(mb_convert_kana($q, 's'));
 
-# offset値を、3番目のURIセグメントより取得します。
-		$offset = (int) $this->uri->segment(3, 0);
+		$data = [];
+		$data['cat_list'] = $this->inventory_model->get_category_list();
 
 # モデルから、キーワードで検索した商品データと総件数を取得します。
 		$data['list'] = $this->inventory_model->get_product_by_search(
