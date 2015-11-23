@@ -53,7 +53,9 @@ class Shop_test extends TestCase
 
 		$model = $this->getDouble('Customer_model', ['set' => NULL]);
 		$this->verifyInvokedOnce($model, 'set');
-		$validation = $this->getDouble('CI_Form_validation', ['run' => TRUE]);
+		$validation = $this->getDouble(
+			'CI_Form_validation', ['run' => TRUE], TRUE
+		);
 		$twig = $this->getDouble('Twig_Environment', ['display' => NULL]);
 		$this->verifyInvokedMultipleTimes(
 			$twig, 'display', 1,
@@ -75,7 +77,9 @@ class Shop_test extends TestCase
 
 		$model = $this->getDouble('Customer_model', ['set' => NULL]);
 		$this->verifyNeverInvoked($model, 'set');
-		$validation = $this->getDouble('CI_Form_validation', ['run' => FALSE]);
+		$validation = $this->getDouble(
+			'CI_Form_validation', ['run' => FALSE], TRUE
+		);
 		$twig = $this->getDouble('Twig_Environment', ['display' => NULL]);
 		
 		$data['action'] = 'お客様情報の入力';

@@ -51,5 +51,6 @@ class Convert_encoding_test extends TestCase
 		$this->assertFalse(isset($CI->agent));
 
 		set_is_cli(TRUE);
+		new CI_Controller();
 	}
 }
