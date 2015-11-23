@@ -265,6 +265,9 @@ class MonkeyPatchManager
 			return;
 		}
 
+		require __DIR__ . '/Patcher/AbstractPatcher.php';
+		require __DIR__ . '/Patcher/Backtrace.php';
+
 		foreach (self::$patcher_list as $classname)
 		{
 			require __DIR__ . '/Patcher/' . $classname . '.php';

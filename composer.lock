@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "46333e802c072b43df84784a44804c48",
+    "hash": "013fd9f46502247455f772b7103bbdf7",
     "content-hash": "efd5c736a889b1537ac0673d50a040e0",
     "packages": [
         {
@@ -17,7 +17,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kenjis/codeigniter-ss-twig/zipball/21754c5bdf5c4339c778b336ef186c577b2d6bff",
+                "url": "https://api.github.com/repos/kenjis/codeigniter-ss-twig/zipball/47dce229fb45680ba291404f5d1534da9d151936",
                 "reference": "21754c5bdf5c4339c778b336ef186c577b2d6bff",
                 "shasum": ""
             },
@@ -922,16 +922,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kenjis/ci-phpunit-test.git",
-                "reference": "dbdd2e8ccbb6625307c82b15db3cecbeaeeb3863"
+                "reference": "e15d96d348867fddf30fcea6a597a5ff1c034c5d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kenjis/ci-phpunit-test/zipball/e1a73e006cf1216be04b41850136d0fc93a0cf36",
-                "reference": "dbdd2e8ccbb6625307c82b15db3cecbeaeeb3863",
+                "url": "https://api.github.com/repos/kenjis/ci-phpunit-test/zipball/e15d96d348867fddf30fcea6a597a5ff1c034c5d",
+                "reference": "e15d96d348867fddf30fcea6a597a5ff1c034c5d",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.4.0"
+            },
+            "replace": {
+                "nikic/php-parser": "1.4.1"
             },
             "type": "library",
             "extra": {
@@ -946,7 +949,7 @@
             "authors": [
                 {
                     "name": "Kenji Suzuki",
-                    "homepage": "https://github.com/kenjis/ci-phpunit-test"
+                    "homepage": "https://github.com/kenjis"
                 }
             ],
             "description": "An easier way to use PHPUnit with CodeIgniter 3.0",
@@ -957,7 +960,7 @@
                 "test",
                 "unit testing"
             ],
-            "time": "2015-09-02 09:44:59"
+            "time": "2015-11-23 00:46:06"
         },
         {
             "name": "kenjis/codeigniter-cli",

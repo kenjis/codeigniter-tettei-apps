@@ -13,6 +13,7 @@ namespace Kenjis\MonkeyPatch\Patcher\MethodPatcher;
 class_alias('Kenjis\MonkeyPatch\Patcher\MethodPatcher\PatchManager', '__PatchManager__');
 
 use Kenjis\MonkeyPatch\MonkeyPatchManager;
+use Kenjis\MonkeyPatch\Patcher\Backtrace;
 use Kenjis\MonkeyPatch\InvocationVerifier;
 
 class PatchManager
@@ -47,13 +48,18 @@ class PatchManager
 		if (MonkeyPatchManager::$debug)
 		{
 			$trace = debug_backtrace();
-			$file = $trace[0]['file'];
-			$line = $trace[0]['line'];
+			$info = Backtrace::getInfo('MethodPatcher', $trace);
 			
-			if (isset($trace[2]))
+			$file = $info['file'];
+			$line = $info['line'];
+			
+			if (isset($info['class_method']))
 			{
-				$called_method = 
-					isset($trace[2]['class']) ? $trace[2]['class'].'::'.$trace[2]['function'].'()' : $trace[2]['function'].'()';
+				$called_method = $info['class_method'];
+			}
+			elseif (isset($info['function']))
+			{
+				$called_method = $info['function'];
 			}
 			else
 			{
@@ -76,9 +82,14 @@ class PatchManager
 
 		self::$invocations[$class.'::'.$method][] = $params;
 
-		$patch = isset(self::$patches[$class][$method]) ? self::$patches[$class][$method] : null;
-
-		if ($patch === null)
+		if (
+			isset(self::$patches[$class])
+			&& array_key_exists($method, self::$patches[$class])
+		)
+		{
+			$patch = self::$patches[$class][$method];
+		}
+		else
 		{
 			return __GO_TO_ORIG__;
 		}

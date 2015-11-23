@@ -50,15 +50,26 @@ class CIPHPUnitTestSuperGlobal
 
 	public function set_SERVER_REQUEST_URI($argv)
 	{
-		if ($_GET !== [] && is_string($argv))
+		$path = '';
+		if (is_string($argv))
 		{
-			$_SERVER['REQUEST_URI'] = 
-				'/' . $argv . '?'
+			$path = $argv;
+		}
+		elseif (is_array($argv))
+		{
+			// Generate URI path from array of controller, method, arg, ...
+			$path = implode('/', $argv);
+		}
+
+		if ($_GET !== [])
+		{
+			$_SERVER['REQUEST_URI'] =
+				'/' . $path . '?'
 				. http_build_query($_GET);
 		}
-		elseif (is_string($argv))
+		else
 		{
-			$_SERVER['REQUEST_URI'] = '/' . $argv;
+			$_SERVER['REQUEST_URI'] = '/' . $path;
 		}
 	}
 
