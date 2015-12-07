@@ -15,6 +15,7 @@
 ## 要件
 
 * PHP 5.4以降
+* MySQL
 
 ## 書籍のコードからの変更点
 
@@ -143,7 +144,7 @@ $ sh acceptance-test.sh
 
 ## ライセンス
 
-サンプルアプリケーションのライセンスは「修正BSDライセンス」です。詳細は、[docs/license-codeigniter-tettei-1.4.txt](docs/license-codeigniter-tettei-1.4.txt)をご覧ください。
+サンプルアプリケーションのライセンスは「修正BSDライセンス」です。詳細は、[docs/license-codeigniter-tettei-1.4.txt](docs/license-codeigniter-tettei-1.4.txt) をご覧ください。
 
 ## 謝辞
 
@@ -152,4 +153,4 @@ $ sh acceptance-test.sh
 ## 『CodeIgniter徹底入門』について
 
 * [『CodeIgniter徹底入門』情報ページ](http://codeigniter.jp/tettei/)
-* [『CodeIgniter徹底入門』に対するノート](https://docs.google.com/document/d/1yWAiCylC_5oWrBYVushfAqalksECRM-StDbtZY6kAoE/edit?hl=ja)
+* [『CodeIgniter徹底入門』に対するノート](https://github.com/codeigniter-jp/codeigniter-tettei-note)
