@@ -28,9 +28,9 @@ class CIPHPUnitTestRequest
 	protected $callables = [];
 	
 	/**
-	 * @var callable callable called pre controller constructor
+	 * @var callable[] callable called pre controller constructor
 	 */
-	protected $callablePreConstructor;
+	protected $callablePreConstructors = [];
 
 	protected $enableHooks = false;
 	
@@ -79,13 +79,24 @@ class CIPHPUnitTestRequest
 	}
 
 	/**
-	 * Set callable pre constructor
+	 * Set (and Reset) callable pre constructor
 	 * 
 	 * @param callable $callable function to run before controller instantiation
 	 */
 	public function setCallablePreConstructor(callable $callable)
 	{
-		$this->callablePreConstructor = $callable;
+		$this->callablePreConstructors = [];
+		$this->callablePreConstructors[] = $callable;
+	}
+
+	/**
+	 * Add callable pre constructor
+	 * 
+	 * @param callable $callable function to run before controller instantiation
+	 */
+	public function addCallablePreConstructor(callable $callable)
+	{
+		$this->callablePreConstructors[] = $callable;
 	}
 
 	/**
@@ -204,7 +215,7 @@ class CIPHPUnitTestRequest
 			$CI =& get_instance();
 			if ($CI instanceof CIPHPUnitTestNullCodeIgniter)
 			{
-				new CI_Controller();
+				CIPHPUnitTest::createCodeIgniterInstance();
 			}
 
 			show_404($class.'::'.$method . '() is not found');
@@ -258,8 +269,10 @@ class CIPHPUnitTestRequest
 	{
 		if ($this->enableHooks)
 		{
-			$this->hooks->call_hook($hook);
+			return $this->hooks->call_hook($hook);
 		}
+
+		return false;
 	}
 
 	protected function setRawInputStream($string)
@@ -282,13 +295,19 @@ class CIPHPUnitTestRequest
 		$this->callHook('pre_controller');
 
 		// Run callablePreConstructor
-		if (is_callable($this->callablePreConstructor))
+		if ($this->callablePreConstructors !== [])
 		{
-			$callable = $this->callablePreConstructor;
-			$callable();
+			foreach ($this->callablePreConstructors as $callable)
+			{
+				$callable();
+			}
 		}
 
 		// Create controller
+		if (CIPHPUnitTest::wiredesignzHmvcInstalled())
+		{
+			new CI();
+		}
 		$controller = new $class;
 		$CI =& get_instance();
 
@@ -310,14 +329,20 @@ class CIPHPUnitTestRequest
 
 		// Call controller method
 		call_user_func_array([$controller, $method], $params);
+
+		$this->callHook('post_controller');
+
+		if ($this->callHook('display_override') === false)
+		{
+			$CI->output->_display();
+		}
+
 		$output = ob_get_clean();
 
 		if ($output == '')
 		{
 			$output = $CI->output->get_output();
 		}
-
-		$this->callHook('post_controller');
 
 		return $output;
 	}

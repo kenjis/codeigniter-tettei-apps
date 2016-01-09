@@ -12,12 +12,14 @@ namespace Kenjis\MonkeyPatch;
 
 use LogicException;
 use RuntimeException;
-
+use PhpParser\ParserFactory;
 use Kenjis\MonkeyPatch\Patcher\FunctionPatcher;
 
 class MonkeyPatchManager
 {
 	public static $debug = false;
+
+	private static $php_parser = ParserFactory::PREFER_PHP5;
 
 	private static $log_file;
 	private static $load_patchers = false;
@@ -56,7 +58,12 @@ class MonkeyPatchManager
 		return self::$exit_exception_classname;
 	}
 
-	public static function init(array $config)
+	public static function getPhpParser()
+	{
+		return self::$php_parser;
+	}
+
+	protected static function setDebug(array $config)
 	{
 		if (isset($config['debug']))
 		{
@@ -66,7 +73,10 @@ class MonkeyPatchManager
 		{
 			self::$log_file = __DIR__ . '/debug.log';
 		}
+	}
 
+	protected static function setDir(array $config)
+	{
 		if (isset($config['root_dir']))
 		{
 			Cache::setProjectRootDir($config['root_dir']);
@@ -82,7 +92,10 @@ class MonkeyPatchManager
 			throw new LogicException('You have to set "cache_dir"');
 		}
 		self::setCacheDir($config['cache_dir']);
+	}
 
+	protected static function setPaths(array $config)
+	{
 		if (! isset($config['include_paths']))
 		{
 			throw new LogicException('You have to set "include_paths"');
@@ -93,6 +106,19 @@ class MonkeyPatchManager
 		{
 			self::setExcludePaths($config['exclude_paths']);
 		}
+	}
+
+	public static function init(array $config)
+	{
+		self::setDebug($config);
+
+		if (isset($config['php_parser']))
+		{
+			self::$php_parser = constant('PhpParser\ParserFactory::'.$config['php_parser']);
+		}
+
+		self::setDir($config);
+		self::setPaths($config);
 
 		Cache::createTmpListDir();
 

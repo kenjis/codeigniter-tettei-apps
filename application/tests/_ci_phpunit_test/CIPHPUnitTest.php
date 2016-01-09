@@ -52,8 +52,8 @@ class CIPHPUnitTest
 		require __DIR__ . '/functions.php';
 		// Load ci-phpunit-test CI_Loader
 		require __DIR__ . '/replacing/core/Loader.php';
-
-		self::replaceHelpers();
+		// Load ci-phpunit-test CI_Input
+		require __DIR__ . '/replacing/core/Input.php';
 
 		// Change current directroy
 		chdir(FCPATH);
@@ -66,13 +66,47 @@ class CIPHPUnitTest
 		 * And away we go...
 		 */
 		require __DIR__ . '/replacing/core/CodeIgniter.php';
-		new CI_Controller();
+
+		self::replaceHelpers();
+
+		// Create CodeIgniter instance
+		if (! self::wiredesignzHmvcInstalled())
+		{
+			new CI_Controller();
+		}
+		else
+		{
+			new MX_Controller();
+		}
 
 		// This code is here, not to cause errors with HMVC
 		self::replaceLoader();
 
 		// Restore $_SERVER. We need this for NetBeans
 		$_SERVER = $_server_backup;
+	}
+
+	public static function createCodeIgniterInstance()
+	{
+		if (! self::wiredesignzHmvcInstalled())
+		{
+			new CI_Controller();
+		}
+		else
+		{
+			new CI();
+			new MX_Controller();
+		}
+	}
+
+	public static function wiredesignzHmvcInstalled()
+	{
+		if (file_exists(APPPATH.'third_party/MX'))
+		{
+			return true;
+		}
+		
+		return false;
 	}
 
 	public static function getAutoloadDirs()

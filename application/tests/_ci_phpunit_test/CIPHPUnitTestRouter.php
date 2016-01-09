@@ -60,7 +60,7 @@ class CIPHPUnitTestRouter
 			$CI =& get_instance();
 			if ($CI instanceof CIPHPUnitTestNullCodeIgniter)
 			{
-				new CI_Controller();
+				CIPHPUnitTest::createCodeIgniterInstance();
 			}
 
 			show_404($RTR->directory.$class.'/'.$method.' is not found');

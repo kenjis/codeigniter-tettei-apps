@@ -17,7 +17,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kenjis/codeigniter-ss-twig/zipball/47dce229fb45680ba291404f5d1534da9d151936",
+                "url": "https://api.github.com/repos/kenjis/codeigniter-ss-twig/zipball/2be026c5facedcd0186a1f4999d88120a7f57ffb",
                 "reference": "21754c5bdf5c4339c778b336ef186c577b2d6bff",
                 "shasum": ""
             },
@@ -922,19 +922,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kenjis/ci-phpunit-test.git",
-                "reference": "e15d96d348867fddf30fcea6a597a5ff1c034c5d"
+                "reference": "13078e35e813814488c90cc423fe7e22afd2e749"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kenjis/ci-phpunit-test/zipball/e15d96d348867fddf30fcea6a597a5ff1c034c5d",
-                "reference": "e15d96d348867fddf30fcea6a597a5ff1c034c5d",
+                "url": "https://api.github.com/repos/kenjis/ci-phpunit-test/zipball/13078e35e813814488c90cc423fe7e22afd2e749",
+                "reference": "13078e35e813814488c90cc423fe7e22afd2e749",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.4.0"
             },
             "replace": {
-                "nikic/php-parser": "1.4.1"
+                "nikic/php-parser": "2.0.0"
             },
             "type": "library",
             "extra": {
@@ -956,11 +956,12 @@
             "homepage": "http://kenjis.github.io/ci-phpunit-test/",
             "keywords": [
                 "codeigniter",
+                "monkey patch",
                 "phpunit",
                 "test",
                 "unit testing"
             ],
-            "time": "2015-11-23 00:46:06"
+            "time": "2016-01-09 01:43:06"
         },
         {
             "name": "kenjis/codeigniter-cli",
