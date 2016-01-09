@@ -293,6 +293,9 @@ class Bbs extends CI_Controller {
 		$query = $this->db->get('captcha');
 		$row = $query->row();
 
+# 投稿されたIDのキャプチャを削除します。
+		$this->db->delete('captcha', ['captcha_id' => $this->input->post('key')]);
+
 # レコードが0件の場合、つまり、一致しなかった場合は、captcha_checkルール
 # のエラーメッセージを設定し、FALSEを返します。
 		if ($row->count == 0)
