@@ -21,10 +21,6 @@ class Migration_Create_captcha extends CI_Migration {
 				'constraint' => 10,
 				'unsigned' => TRUE,
 			),
-			'ip_address' => array(
-				'type' => 'VARCHAR',
-				'constraint' => '45',
-			),
 			'word' => array(
 				'type' => 'VARCHAR',
 				'constraint' => '20',

@@ -120,7 +120,6 @@ class Bbs extends CI_Controller {
 		$data = [
 					'captcha_id'   => '',
 					'captcha_time' => $cap['time'],
-					'ip_address'   => $this->input->ip_address(),
 					'word'         => $cap['word'],
 				];
 # 生成したキャプチャの情報をcaptchaテーブルに登録します。
@@ -290,7 +289,6 @@ class Bbs extends CI_Controller {
 		$this->db->select("COUNT(*) AS count");
 		$this->db->where('word', $str);
 		$this->db->where('captcha_id', $this->input->post('key'));
-		$this->db->where('ip_address', $this->input->ip_address());
 		$this->db->where('captcha_time >', $expiration);
 		$query = $this->db->get('captcha');
 		$row = $query->row();
