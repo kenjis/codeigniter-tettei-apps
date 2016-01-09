@@ -13,7 +13,7 @@ class Inventory_model_test extends TestCase
 
 	public function setUp()
 	{
-		$this->CI =& get_instance();
+		$this->resetInstance();
 		$this->CI->load->model('shop/inventory_model');
 		$this->obj = $this->CI->inventory_model;
 	}
