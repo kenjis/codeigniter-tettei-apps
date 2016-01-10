@@ -36,6 +36,7 @@
   * クラスの分割
   * MY_Controllerの追加
   * ビューにTwigを利用
+  * XSS脆弱性の修正
 * リファクタリング
   * ビューのコーディングスタイルを統一し、HTMLエスケープを徹底
 
@@ -120,12 +121,14 @@ $ ../../vendor/bin/phpunit
 
 ### Codeception/Seleniumによる受入テスト
 
-<http://docs.seleniumhq.org/download/> よりSelenium Server 2.45.0をダウンロードします。
+<https://www.mozilla.org/ja/firefox/new/> よりFirefoxをダウンロードしインストールします。
+
+<http://docs.seleniumhq.org/download/> より最新のSelenium Standalone Serverをダウンロードします。
 
 ダウンロードしたSeleniumサーバを起動します。
 
 ~~~
-$ java -jar selenium-server-standalone-2.45.0.jar
+$ java -jar selenium-server-standalone-2.48.2.jar
 ~~~
 
 受入テストを実行します。
