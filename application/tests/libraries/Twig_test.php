@@ -6,7 +6,8 @@ class Twig_test extends TestCase
 	{
 		parent::setUpBeforeClass();
 		$CI =& get_instance();
-		$CI->load->library('Twig');
+		$CI->load->library('twig');
+		$CI->load->helper('url');
 	}
 
 	public function setUp()
