@@ -33,10 +33,6 @@ class Form extends CI_Controller {
 
 	public function index()
 	{
-# ランダムなチケットを生成し、セッションに保存します。
-		$this->ticket = md5(uniqid(mt_rand(), TRUE));
-		$this->session->set_userdata('ticket', $this->ticket);
-
 		$this->form_validation->run();
 
 # 入力ページ(form)のビューをロードし表示します。
