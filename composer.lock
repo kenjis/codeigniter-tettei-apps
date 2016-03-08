@@ -13,12 +13,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kenjis/codeigniter-ss-twig.git",
-                "reference": "21754c5bdf5c4339c778b336ef186c577b2d6bff"
+                "reference": "15dd9f4b8af5f394b8140cbf4b05de87f0924318"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kenjis/codeigniter-ss-twig/zipball/2be026c5facedcd0186a1f4999d88120a7f57ffb",
-                "reference": "21754c5bdf5c4339c778b336ef186c577b2d6bff",
+                "url": "https://api.github.com/repos/kenjis/codeigniter-ss-twig/zipball/15dd9f4b8af5f394b8140cbf4b05de87f0924318",
+                "reference": "15dd9f4b8af5f394b8140cbf4b05de87f0924318",
                 "shasum": ""
             },
             "require": {
@@ -49,20 +49,20 @@
                 "codeigniter",
                 "twig"
             ],
-            "time": "2015-10-05 05:51:16"
+            "time": "2016-03-08 08:04:15"
         },
         {
             "name": "twig/twig",
-            "version": "v1.22.2",
+            "version": "v1.24.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "79249fc8c9ff62e41e217e0c630e2e00bcadda6a"
+                "reference": "3e5aa30ebfbafd5951fb1b01e338e1800ce7e0e8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/79249fc8c9ff62e41e217e0c630e2e00bcadda6a",
-                "reference": "79249fc8c9ff62e41e217e0c630e2e00bcadda6a",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/3e5aa30ebfbafd5951fb1b01e338e1800ce7e0e8",
+                "reference": "3e5aa30ebfbafd5951fb1b01e338e1800ce7e0e8",
                 "shasum": ""
             },
             "require": {
@@ -75,7 +75,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.22-dev"
+                    "dev-master": "1.24-dev"
                 }
             },
             "autoload": {
@@ -110,7 +110,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2015-09-22 13:59:32"
+            "time": "2016-01-25 21:22:18"
         }
     ],
     "packages-dev": [
@@ -926,7 +926,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kenjis/ci-phpunit-test/zipball/13078e35e813814488c90cc423fe7e22afd2e749",
+                "url": "https://api.github.com/repos/kenjis/ci-phpunit-test/zipball/d0f109624934f7da84fc4160c34feb15d09ee18b",
                 "reference": "13078e35e813814488c90cc423fe7e22afd2e749",
                 "shasum": ""
             },

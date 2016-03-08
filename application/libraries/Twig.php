@@ -16,9 +16,7 @@ Twig_Autoloader::register();
 
 class Twig
 {
-	private $config = [
-		'paths' => [VIEWPATH],
-	];
+	private $config = [];
 
 	private $functions_asis = [
 		'base_url', 'site_url'
@@ -27,16 +25,61 @@ class Twig
 		'form_open', 'form_close', 'form_error', 'set_value', 'form_hidden'
 	];
 
+	/**
+	 * @var bool Whether functions are added or not
+	 */
+	private $functions_added = FALSE;
+
+	/**
+	 * @var Twig_Environment
+	 */
 	private $twig;
+
+	/**
+	 * @var Twig_Loader_Filesystem
+	 */
 	private $loader;
 
 	public function __construct($params = [])
 	{
+		// default config
+		$this->config = [
+			'paths' => [VIEWPATH],
+			'cache' => APPPATH . '/cache/twig',
+		];
+
 		$this->config = array_merge($this->config, $params);
+
+		if (isset($params['functions']))
+		{
+			$this->functions_asis = 
+				array_unique(
+					array_merge($this->functions_asis, $params['functions'])
+				);
+		}
+		if (isset($params['functions_safe']))
+		{
+			$this->functions_safe = 
+				array_unique(
+					array_merge($this->functions_safe, $params['functions_safe'])
+				);
+		}
 	}
 
-	public function createTwig()
+	protected function resetTwig()
 	{
+		$this->twig = null;
+		$this->createTwig();
+	}
+
+	protected function createTwig()
+	{
+		// $this->twig is singleton
+		if ($this->twig !== null)
+		{
+			return;
+		}
+
 		if (ENVIRONMENT === 'production')
 		{
 			$debug = FALSE;
@@ -52,7 +95,7 @@ class Twig
 		}
 
 		$twig = new \Twig_Environment($this->loader, [
-			'cache'      => APPPATH . '/cache/twig',
+			'cache'      => $this->config['cache'],
 			'debug'      => $debug,
 			'autoescape' => TRUE,
 		]);
@@ -63,19 +106,30 @@ class Twig
 		}
 
 		$this->twig = $twig;
-		$this->addCIFunctions();
 	}
 
-	public function setLoader($loader)
+	protected function setLoader($loader)
 	{
 		$this->loader = $loader;
 	}
 
 	/**
+	 * Registers a Global
+	 * 
+	 * @param string $name  The global name
+	 * @param mixed  $value The global value
+	 */
+	public function addGlobal($name, $value)
+	{
+		$this->createTwig();
+		$this->twig->addGlobal($name, $value);
+	}
+
+	/**
 	 * Renders Twig Template and Set Output
 	 * 
-	 * @param string $view  template filename without `.twig`
-	 * @param array $params
+	 * @param string $view   Template filename without `.twig`
+	 * @param array  $params Array of parameters to pass to the template
 	 */
 	public function display($view, $params = [])
 	{
@@ -86,20 +140,29 @@ class Twig
 	/**
 	 * Renders Twig Template and Returns as String
 	 * 
-	 * @param string $view  template filename without `.twig`
-	 * @param array $params
+	 * @param string $view   Template filename without `.twig`
+	 * @param array  $params Array of parameters to pass to the template
 	 * @return string
 	 */
 	public function render($view, $params = [])
 	{
 		$this->createTwig();
+		// We call addFunctions() here, because we must call addFunctions()
+		// after loading CodeIgniter functions in a controller.
+		$this->addFunctions();
 
 		$view = $view . '.twig';
 		return $this->twig->render($view, $params);
 	}
 
-	private function addCIFunctions()
+	protected function addFunctions()
 	{
+		// Runs only once
+		if ($this->functions_added)
+		{
+			return;
+		}
+
 		// as is functions
 		foreach ($this->functions_asis as $function)
 		{
@@ -140,12 +203,14 @@ class Twig
 				)
 			);
 		}
+
+		$this->functions_added = TRUE;
 	}
 
 	/**
 	 * @param string $uri
 	 * @param string $title
-	 * @param array $attributes [changed] only array is acceptable
+	 * @param array  $attributes [changed] only array is acceptable
 	 * @return string
 	 */
 	public function safe_anchor($uri = '', $title = '', $attributes = [])
@@ -167,6 +232,7 @@ class Twig
 	 */
 	public function getTwig()
 	{
+		$this->createTwig();
 		return $this->twig;
 	}
 }
