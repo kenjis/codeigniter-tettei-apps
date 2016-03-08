@@ -18,8 +18,15 @@ class Twig_test extends TestCase
 			'base_url' => '{{ base_url(\'"><s>abc</s><a name="test\') }}',
 			'site_url' => '{{ site_url(\'"><s>abc</s><a name="test\') }}',
 		]);
-		$CI->twig->setLoader($loader);
-		$CI->twig->createTwig();
+		
+		$setLoader = ReflectionHelper::getPrivateMethodInvoker(
+			$CI->twig, 'setLoader'
+		);
+		$setLoader($loader);
+		$createTwig = ReflectionHelper::getPrivateMethodInvoker(
+			$CI->twig, 'createTwig'
+		);
+		$createTwig();
 		
 		$this->obj = $CI->twig;
 		$this->twig = $CI->twig->getTwig();
