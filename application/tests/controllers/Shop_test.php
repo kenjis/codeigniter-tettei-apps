@@ -13,36 +13,36 @@ class Shop_test extends TestCase
 
 	public function test_index()
 	{
-		$output = $this->request('GET', ['shop', 'index']);
+		$output = $this->request('GET', 'shop');
 		$this->assertContains('<title>CIショップ</title>', $output);
 	}
 
 	public function test_product()
 	{
-		$output = $this->request('GET', ['shop', 'product', '1']);
+		$output = $this->request('GET', 'shop/product/1');
 		$this->assertContains('CodeIgniter徹底入門', $output);
 	}
 
 	public function test_add()
 	{
-		$output = $this->request('POST', ['shop', 'add', '3'], ['qty' => '3']);
+		$output = $this->request('POST', 'shop/add/3', ['qty' => '3']);
 		$this->assertContains('CodeIgniter徹底入門 DVD', $output);
 	}
 
 	public function test_search()
 	{
-		$output = $this->request('GET', ['shop', 'search'], ['q' => '徹底入門']);
+		$output = $this->request('GET', 'shop/search', ['q' => '徹底入門']);
 		$this->assertContains('「徹底入門」の検索結果', $output);
 	}
 
 	public function test_customer_info()
 	{
-		$output = $this->request('POST', ['shop', 'add', '1'], ['qty' => '1']);
+		$output = $this->request('POST', 'shop/add/1', ['qty' => '1']);
 		$this->assertContains('CodeIgniter徹底入門', $output);
-		$output = $this->request('GET', ['shop', 'cart']);
+		$output = $this->request('GET', 'shop/cart');
 		$this->assertContains('買い物かご', $output);
 		$this->assertContains('CodeIgniter徹底入門', $output);
-		$output = $this->request('POST', ['shop', 'customer_info']);
+		$output = $this->request('POST', 'shop/customer_info');
 		$this->assertContains('お客様情報の入力', $output);
 	}
 

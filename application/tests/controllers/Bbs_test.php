@@ -15,7 +15,7 @@ class Bbs_test extends TestCase
 
 	public function test_index()
 	{
-		$output = $this->request('GET', ['bbs', 'index']);
+		$output = $this->request('GET', 'bbs');
 		$this->assertContains('<title>掲示板</title>', $output);
 	}
 
@@ -36,14 +36,14 @@ class Bbs_test extends TestCase
 
 	public function test_post()
 	{
-		$output = $this->request('GET', ['bbs', 'post']);
+		$output = $this->request('GET', 'bbs/post');
 		$this->assertContains('<title>掲示板: 新規投稿</title>', $output);
 	}
 
 	public function test_confirm_error()
 	{
 		$output = $this->request(
-			'POST', ['bbs', 'confirm'], ['name' => '']
+			'POST', 'bbs/confirm', ['name' => '']
 		);
 		$this->assertContains('名前欄は必須フィールドです', $output);
 	}
@@ -52,7 +52,7 @@ class Bbs_test extends TestCase
 	{
 		$output = $this->request(
 			'POST',
-			['bbs', 'confirm'],
+			'bbs/confirm',
 			[
 				'name' => "<s>abc</s>",
 				'email' => "test@example.jp",
@@ -71,7 +71,7 @@ class Bbs_test extends TestCase
 		$subject = "<s>xyz</s> " . time();
 		$output = $this->request(
 			'POST',
-			['bbs', 'insert'],
+			'bbs/insert',
 			[
 				'name' => "<s>xyz</s>",
 				'email' => "test@example.jp",
@@ -84,7 +84,7 @@ class Bbs_test extends TestCase
 		);
 		$this->assertRedirect('bbs', 302);
 
-		$output = $this->request('GET', ['bbs', 'index']);
+		$output = $this->request('GET', 'bbs');
 		$this->assertContains(html_escape($subject), $output);
 	}
 
@@ -92,7 +92,7 @@ class Bbs_test extends TestCase
 	{
 		$output = $this->request(
 			'POST',
-			['bbs', 'insert'],
+			'bbs/insert',
 			[
 				'name' => "削除太郎",
 				'email' => "test@example.jp",
@@ -105,26 +105,26 @@ class Bbs_test extends TestCase
 		);
 		$this->assertRedirect('bbs', 302);
 
-		$output = $this->request('GET', ['bbs', 'index']);
+		$output = $this->request('GET', 'bbs');
 		$crawler = new Crawler($output);
 		
 		// 最初の <h1><a>〜</a></h1> のテキストを取得
 		$text = $crawler->filter('h1 > a')->eq(0)->text();
 		$id = trim($text, '[]');
 		
-		$output = $this->request('POST', ['bbs', 'delete', $id]);
+		$output = $this->request('POST', "bbs/delete/$id");
 		$this->assertContains('記事を削除できませんでした', $output);
 
 		$output = $this->request(
 			'POST',
-			['bbs', 'delete', $id],
+			"bbs/delete/$id",
 			['password' => 'delete']
 		);
 		$this->assertContains('削除の確認', $output);
 
 		$output = $this->request(
 			'POST',
-			['bbs', 'delete', $id],
+			"bbs/delete/$id",
 			[
 				'password' => 'bad password',
 				'delete' => '1',
@@ -134,7 +134,7 @@ class Bbs_test extends TestCase
 
 		$output = $this->request(
 			'POST',
-			['bbs', 'delete', $id],
+			"bbs/delete/$id",
 			[
 				'password' => 'delete',
 				'delete' => '1',

@@ -4,13 +4,13 @@ class Form_test extends TestCase
 {
 	public function test_index()
 	{
-		$output = $this->request('GET', ['form', 'index']);
+		$output = $this->request('GET', 'form');
 		$this->assertContains('<title>コンタクトフォーム</title>', $output);
 	}
 
 	public function test_confirm_error()
 	{
-		$output = $this->request('POST', ['form', 'confirm'], ['name' => '']);
+		$output = $this->request('POST', 'form/confirm', ['name' => '']);
 		$this->assertContains('名前欄は必須フィールドです', $output);
 	}
 
@@ -18,7 +18,7 @@ class Form_test extends TestCase
 	{
 		$output = $this->request(
 			'POST',
-			['form', 'confirm'],
+			'form/confirm',
 			[
 				'name' => '<s>abc</s>',
 				'email' => 'test@example.jp',
@@ -40,7 +40,7 @@ class Form_test extends TestCase
 		);
 		$output = $this->request(
 			'POST',
-			['form', 'send'],
+			'form/send',
 			[
 				'name' => '<s>abc</s>',
 				'email' => 'test@example.jp',
