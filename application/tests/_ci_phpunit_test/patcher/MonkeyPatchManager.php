@@ -1,6 +1,6 @@
 <?php
 /**
- * Part of CI PHPUnit Test
+ * Part of ci-phpunit-test
  *
  * @author     Kenji Suzuki <https://github.com/kenjis>
  * @license    MIT License
@@ -32,6 +32,7 @@ class MonkeyPatchManager
 		'ExitPatcher',
 		'FunctionPatcher',
 		'MethodPatcher',
+		'ConstantPatcher',
 	];
 
 	public static function log($message)

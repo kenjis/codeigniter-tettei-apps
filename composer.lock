@@ -17,7 +17,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kenjis/codeigniter-ss-twig/zipball/15dd9f4b8af5f394b8140cbf4b05de87f0924318",
+                "url": "https://api.github.com/repos/kenjis/codeigniter-ss-twig/zipball/35fe487d452c8887d7150c6a8f61e7877136dd6d",
                 "reference": "15dd9f4b8af5f394b8140cbf4b05de87f0924318",
                 "shasum": ""
             },
@@ -922,19 +922,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kenjis/ci-phpunit-test.git",
-                "reference": "13078e35e813814488c90cc423fe7e22afd2e749"
+                "reference": "cf6d46e5db60b58c2ba29bcbfc7a20c6512c633e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kenjis/ci-phpunit-test/zipball/d0f109624934f7da84fc4160c34feb15d09ee18b",
-                "reference": "13078e35e813814488c90cc423fe7e22afd2e749",
+                "url": "https://api.github.com/repos/kenjis/ci-phpunit-test/zipball/cf6d46e5db60b58c2ba29bcbfc7a20c6512c633e",
+                "reference": "cf6d46e5db60b58c2ba29bcbfc7a20c6512c633e",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.4.0"
             },
             "replace": {
-                "nikic/php-parser": "2.0.0"
+                "nikic/php-parser": "2.0.1"
             },
             "type": "library",
             "extra": {
@@ -961,7 +961,7 @@
                 "test",
                 "unit testing"
             ],
-            "time": "2016-01-09 01:43:06"
+            "time": "2016-05-03 00:18:21"
         },
         {
             "name": "kenjis/codeigniter-cli",
@@ -2252,7 +2252,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/config/zipball/537e9912063e66aa70cbcddd7d6e6e8db61d98e4",
+                "url": "https://api.github.com/repos/symfony/config/zipball/d5326b2ad6adbe2031efd98e4509730960da0c85",
                 "reference": "537e9912063e66aa70cbcddd7d6e6e8db61d98e4",
                 "shasum": ""
             },
