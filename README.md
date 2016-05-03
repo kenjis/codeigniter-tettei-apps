@@ -44,7 +44,7 @@
 
 * CodeIgniter Simple and Secure Twig <https://github.com/kenjis/codeigniter-ss-twig>
 * Cli for CodeIgniter <http://blog.a-way-out.net/blog/2015/05/07/codeigniter-cli/>
-* CI PHPUnit Test <http://blog.a-way-out.net/blog/2015/05/19/ci-phpunit-test/>
+* ci-phpunit-test <http://blog.a-way-out.net/blog/2015/05/19/ci-phpunit-test/>
 * Faker <http://blog.a-way-out.net/blog/2014/06/13/faker/>
 * Codeception <http://codeception.com/>
 * Symfony DomCrawler <http://docs.symfony.gr.jp/symfony2/components/dom_crawler.html>
