@@ -21,26 +21,32 @@ class Form extends CI_Controller {
 # します。
 		$this->output->set_header('Content-Type: text/html; charset=UTF-8');
 
-# バリデーション(検証)クラスをロードし、バリデーションの設定をします。
+# バリデーション(検証)クラスをロードします。
 		$this->load->library('form_validation');
-		$this->form_validation->set_error_delimiters('<div class="error">', '</div>');
-		$this->form_validation->set_rules('name', '名前', 'trim|required|max_length[20]');
-		$this->form_validation->set_rules('email', 'メールアドレス', 'trim|required|valid_email');
-		$this->form_validation->set_rules('comment', 'コメント', 'required|max_length[200]');
 
 		//$this->output->enable_profiler(TRUE);
 	}
 
+	private function _set_validation()
+	{
+# バリデーションの設定をします。
+		$this->form_validation->set_error_delimiters('<div class="error">', '</div>');
+		$this->form_validation->set_rules('name', '名前', 'trim|required|max_length[20]');
+		$this->form_validation->set_rules('email', 'メールアドレス', 'trim|required|valid_email');
+		$this->form_validation->set_rules('comment', 'コメント', 'required|max_length[200]');
+	}
+
 	public function index()
 	{
-		$this->form_validation->run();
-
 # 入力ページ(form)のビューをロードし表示します。
 		$this->load->view('form');
 	}
 
 	public function confirm()
 	{
+# 検証ルールを設定します。
+		$this->_set_validation();
+
 # バリデーション(検証)クラスのrun()メソッドを呼び出し、送信されたデータの検証
 # を行います。検証OKなら、確認ページ(form_confirm)を表示します。
 		if ($this->form_validation->run() == TRUE)
@@ -56,6 +62,9 @@ class Form extends CI_Controller {
 
 	public function send()
 	{
+# 検証ルールを設定します。
+		$this->_set_validation();
+
 # 送信されたデータの検証を行い、検証OKなら、メールを送信します。
 		if ($this->form_validation->run() == TRUE)
 		{
