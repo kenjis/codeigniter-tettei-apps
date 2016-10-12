@@ -48,7 +48,8 @@
 * Faker <http://blog.a-way-out.net/blog/2014/06/13/faker/>
 * Codeception <http://codeception.com/>
 * Symfony DomCrawler <http://docs.symfony.gr.jp/symfony2/components/dom_crawler.html>
-* PHPUnit <https://phpunit.de/manual/4.6/ja/index.html>
+* Symfony CssSelector <http://docs.symfony.gr.jp/symfony2/components/css_selector.html>
+* PHPUnit <https://phpunit.de/manual/4.8/ja/index.html>
 * CodeIgniter Debug Bar <https://github.com/kenjis/codeigniter-debugbar>
 
 ## インストール方法
@@ -113,8 +114,7 @@ $ php cli seed
 ### PHPUnitによるアプリケーションテスト
 
 ~~~
-$ cd application/tests/
-$ ../../vendor/bin/phpunit
+$ vendor/bin/phpunit -c application/tests/
 ~~~
 
 テストカバー率のレポートは`tests/build/coverage`フォルダに作成されます。なお、カバー率の集計にはXdebugが必要です。
