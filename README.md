@@ -123,12 +123,14 @@ $ vendor/bin/phpunit -c application/tests/
 
 <https://www.mozilla.org/ja/firefox/new/> よりFirefoxをダウンロードしインストールします。
 
-<http://docs.seleniumhq.org/download/> より最新のSelenium Standalone Serverをダウンロードします。
+<http://docs.seleniumhq.org/download/> より最新のSelenium Standalone Serverをダウンロードし、プロジェクトのルートフォルダに配置します。
+
+<https://github.com/mozilla/geckodriver/releases> より最新のgeckodriver（手許ではgeckodriver-v0.13.0-macos.tar.gzにて検証）をダウンロードし、解凍したドライバをプロジェクトのルートフォルダに配置します。
 
 ダウンロードしたSeleniumサーバを起動します。
 
 ~~~
-$ java -jar selenium-server-standalone-2.48.2.jar
+$ java -jar selenium-server-standalone-3.0.1.jar
 ~~~
 
 受入テストを実行します。
