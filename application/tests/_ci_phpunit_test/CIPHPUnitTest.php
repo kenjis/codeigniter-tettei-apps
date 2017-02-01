@@ -38,7 +38,7 @@ class CIPHPUnitTest
 		// Autoloader for PHP-Parser
 		// Don't use `require`, because we may have required already
 		// in `patcher/bootstrap.php`
-		require_once __DIR__ . '/patcher/third_party/PHP-Parser/lib/bootstrap.php';
+		require_once __DIR__ . '/patcher/third_party/PHP-Parser-2.1.1/lib/bootstrap.php';
 
 		require APPPATH . '/tests/TestCase.php';
 
@@ -143,12 +143,20 @@ class CIPHPUnitTest
 
 	protected static function replaceHelpers()
 	{
-		$my_helper_file = APPPATH . 'helpers/' . config_item('subclass_prefix') . 'url_helper.php';
+		$helpers = ['url_helper', 'download_helper'];
+		foreach ($helpers as $helper) {
+			static::loadHelper($helper);
+		}
+	}
+
+	protected static function loadHelper($helper)
+	{
+		$my_helper_file = APPPATH . 'helpers/' . config_item('subclass_prefix') . $helper . '.php';
 		if (file_exists($my_helper_file))
 		{
 			require $my_helper_file;
 		}
-		require __DIR__ . '/replacing/helpers/url_helper.php';
+		require __DIR__ . '/replacing/helpers/' . $helper . '.php';
 	}
 
 	public static function setPatcherCacheDir($dir = null)

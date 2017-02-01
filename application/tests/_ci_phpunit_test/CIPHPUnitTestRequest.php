@@ -58,6 +58,16 @@ class CIPHPUnitTestRequest
 	}
 
 	/**
+	 * Set $_FILES
+	 * 
+	 * @param array $files
+	 */
+	public function setFiles(array $files)
+	{
+		$this->superGlobal->set_FILES($files);
+	}
+
+	/**
 	 * Set (and Reset) callable
 	 * 
 	 * @param callable $callable function to run after controller instantiation
@@ -166,6 +176,12 @@ class CIPHPUnitTestRequest
 		{
 			$this->processError($e);
 			return $e->getMessage();
+		}
+		// exit()
+		catch (CIPHPUnitTestExitException $e)
+		{
+			$output = ob_get_clean();
+			return $output;
 		}
 	}
 
