@@ -46,7 +46,7 @@
 * Cli for CodeIgniter <http://blog.a-way-out.net/blog/2015/05/07/codeigniter-cli/>
 * ci-phpunit-test <http://blog.a-way-out.net/blog/2015/05/19/ci-phpunit-test/>
 * Faker <http://blog.a-way-out.net/blog/2014/06/13/faker/>
-* Codeception <http://codeception.com/>
+* Codeception <http://codeception.com/> <http://piccagliani.github.io/Codeception.docs.ja_JP/>
 * Symfony DomCrawler <http://docs.symfony.gr.jp/symfony2/components/dom_crawler.html>
 * Symfony CssSelector <http://docs.symfony.gr.jp/symfony2/components/css_selector.html>
 * PHPUnit <https://phpunit.de/manual/4.8/ja/index.html>
