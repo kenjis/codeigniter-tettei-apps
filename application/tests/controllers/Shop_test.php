@@ -48,8 +48,7 @@ class Shop_test extends TestCase
 
 	public function test_confirm_pass()
 	{
-		reset_instance();
-		$obj = new Shop();
+		$obj = $this->newController(Shop::class);
 
 		$model = $this->getDouble('Customer_model', ['set' => NULL]);
 		$this->verifyInvokedOnce($model, 'set');
@@ -72,8 +71,7 @@ class Shop_test extends TestCase
 
 	public function test_confirm_fail()
 	{
-		reset_instance();
-		$obj = new Shop();
+		$obj = $this->newController(Shop::class);
 
 		$model = $this->getDouble('Customer_model', ['set' => NULL]);
 		$this->verifyNeverInvoked($model, 'set');
@@ -99,8 +97,7 @@ class Shop_test extends TestCase
 
 	public function test_order_cart_is_empty()
 	{
-		reset_instance();
-		$obj = new Shop();
+		$obj = $this->newController(Shop::class);
 
 		$cart = $this->getDouble('Cart_model', ['count' => 0]);
 		$obj->Cart_model = $cart;
@@ -114,8 +111,7 @@ class Shop_test extends TestCase
 
 	public function test_order()
 	{
-		$this->resetInstance();
-		$obj = new Shop();
+		$obj = $this->newController(Shop::class);
 
 		$cart = $this->getDouble('Cart_model', ['count' => 1]);
 		$shop = $this->getDouble('Shop_model', ['order' => TRUE]);
@@ -130,8 +126,7 @@ class Shop_test extends TestCase
 
 	public function test_order_system_error()
 	{
-		$this->resetInstance();
-		$obj = new Shop();
+		$obj = $this->newController(Shop::class);
 
 		$cart = $this->getDouble('Cart_model', ['count' => 1]);
 		$shop = $this->getDouble('Shop_model', ['order' => FALSE]);

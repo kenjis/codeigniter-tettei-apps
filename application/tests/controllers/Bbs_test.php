@@ -21,8 +21,7 @@ class Bbs_test extends TestCase
 
 	public function test_index_mobile()
 	{
-		reset_instance();
-		$obj = new Bbs();
+		$obj = $this->newController(Bbs::class);
 
 		$agent = $this->getDouble('CI_User_agent', ['is_mobile' => TRUE]);
 		$obj->agent = $agent;
@@ -90,7 +89,7 @@ class Bbs_test extends TestCase
 
 	public function test_delete()
 	{
-		$output = $this->request(
+		$this->request(
 			'POST',
 			'bbs/insert',
 			[
@@ -145,8 +144,7 @@ class Bbs_test extends TestCase
 
 	public function test_captcha_check()
 	{
-		reset_instance();
-		$obj = new Bbs();
+		$obj = $this->newController(Bbs::class);
 		$obj->form_validation = new CI_Form_validation();
 		$actual = $obj->captcha_check('bad_input');
 		$this->assertFalse($actual);

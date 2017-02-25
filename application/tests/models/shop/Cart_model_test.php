@@ -13,9 +13,7 @@ class Cart_model_test extends TestCase
 
 	public function setUp()
 	{
-		$this->resetInstance();
-		$this->CI->load->model('shop/cart_model');
-		$this->obj = $this->CI->cart_model;
+		$this->obj = $this->newModel(Cart_model::class);
 	}
 
 	public function test_add()

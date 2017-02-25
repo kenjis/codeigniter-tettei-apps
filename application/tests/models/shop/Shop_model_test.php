@@ -4,9 +4,7 @@ class Shop_model_test extends TestCase
 {
 	public function setUp()
 	{
-		$this->resetInstance();
-		$this->CI->load->model('shop/shop_model');
-		$this->obj = $this->CI->shop_model;
+		$this->obj = $this->newModel(Shop_model::class);
 		$this->CI->email = new Mock_Libraries_Email();
 		$this->CI->admin = 'admin@example.jp';
 	}

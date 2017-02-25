@@ -4,9 +4,7 @@ class Customer_model_test extends TestCase
 {
 	public function setUp()
 	{
-		$this->resetInstance();
-		$this->CI->load->model('shop/customer_model');
-		$this->obj = $this->CI->customer_model;
+		$this->obj = $this->newModel(Customer_model::class);
 	}
 
 	public function test_set_and_get()
@@ -18,7 +16,7 @@ class Customer_model_test extends TestCase
 			'tel'   => '03-3333-3333',
 			'email' => 'foo@example.jp'
 		];
-		$list = $this->obj->set($expected);
+		$this->obj->set($expected);
 
 		$actual = $this->obj->get();
 		$this->assertEquals($expected, $actual);

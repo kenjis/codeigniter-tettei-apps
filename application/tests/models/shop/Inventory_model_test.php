@@ -13,9 +13,7 @@ class Inventory_model_test extends TestCase
 
 	public function setUp()
 	{
-		$this->resetInstance();
-		$this->CI->load->model('shop/inventory_model');
-		$this->obj = $this->CI->inventory_model;
+		$this->obj = $this->newModel(Inventory_model::class);
 	}
 
 	public function test_get_category_list()
