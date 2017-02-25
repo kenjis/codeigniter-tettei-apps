@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "830adad9106e8a3cb729825bfa0e361a",
-    "content-hash": "d0f5cf802fd3b39cef8be03f2191d111",
+    "hash": "882d1df4dbbe8be2b0558fb9aaf438f4",
+    "content-hash": "ceb0d3de2337bcfa8277ae3ae4e6b84d",
     "packages": [
         {
             "name": "kenjis/codeigniter-ss-twig",
@@ -1006,16 +1006,16 @@
         },
         {
             "name": "kenjis/ci-phpunit-test",
-            "version": "dev-master",
+            "version": "v0.14.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kenjis/ci-phpunit-test.git",
-                "reference": "58fe32157fa124ef4544b45c969dfc476cfdda11"
+                "reference": "96358beb800ce201858eec5a9471eec34f548a73"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kenjis/ci-phpunit-test/zipball/58fe32157fa124ef4544b45c969dfc476cfdda11",
-                "reference": "58fe32157fa124ef4544b45c969dfc476cfdda11",
+                "url": "https://api.github.com/repos/kenjis/ci-phpunit-test/zipball/96358beb800ce201858eec5a9471eec34f548a73",
+                "reference": "96358beb800ce201858eec5a9471eec34f548a73",
                 "shasum": ""
             },
             "require": {
@@ -1047,7 +1047,7 @@
                 "test",
                 "unit testing"
             ],
-            "time": "2017-02-16 22:01:23"
+            "time": "2017-02-09 08:11:58"
         },
         {
             "name": "kenjis/codeigniter-cli",
@@ -1279,6 +1279,57 @@
                 "psr-3"
             ],
             "time": "2016-11-26 00:15:39"
+        },
+        {
+            "name": "nikic/php-parser",
+            "version": "v3.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nikic/PHP-Parser.git",
+                "reference": "0bf561dfe75ba80441c22adecc0529056671a7d2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/0bf561dfe75ba80441c22adecc0529056671a7d2",
+                "reference": "0bf561dfe75ba80441c22adecc0529056671a7d2",
+                "shasum": ""
+            },
+            "require": {
+                "ext-tokenizer": "*",
+                "php": ">=5.5"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0|~5.0"
+            },
+            "bin": [
+                "bin/php-parse"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "PhpParser\\": "lib/PhpParser"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Nikita Popov"
+                }
+            ],
+            "description": "A PHP parser written in PHP",
+            "keywords": [
+                "parser",
+                "php"
+            ],
+            "time": "2017-02-10 20:20:03"
         },
         {
             "name": "phpdocumentor/reflection-common",
@@ -3260,7 +3311,6 @@
     "stability-flags": {
         "kenjis/codeigniter-ss-twig": 20,
         "kenjis/codeigniter-cli": 20,
-        "kenjis/ci-phpunit-test": 20,
         "tan5en5/codeigniter-debugbar": 20
     },
     "prefer-stable": false,
