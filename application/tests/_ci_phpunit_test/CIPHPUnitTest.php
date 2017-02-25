@@ -35,11 +35,6 @@ class CIPHPUnitTest
 		// Load autoloader for ci-phpunit-test
 		require __DIR__ . '/autoloader.php';
 
-		// Autoloader for PHP-Parser
-		// Don't use `require`, because we may have required already
-		// in `patcher/bootstrap.php`
-		require_once __DIR__ . '/patcher/third_party/PHP-Parser-2.1.1/lib/bootstrap.php';
-
 		require APPPATH . '/tests/TestCase.php';
 
 		$db_test_case_file = APPPATH . '/tests/DbTestCase.php';

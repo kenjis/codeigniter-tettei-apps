@@ -1,6 +1,16 @@
 # Change Log for ci-phpunit-test
 
-## v0.14.0 (Not Released)
+## v0.15.0 (Not Released)
+
+### Added
+
+* Now you can create a mock which has a stubbed method that returns the mock itself with using `$this->getDouble()`. See [#170](https://github.com/kenjis/ci-phpunit-test/pull/170).
+
+## v0.14.0 (2017/02/09)
+
+### Upgrade Note for PHPUnit 6.0 users
+
+* Please update `application/tests/phpunit.xml`. Replace it or apply [this patch](https://github.com/kenjis/ci-phpunit-test/commit/fad5df8f580239a117e71593b373ddbd6deac7af).
 
 ### Added
 
@@ -8,11 +18,18 @@
 * `$this->newModel()` for model unit testing. See [#156](https://github.com/kenjis/ci-phpunit-test/pull/156).
 * `$this->newLibrary()` for library unit testing. See [#161](https://github.com/kenjis/ci-phpunit-test/pull/161).
 * Now you can write test code for file uploading in controller testing. See [#157](https://github.com/kenjis/ci-phpunit-test/pull/157).
+* Now *Monkey Patching* supports PHP 7.1 new syntax.
+
+### Fixed
+
+* Fix bug that `include_paths` and/or `exclude_paths` in *Monkey Patching* may not work correctly on Windows.
 
 ### Others
 
 * Compatible with CodeIgniter 3.1.3
 * Update nikic/PHP-Parser to v2.1.1
+* Add nikic/PHP-Parser v3.0.3
+* Compatible with PHPUnit 6.0
 
 ## v0.13.0 (2016/11/20)
 
