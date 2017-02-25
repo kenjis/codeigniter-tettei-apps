@@ -8,3 +8,7 @@
 /vendor/
 /tmp/
 tests/_output/*
+.idea/
+chromedriver
+geckodriver
+selenium-server-standalone-*.jar
