@@ -26,6 +26,4 @@ script:
 
 after_script:
   - cd ../..
-  - if [[ "$TRAVIS_PHP_VERSION" == "5.4" ]]; then php vendor/bin/coveralls -v; fi
-  - if [[ "$TRAVIS_PHP_VERSION" == "5.5" ]]; then php vendor/bin/coveralls -v; fi
   - if [[ "$TRAVIS_PHP_VERSION" == "5.6" ]]; then php vendor/bin/coveralls -v; fi
