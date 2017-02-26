@@ -1,16 +1,18 @@
-# 『CodeIgniter徹底入門』のサンプルアプリケーションをCodeIgniter 3.0にアップデート
+# 『CodeIgniter徹底入門』のサンプルアプリケーションをCodeIgniter 3.xにアップデート
 
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/kenjis/codeigniter-tettei-apps/badges/quality-score.png?b=develop)](https://scrutinizer-ci.com/g/kenjis/codeigniter-tettei-apps/?branch=develop)
 [![Coverage Status](https://coveralls.io/repos/kenjis/codeigniter-tettei-apps/badge.svg?branch=develop)](https://coveralls.io/r/kenjis/codeigniter-tettei-apps?branch=develop)
 [![Build Status](https://travis-ci.org/kenjis/codeigniter-tettei-apps.svg?branch=develop)](https://travis-ci.org/kenjis/codeigniter-tettei-apps)
 
-ここは『CodeIgniter徹底入門』（翔泳社）に含まれている以下のサンプルアプリケーション（CodeIgniter 1.6.1用）をCodeIgniter 3.0で動作するように更新するためのプロジェクトです（作業中）。
+ここは『CodeIgniter徹底入門』（翔泳社）に含まれている以下のサンプルアプリケーション（CodeIgniter 1.6.1用）をCodeIgniter 3.xで動作するように更新するためのプロジェクトです（作業中）。
 
 * コンタクトフォーム（7章）
 * モバイル対応簡易掲示板（8章）
 * 簡易ショッピングサイト（9章）
 
-現在、CodeIgniter 3.0で動作するための更新は完了しており、リファクタリングなどを実施中です。**興味のある方はどなたでもコードレビューをお願いします。**
+現在、CodeIgniter 3.xで動作するための更新は完了しており、リファクタリングなどを実施中です。
+
+**興味のある方はどなたでもコードレビューをお願いします。**
 
 ## 要件
 
@@ -19,7 +21,7 @@
 
 ## 書籍のコードからの変更点
 
-* CodeIgniter 3.0.0に対応
+* CodeIgniter 3.1.3に対応（CodeIgniter本体は[CodeIgniter Composer Installer](https://github.com/kenjis/codeigniter-composer-installer)によりComposerでインストール）
 * フォルダ構成を変更し、Web公開領域を`public`フォルダ以下に限定
 * CodeIgniterでComposerを利用可能に設定
 * ISO-2022-JPのメールは作成できなくなったのでUTF-8に変更
@@ -28,13 +30,13 @@
 * PHPUnitによるアプリケーションテストの追加 [application/tests](application/tests)
 * データベースマイグレーションの追加 [application/database/migrations](application/database/migrations)
 * 掲示板
-  * コントローラでの文字エンコード変換ができなくなったのでフックのpre_systemに移動
+  * コントローラでの文字エンコード変換ができなくなったのでフックの`pre_system`に移動
 * ショッピング
-  * categoryとproductテーブルのSeedを追加 [application/database/seeds](application/database/seeds)
+  * `category`と`product`テーブルのSeederを追加 [application/database/seeds](application/database/seeds)
   * キーワード検索をGETメソッドを使うように変更
   * メール本文の作成をテンプレートパーサクラスを使うように変更
   * クラスの分割
-  * MY_Controllerの追加
+  * `MY_Controller`の追加
   * ビューにTwigを利用
   * XSS脆弱性の修正
 * リファクタリング
@@ -114,7 +116,7 @@ $ php cli seed
 ### PHPUnitによるアプリケーションテスト
 
 ~~~
-$ vendor/bin/phpunit -c application/tests/
+$ composer test
 ~~~
 
 テストカバー率のレポートは`tests/build/coverage`フォルダに作成されます。なお、カバー率の集計にはXdebugが必要です。
