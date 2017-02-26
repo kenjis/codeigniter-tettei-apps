@@ -21,4 +21,15 @@ class Shop_model_test extends TestCase
 		$this->assertEquals($this->CI->admin, $mail['from']);
 		$this->assertContains('注文合計： 11,400円', $mail['message']);
 	}
+
+	public function test_order_mail_fails()
+	{
+		$this->CI->email->return_send = FALSE;
+
+		$this->CI->cart_model->add(1, 1);
+		$this->CI->cart_model->add(2, 2);
+
+		$actual = $this->obj->order();
+		$this->assertFalse($actual);
+	}
 }
