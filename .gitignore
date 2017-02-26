@@ -2,8 +2,8 @@
 /nbproject/
 /application/logs/
 /application/cache/
-/application/tests/build/
 /application/tests/_ci_phpunit_test/tmp/
+/build/
 /public/captcha/
 /vendor/
 /tmp/

@@ -119,7 +119,7 @@ $ php cli seed
 $ composer test
 ~~~
 
-テストカバー率のレポートは`tests/build/coverage`フォルダに作成されます。なお、カバー率の集計にはXdebugが必要です。
+テストカバー率のレポートは`build/coverage`フォルダに作成されます。なお、カバー率の集計にはXdebugが必要です。
 
 ### Codeception/Seleniumによる受入テスト
 
