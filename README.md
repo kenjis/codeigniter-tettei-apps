@@ -21,7 +21,7 @@
 
 ## 書籍のコードからの変更点
 
-* CodeIgniter 3.1.3に対応（CodeIgniter本体は[CodeIgniter Composer Installer](https://github.com/kenjis/codeigniter-composer-installer)によりComposerでインストール）
+* CodeIgniter 3.1.3に対応（CodeIgniter本体は [CodeIgniter Composer Installer](http://blog.a-way-out.net/blog/2015/12/06/install-codeigniter/) によりComposerでインストール）
 * フォルダ構成を変更し、Web公開領域を`public`フォルダ以下に限定
 * CodeIgniterでComposerを利用可能に設定
 * ISO-2022-JPのメールは作成できなくなったのでUTF-8に変更
