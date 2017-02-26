@@ -64,7 +64,7 @@ class Bbs_test extends TestCase
 		$this->assertContains('投稿確認', $output);
 	}
 
-	public function test_insert()
+	public function test_insert_ok()
 	{
 		$subject = "<s>xyz</s> " . time();
 		$output = $this->request(
@@ -141,10 +141,11 @@ class Bbs_test extends TestCase
 		$this->assertContains('記事の削除完了', $output);
 	}
 
-	public function test_captcha_check()
+	public function test_captcha_check_failure()
 	{
 		$obj = $this->newController(Bbs::class);
 		$obj->form_validation = new CI_Form_validation();
+
 		$actual = $obj->captcha_check('bad_input');
 		$this->assertFalse($actual);
 	}
