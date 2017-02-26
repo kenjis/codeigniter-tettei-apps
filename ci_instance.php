@@ -16,7 +16,7 @@ chdir(__DIR__);
 
 define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
 
-$system_path        = 'system';
+$system_path        = 'vendor/codeigniter/framework/system';
 $application_folder = 'application';
 $doc_root           = 'public';
 
