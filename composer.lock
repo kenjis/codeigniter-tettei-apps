@@ -4,9 +4,41 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "882d1df4dbbe8be2b0558fb9aaf438f4",
-    "content-hash": "ceb0d3de2337bcfa8277ae3ae4e6b84d",
+    "hash": "b1ff27ff31b23596cf7f1e5e7eabf200",
+    "content-hash": "8327d35e3c82f46e8841555330d70e33",
     "packages": [
+        {
+            "name": "codeigniter/framework",
+            "version": "3.1.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bcit-ci/CodeIgniter.git",
+                "reference": "5ea77465c445157fb1096c38f5c2d27384b780b7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bcit-ci/CodeIgniter/zipball/5ea77465c445157fb1096c38f5c2d27384b780b7",
+                "reference": "5ea77465c445157fb1096c38f5c2d27384b780b7",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2.4"
+            },
+            "require-dev": {
+                "mikey179/vfsstream": "1.1.*"
+            },
+            "suggest": {
+                "paragonie/random_compat": "Provides better randomness in PHP 5.x"
+            },
+            "type": "project",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "The CodeIgniter framework",
+            "homepage": "https://codeigniter.com",
+            "time": "2017-01-09 14:32:03"
+        },
         {
             "name": "kenjis/codeigniter-ss-twig",
             "version": "dev-master",
