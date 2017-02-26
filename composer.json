@@ -29,5 +29,10 @@
 		"psr-4": {
 			"": "application/libraries/validation/"
 		}
+	},
+	"scripts": {
+		"test": [
+			"vendor/bin/phpunit -c application/tests/"
+		]
 	}
 }
