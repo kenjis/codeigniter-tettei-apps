@@ -21,15 +21,14 @@ class Bbs_test extends TestCase
 
 	public function test_index_mobile()
 	{
-		$obj = $this->newController(Bbs::class);
-
 		$agent = $this->getDouble('CI_User_agent', ['is_mobile' => TRUE]);
-		$obj->agent = $agent;
+		$this->request->setCallable(
+			function ($CI) use ($agent) {
+				$CI->agent = $agent;
+			}
+		);
 
-		ob_start();
-		$obj->index();
-		$output = ob_get_clean();
-
+		$output = $this->request('GET', 'bbs');
 		$this->assertContains('<title>ﾓﾊﾞｲﾙ掲示板</title>', $output);
 	}
 
