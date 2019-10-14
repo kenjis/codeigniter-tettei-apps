@@ -4,11 +4,17 @@
  */
 
 /**
- * @property CI_Session      $session
- * @property Shop_model      $shop_model
+ * @property Shop_model $shop_model
  * @property Inventory_model $inventory_model
- * @property Cart_model      $cart_model
- * @property Customer_model  $customer_model
+ * @property Cart_model $cart_model
+ * @property Customer_model $customer_model
+ * @property Field_validation $field_validation
+ * @property Generate_pagination $generate_pagination
+ * @property Twig $twig
+ * @property CI_Session $session
+ * @property CI_Form_validation $form_validation
+ * @property CI_Config $config
+ * @property CI_Input $input
  */
 class Shop extends MY_Controller {
 

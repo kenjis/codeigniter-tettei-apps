@@ -3,6 +3,13 @@
  * 
  */
 
+/**
+ * @property CI_Email $email
+ * @property CI_Session $session
+ * @property CI_Form_validation $form_validation
+ * @property CI_Input $input
+ * @property CI_Output $output
+ */
 class Form extends CI_Controller {
 
 	public function __construct()

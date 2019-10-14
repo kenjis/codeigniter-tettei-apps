@@ -3,6 +3,14 @@
  * 
  */
 
+/**
+ * @property CI_DB_query_builder $db
+ * @property CI_User_agent $agent
+ * @property CI_Pagination $pagination
+ * @property CI_Form_validation $form_validation
+ * @property CI_Input $input
+ * @property CI_Config $config
+ */
 class Bbs extends CI_Controller {
 
 # 記事表示ページで、1ページに表示する記事の件数を設定します。
