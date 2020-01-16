@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  php:
+    container_name: php
+    build: ./docker/php
+    volumes:
+      - ./:/var/www/html
+      - ./docker/php/apache2/sites-available/000-default.conf:/etc/apache2/sites-available/000-default.conf
+    ports:
+      - 80:80
+    depends_on:
+      - db
+
+  db:
+    container_name: db
+    build: ./docker/mysql
+    ports:
+      - 3306:3306
+    volumes:
+      - ./docker/mysql/initdb.d:/docker-entrypoint-initdb.d
+      - ./docker/mysql/data:/var/lib/mysql
+      - ./docker/mysql/conf.d:/etc/mysql/conf.d
+      - ./docker/mysql/log:/var/log/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+
+  phpmyadmin:
+    container_name: phpmyadmin
+    image: phpmyadmin/phpmyadmin:5
+    ports:
+      - 8080:80
+    environment:
+      - PMA_PASSWORD=password
+    depends_on:
+      - db
+    volumes:
+      - ./docker/phpmyadmin/sessions:/sessions
