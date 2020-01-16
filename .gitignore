@@ -12,3 +12,7 @@ tests/_output/*
 chromedriver
 geckodriver
 selenium-server-standalone-*.jar
+
+/docker/mysql/data/
+/docker/mysql/log/
+/docker/phpmyadmin/sessions/
