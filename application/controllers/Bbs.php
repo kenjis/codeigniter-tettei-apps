@@ -125,6 +125,11 @@ class Bbs extends CI_Controller {
 					'img_url'   => base_url() . 'captcha/'
 				];
 		$cap = create_captcha($vals);
+
+		if ($cap === FALSE) {
+		    show_error('画像キャプチャが生成できませんでした。');
+        }
+
 		$data = [
 					'captcha_id'   => '',
 					'captcha_time' => $cap['time'],
