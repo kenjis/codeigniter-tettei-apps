@@ -16,8 +16,7 @@
 
 ## 要件
 
-* PHP 5.5以降
-* MySQL
+* Docker Desktop 2.1
 
 ## 書籍のコードからの変更点
 
@@ -60,64 +59,50 @@
 
 https://github.com/kenjis/codeigniter-tettei-apps/archive/develop.zip をダウンロードし解凍します。
 
-### Apacheの設定
+### Dockerコンテナの起動
 
-`codeigniter-tettei-apps/public`フォルダが公開フォルダです。ここを <http://localhost/CodeIgniter/> でアクセスできるように設定してください。
-
-例えば、以下のようにApacheの`htdocs`以下にシンボリックリンクを張ります。
-
-~~~
-$ cd /paht/to/Apache/htdocs/
-$ ln -s /path/to/codeigniter-tettei-apps/public/ CodeIgniter
-~~~
-
-なお、`.htaccess`によるmod_rewriteの設定を有効にしてください。
-
-### ファイルのパーミッション設定
-
-必要な場合は、以下のフォルダにApacheから書き込みできる権限を付与してください。
-
-~~~
-$ cd /path/to/codeigniter-tettei-apps/
-$ chmod o+w application/logs/
-$ chmod o+w application/cache/
-$ chmod o+w public/captcha/
-~~~
+```
+$ cd codeigniter-tettei-apps/
+$ docker-compose up -d
+```
 
 ### 依存パッケージのインストール
 
+phpコンテナに入ります。
+
+```
+$ docker exec -it php bash
+```
+
 Composerで依存パッケージをインストールします。
 
-~~~
-$ php composer.phar self-update
-$ php composer.phar install
-~~~
-
-### データベースとユーザの作成
-
-MySQLにデータベースとユーザを作成します。
-
-~~~
-CREATE DATABASE `codeigniter` DEFAULT CHARACTER SET utf8;
-GRANT ALL PRIVILEGES ON codeigniter.* TO username@localhost IDENTIFIED BY 'password';
-~~~
+```
+# php composer.phar self-update
+# php composer.phar install
+```
 
 ### データベースマイグレーションとシーディングの実行
 
 データベースにテーブルを作成し、テストデータを挿入します。
 
-~~~
-$ php cli migrate
-$ php cli seed
-~~~
+```
+# php cli migrate
+# php cli seed
+```
+
+## アプリの実行方法
+
+<http://localhost/> にブラウザでアクセスします。
+
+<http://localhost:8080/> にphpMyAdminがあります。
 
 ## テストの実行方法
 
 ### PHPUnitによるアプリケーションテスト
 
-~~~
-$ composer test
-~~~
+```
+# php composer.phar test
+```
 
 テストカバー率のレポートは`build/coverage`フォルダに作成されます。なお、カバー率の集計にはXdebugが必要です。
 
