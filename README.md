@@ -14,10 +14,10 @@
 
 **興味のある方はどなたでもコードレビューをお願いします。**
 
-## 要件
+## 動作確認環境
 
-* PHP 5.5以降
-* MySQL
+* PHP 7.4.13
+* MySQL 5.7
 
 ## 書籍のコードからの変更点
 
@@ -90,6 +90,7 @@ Composerで依存パッケージをインストールします。
 
 ~~~
 $ php composer.phar self-update
+$ php composer.phar self-update --1 --no-plugins
 $ php composer.phar install
 ~~~
 
@@ -98,7 +99,7 @@ $ php composer.phar install
 MySQLにデータベースとユーザを作成します。
 
 ~~~
-CREATE DATABASE `codeigniter` DEFAULT CHARACTER SET utf8;
+CREATE DATABASE `codeigniter` DEFAULT CHARACTER SET utf8mb4;
 GRANT ALL PRIVILEGES ON codeigniter.* TO username@localhost IDENTIFIED BY 'password';
 ~~~
 
