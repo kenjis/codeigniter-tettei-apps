@@ -13,6 +13,9 @@ class Cart_model_test extends UnitTestCase
 
 	public function setUp()
 	{
+		// Cart_model が Session に依存しているためリセットする
+		$_SESSION = [];
+
 		$this->obj = $this->newModel(Cart_model::class);
 	}
 
