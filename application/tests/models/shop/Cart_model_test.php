@@ -24,7 +24,7 @@ class Cart_model_test extends UnitTestCase
 		$this->assertEquals(2, $actual);
 	}
 
-		public function test_delete()
+	public function test_delete()
 	{
 		$this->obj->add(2, 2);
 		$this->obj->add(2, 0);
