@@ -1,6 +1,6 @@
 <?php
 
-class Inventory_model_test extends TestCase
+class Inventory_model_test extends UnitTestCase
 {
 	public static function setUpBeforeClass()
 	{

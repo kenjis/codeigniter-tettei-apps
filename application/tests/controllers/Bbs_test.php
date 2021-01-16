@@ -2,7 +2,7 @@
 
 use Symfony\Component\DomCrawler\Crawler;
 
-class Bbs_test extends TestCase
+class Bbs_test extends UnitTestCase
 {
 	public function setUp()
 	{

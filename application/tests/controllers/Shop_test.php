@@ -1,6 +1,6 @@
 <?php
 
-class Shop_test extends TestCase
+class Shop_test extends UnitTestCase
 {
 	public static function setUpBeforeClass()
 	{
