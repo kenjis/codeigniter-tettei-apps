@@ -11,6 +11,10 @@ matrix:
 services:
   - mysql
 
+env:
+  global:
+    - XDEBUG_MODE=coverage
+
 before_script:
   - composer self-update --1 --no-plugins
   - composer install
