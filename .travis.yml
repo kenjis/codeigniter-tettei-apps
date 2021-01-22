@@ -8,6 +8,9 @@ matrix:
   allow_failures:
     - php: 7.3
 
+services:
+  - mysql
+
 before_script:
   - composer self-update
   - composer install
