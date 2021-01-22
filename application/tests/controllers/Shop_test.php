@@ -1,6 +1,6 @@
 <?php
 
-class Shop_test extends TestCase
+class Shop_test extends UnitTestCase
 {
 	public static function setUpBeforeClass()
 	{
@@ -100,7 +100,7 @@ class Shop_test extends TestCase
 		$obj = $this->newController(Shop::class);
 
 		$cart = $this->getDouble('Cart_model', ['count' => 0]);
-		$obj->Cart_model = $cart;
+		$obj->cart_model = $cart;
 
 		ob_start();
 		$obj->order();

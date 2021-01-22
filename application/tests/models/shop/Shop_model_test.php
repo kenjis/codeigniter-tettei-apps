@@ -1,6 +1,6 @@
 <?php
 
-class Shop_model_test extends TestCase
+class Shop_model_test extends UnitTestCase
 {
 	public function setUp()
 	{

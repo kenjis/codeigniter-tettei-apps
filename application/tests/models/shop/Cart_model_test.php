@@ -1,6 +1,6 @@
 <?php
 
-class Cart_model_test extends TestCase
+class Cart_model_test extends UnitTestCase
 {
 	public static function setUpBeforeClass()
 	{
@@ -13,6 +13,9 @@ class Cart_model_test extends TestCase
 
 	public function setUp()
 	{
+		// Cart_model が Session に依存しているためリセットする
+		$_SESSION = [];
+
 		$this->obj = $this->newModel(Cart_model::class);
 	}
 
@@ -24,7 +27,7 @@ class Cart_model_test extends TestCase
 		$this->assertEquals(2, $actual);
 	}
 
-		public function test_delete()
+	public function test_delete()
 	{
 		$this->obj->add(2, 2);
 		$this->obj->add(2, 0);

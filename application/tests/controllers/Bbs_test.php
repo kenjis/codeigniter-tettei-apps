@@ -2,7 +2,7 @@
 
 use Symfony\Component\DomCrawler\Crawler;
 
-class Bbs_test extends TestCase
+class Bbs_test extends UnitTestCase
 {
 	public function setUp()
 	{
@@ -13,12 +13,18 @@ class Bbs_test extends TestCase
 		);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 */
 	public function test_index()
 	{
 		$output = $this->request('GET', 'bbs');
 		$this->assertContains('<title>掲示板</title>', $output);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 */
 	public function test_index_mobile()
 	{
 		$agent = $this->getDouble('CI_User_agent', ['is_mobile' => TRUE]);
@@ -32,12 +38,18 @@ class Bbs_test extends TestCase
 		$this->assertContains('<title>ﾓﾊﾞｲﾙ掲示板</title>', $output);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 */
 	public function test_post()
 	{
 		$output = $this->request('GET', 'bbs/post');
 		$this->assertContains('<title>掲示板: 新規投稿</title>', $output);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 */
 	public function test_confirm_error()
 	{
 		$output = $this->request(
@@ -46,6 +58,9 @@ class Bbs_test extends TestCase
 		$this->assertContains('名前欄は必須フィールドです', $output);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 */
 	public function test_confirm_ok()
 	{
 		$output = $this->request(
@@ -64,6 +79,9 @@ class Bbs_test extends TestCase
 		$this->assertContains('投稿確認', $output);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 */
 	public function test_insert_ok()
 	{
 		$subject = "<s>xyz</s> " . time();
@@ -86,6 +104,9 @@ class Bbs_test extends TestCase
 		$this->assertContains(html_escape($subject), $output);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 */
 	public function test_delete()
 	{
 		$this->request(

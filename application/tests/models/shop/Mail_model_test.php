@@ -1,6 +1,6 @@
 <?php
 
-class Mail_model_test extends TestCase
+class Mail_model_test extends UnitTestCase
 {
 	public function setUp()
 	{

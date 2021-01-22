@@ -14,14 +14,15 @@
 
 **興味のある方はどなたでもコードレビューをお願いします。**
 
-## 要件
+## 動作確認環境
 
-* PHP 5.5以降
-* MySQL
+* PHP 7.4.13
+  * Composer 1.10.19 (Composer 2.0ではCli for CodeIgniterが動作しません)
+* MySQL 5.7
 
 ## 書籍のコードからの変更点
 
-* CodeIgniter 3.1.3に対応（CodeIgniter本体は [CodeIgniter Composer Installer](http://blog.a-way-out.net/blog/2015/12/06/install-codeigniter/) によりComposerでインストール）
+* CodeIgniter 3.1.11に対応（CodeIgniter本体は [CodeIgniter Composer Installer](http://blog.a-way-out.net/blog/2015/12/06/install-codeigniter/) によりComposerでインストール）
 * フォルダ構成を変更し、Web公開領域を`public`フォルダ以下に限定
 * CodeIgniterでComposerを利用可能に設定
 * ISO-2022-JPのメールは作成できなくなったのでUTF-8に変更
@@ -90,7 +91,16 @@ Composerで依存パッケージをインストールします。
 
 ~~~
 $ php composer.phar self-update
+$ php composer.phar self-update --1 --no-plugins
 $ php composer.phar install
+~~~
+
+#### Note
+
+パッケージをupdateする場合
+
+~~~
+$ php -d memory_limit=-1 composer.phar update
 ~~~
 
 ### データベースとユーザの作成
@@ -98,7 +108,7 @@ $ php composer.phar install
 MySQLにデータベースとユーザを作成します。
 
 ~~~
-CREATE DATABASE `codeigniter` DEFAULT CHARACTER SET utf8;
+CREATE DATABASE `codeigniter` DEFAULT CHARACTER SET utf8mb4;
 GRANT ALL PRIVILEGES ON codeigniter.* TO username@localhost IDENTIFIED BY 'password';
 ~~~
 
@@ -120,6 +130,14 @@ $ composer test
 ~~~
 
 テストカバー率のレポートは`build/coverage`フォルダに作成されます。なお、カバー率の集計にはXdebugが必要です。
+
+#### Note
+
+RuntimeException: Cannot modify header information - headers already sent by (output started at .../vendor/phpunit/phpunit/src/Util/Printer.php:113) on line 350 ... のようなエラーが出る場合
+
+~~~
+$ vendor/bin/phpunit -c application/tests/ --stderr
+~~~
 
 ### Codeception/Seleniumによる受入テスト
 

@@ -121,7 +121,7 @@ class Bbs extends CI_Controller {
 # メソッドを使い、ランダムな4桁の数字を取得します。
 		$vals = [
 					'word'      => random_string('numeric', 4),
-					'img_path'  => './captcha/',
+					'img_path'  => FCPATH . 'captcha/',
 					'img_url'   => base_url() . 'captcha/'
 				];
 		$cap = create_captcha($vals);
