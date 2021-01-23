@@ -94,6 +94,9 @@ class Bbs extends CI_Controller {
 # は、投稿確認ページ(bbs_confirm)を表示します。
 		if ($this->form_validation->run() == FALSE)
 		{
+# 投稿されたIDのキャプチャを削除します。
+			$this->_delete_captcha_data();
+
 			$this->_show_post_page();
 		}
 		else
@@ -108,6 +111,12 @@ class Bbs extends CI_Controller {
 			$data['captcha']    = $this->input->post('captcha');
 			$this->_load_view('bbs_confirm', $data);
 		}
+	}
+
+# 投稿されたIDのキャプチャを削除します。
+	private function _delete_captcha_data()
+	{
+		$this->db->delete('captcha', ['captcha_id' => $this->input->post('key')]);
 	}
 
 # 新規投稿ページを表示します。
@@ -255,6 +264,9 @@ class Bbs extends CI_Controller {
 # 検証にパスしない場合は、新規投稿ページを表示します。
 		if ($this->form_validation->run() == FALSE)
 		{
+# 投稿されたIDのキャプチャを削除します。
+			$this->_delete_captcha_data();
+
 			$this->_show_post_page();
 		}
 		else
@@ -268,6 +280,9 @@ class Bbs extends CI_Controller {
 			$data['password']   = $this->input->post('password');
 			$data['ip_address'] = $this->input->server('REMOTE_ADDR');
 			$this->db->insert('bbs', $data);
+
+# 投稿されたIDのキャプチャを削除します。
+			$this->_delete_captcha_data();
 
 # URLヘルパーのredirect()メソッドで記事表示ページにリダイレクトします。
 			redirect('/bbs');
@@ -300,9 +315,6 @@ class Bbs extends CI_Controller {
 		$this->db->where('captcha_time >', $expiration);
 		$query = $this->db->get('captcha');
 		$row = $query->row();
-
-# 投稿されたIDのキャプチャを削除します。
-		$this->db->delete('captcha', ['captcha_id' => $this->input->post('key')]);
 
 # レコードが0件の場合、つまり、一致しなかった場合は、captcha_checkルール
 # のエラーメッセージを設定し、FALSEを返します。
