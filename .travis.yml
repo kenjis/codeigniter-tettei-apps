@@ -1,19 +1,22 @@
 language: php
 
 php:
-  - 5.5
-  - 5.6
-  - 7.0
-  - 7.1
-  - hhvm
+  - 7.3
+  - 7.4
 
 matrix:
   allow_failures:
-    - php: 7.1
-    - php: hhvm
+    - php: 7.3
+
+services:
+  - mysql
+
+env:
+  global:
+    - XDEBUG_MODE=coverage
 
 before_script:
-  - composer self-update
+  - composer self-update --1 --no-plugins
   - composer install
   - mysql -uroot -e "CREATE DATABASE codeigniter DEFAULT CHARACTER SET utf8;"
   - mysql -uroot -e "GRANT ALL PRIVILEGES ON codeigniter.* TO username@localhost IDENTIFIED BY 'password';"
@@ -26,4 +29,4 @@ script:
 
 after_script:
   - cd ../..
-  - if [[ "$TRAVIS_PHP_VERSION" == "5.6" ]]; then php vendor/bin/coveralls -v; fi
+  - if [[ "$TRAVIS_PHP_VERSION" == "7.4" ]]; then php vendor/bin/coveralls -v; fi
