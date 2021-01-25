@@ -91,8 +91,8 @@ Composerで依存パッケージをインストールします。
 
 ~~~
 $ php composer.phar self-update
-$ php composer.phar self-update --1 --no-plugins
-$ php composer.phar install
+$ php composer.phar self-update --1
+$ php composer.phar install --no-plugins
 ~~~
 
 #### Note
@@ -100,7 +100,7 @@ $ php composer.phar install
 パッケージをupdateする場合
 
 ~~~
-$ php -d memory_limit=-1 composer.phar update
+$ php -d memory_limit=-1 composer.phar update --no-plugins
 ~~~
 
 ### データベースとユーザの作成
