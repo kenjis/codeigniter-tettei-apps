@@ -13,15 +13,15 @@ $I->wait(1);
 $I->seeInTitle('掲示板: 新規投稿');
 
 $I->amGoingTo('名前だけ入力して送信するとエラー');
-$I->fillField('name', '<script>abc</script>');
+$I->fillField('name', '<script>abc');
 $I->click('送信');
 $I->wait(1);
 $I->seeInFormFields('form', [
-	'name' => '<script>abc</script>',
+	'name' => '<script>abc',
 ]);
 $I->see('件名欄は必須フィールドです');
 $I->see('内容欄は必須フィールドです');
-$I->see('画像認証コード欄は必須フィールドです');
+$I->see('画像認証コードが一致しません');
 
 $I->amGoingTo('正常データの送信');
 $subject = '投稿のテスト ' . time();
