@@ -16,9 +16,13 @@
 
 ## 動作確認環境
 
-* PHP 7.4.13
+* PHP 7.4.15
   * Composer 1.10.19 (Composer 2.0ではCli for CodeIgniterが動作しません)
 * MySQL 5.7
+
+* Selenium Server 3.141.59
+* geckodriver 0.29.0
+* OpenJDK 15.0.1
 
 ## 書籍のコードからの変更点
 
@@ -143,14 +147,17 @@ $ vendor/bin/phpunit -c application/tests/ --stderr
 
 <https://www.mozilla.org/ja/firefox/new/> よりFirefoxをダウンロードしインストールします。
 
-<http://docs.seleniumhq.org/download/> より最新のSelenium Standalone Serverをダウンロードし、プロジェクトのルートフォルダに配置します。
-
-<https://github.com/mozilla/geckodriver/releases> より最新のgeckodriver（手許ではgeckodriver-v0.13.0-macos.tar.gzにて検証）をダウンロードし、解凍したドライバをプロジェクトのルートフォルダに配置します。
-
-ダウンロードしたSeleniumサーバを起動します。
+Homebrewからselenium-server-standaloneとgeckodriverをインストールします。
 
 ~~~
-$ java -jar selenium-server-standalone-3.0.1.jar
+$ brew install selenium-server-standalone
+$ brew install geckodriver
+~~~
+
+Seleniumサーバを起動します。
+
+~~~
+$ selenium-server -port 4444
 ~~~
 
 受入テストを実行します。
@@ -158,6 +165,12 @@ $ java -jar selenium-server-standalone-3.0.1.jar
 ~~~
 $ sh acceptance-test.sh
 ~~~
+
+#### Note
+
+geckodriverが開けない場合は、一度Finderからgeckodriverを右クリックして開いてください。
+
+参考: https://github.com/mozilla/geckodriver/issues/1629#issuecomment-650432816
 
 ## 参考
 
