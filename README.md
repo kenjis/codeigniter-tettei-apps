@@ -16,9 +16,13 @@
 
 ## 動作確認環境
 
+### アプリ
+
 * PHP 7.4.15
   * Composer 1.10.19 (Composer 2.0ではCli for CodeIgniterが動作しません)
 * MySQL 5.7
+
+### 受入テスト
 
 * Selenium Server 3.141.59
 * geckodriver 0.29.0
