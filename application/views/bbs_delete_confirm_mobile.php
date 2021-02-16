@@ -32,7 +32,7 @@
 </tr>
 <tr>
 <td>
-<?=form_open('bbs');?>
+<?=form_open('bbs', ['accept-charset' => 'Shift_JIS']);?>
 <input type="submit" value="いいえ" />
 <?=form_close();?>
 

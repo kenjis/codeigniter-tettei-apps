@@ -44,7 +44,7 @@
 </tr>
 <tr>
 <td>
-<?=form_open('bbs/post');?>
+<?=form_open('bbs/post', ['accept-charset' => 'Shift_JIS']);?>
 <?=form_hidden('name',     $name);?>
 <?=form_hidden('email',    $email);?>
 <?=form_hidden('subject',  $subject);?>

@@ -26,7 +26,7 @@
 </tr>
 </table>
 
-<?=form_open('bbs/confirm');?>
+<?=form_open('bbs/confirm', ['accept-charset' => 'Shift_JIS']);?>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
 <td bgcolor="#EEEEEe">名前<br><input type="text" name="name" value="<?=html_escape($name);?>"></td>

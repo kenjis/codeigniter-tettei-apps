@@ -25,7 +25,7 @@ charsetにShift_JISを指定します。 -->
 </tr>
 <tr><td bgcolor="#EEEEEE"><?=nl2br(html_escape($row->body));?></td></tr>
 <!-- 記事を削除するためのフォームを表示します。 -->
-<tr><td><?=form_open('bbs/delete/'. $row->id);?>
+<tr><td><?=form_open('bbs/delete/'. $row->id, ['accept-charset' => 'Shift_JIS']);?>
 削除ﾊﾟｽﾜｰﾄﾞ:<br>
 <input type="text" name="password" value="">
 <input type="submit" value="削除">
