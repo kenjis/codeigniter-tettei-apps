@@ -53,7 +53,7 @@
 <input type="submit" value="修正する" />
 <?=form_close();?>
 <br>
-<?=form_open('bbs/insert');?>
+<?=form_open('bbs/insert', ['accept-charset' => 'Shift_JIS']);?>
 <?=form_hidden('name',     $name);?>
 <?=form_hidden('email',    $email);?>
 <?=form_hidden('subject',  $subject);?>
