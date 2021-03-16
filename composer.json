@@ -23,7 +23,7 @@
 		"phpunit/phpunit": "^7.0",
 		"symfony/dom-crawler": "^2.6",
 		"symfony/css-selector": "^2.6",
-		"kenjis/ci-phpunit-test": "*",
+		"kenjis/ci-phpunit-test": "^1.0",
 		"tan5en5/codeigniter-debugbar": "dev-develop",
 		"satooshi/php-coveralls": "^1.0"
 	},
