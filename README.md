@@ -4,15 +4,15 @@
 [![Coverage Status](https://coveralls.io/repos/kenjis/codeigniter-tettei-apps/badge.svg?branch=develop)](https://coveralls.io/r/kenjis/codeigniter-tettei-apps?branch=develop)
 [![Build Status](https://travis-ci.org/kenjis/codeigniter-tettei-apps.svg?branch=develop)](https://travis-ci.org/kenjis/codeigniter-tettei-apps)
 
-ここは『CodeIgniter徹底入門』（翔泳社）に含まれている以下のサンプルアプリケーション（CodeIgniter 1.6.1用）をCodeIgniter 3.xで動作するように更新するためのプロジェクトです（作業中）。
+**現在、CodeIgniterの開発は4.xに移っています。CodeIgniter4にアップグレードした、<https://github.com/kenjis/ci4-tettei-apps> を参照してください。**
+
+ここは『CodeIgniter徹底入門』（翔泳社）に含まれている以下のサンプルアプリケーション（CodeIgniter 1.6.1用）をCodeIgniter 3.xで動作するように更新したものです。
 
 * コンタクトフォーム（7章）
 * モバイル対応簡易掲示板（8章）
 * 簡易ショッピングサイト（9章）
 
-現在、CodeIgniter 3.xで動作するための更新は完了しており、リファクタリングなどを実施中です。
-
-CodeIgniter4にアップグレードしたものは、<https://github.com/kenjis/ci4-tettei-apps> を参照してください。
+CodeIgniter 3.xで動作するように更新し、少しリファクタリングしました。
 
 ## 動作確認環境
 
